@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewTitleOfRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="@string/dialog_add_new_planned_route_title_headline"
+        android:textAlignment="center"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/editTextTitleOfRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_margin="8dp"
+        android:ems="10"
+        android:textColor="@color/colorPrimaryDark"
+        android:inputType="textPersonName"
+        android:hint="@string/cardview_title"
+        />
+
+    <Button
+        android:id="@+id/buttonNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/dialog_add_new_planned_route_title_ok"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:theme="@style/ButtonStyle" />
+</LinearLayout>
+</layout>

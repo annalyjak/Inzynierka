@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="1dp"
+        android:gravity="center"
+        android:text="@string/map_setting_traffic"
+        android:textSize="22sp"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_weight="1"
+        android:gravity="center">
+        <RadioButton
+            android:id="@+id/action_traffic_on"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/map_setting_context_traffic_on"
+            android:textSize="18sp"
+            android:buttonTint="@color/colorAccent"/>
+
+        <RadioButton
+            android:id="@+id/action_traffic_off"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/map_setting_context_traffic_off"
+            android:textSize="18sp"
+            android:buttonTint="@color/colorAccent"/>
+    </RadioGroup>
+</LinearLayout>
+</layout>

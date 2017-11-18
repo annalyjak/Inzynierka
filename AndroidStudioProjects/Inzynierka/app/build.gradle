@@ -1,0 +1,78 @@
+project.ext {
+    constraintLayout = "1.0.2"
+    play_services = "11.6.0"
+    app_support = "25.4.0"
+    dagger_version = "2.11"
+    arch = "1.0.0"
+    itext = "5.5.10"
+    maps_utils = "0.4"
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "lyjak.anna.inzynierka"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
+    })
+
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    compile "com.google.dagger:dagger:$project.dagger_version"
+    compile "com.google.dagger:dagger-android:$project.dagger_version"
+    compile "com.google.dagger:dagger-android-support:$project.dagger_version"
+    compile "android.arch.lifecycle:runtime:$project.arch"
+    compile "android.arch.lifecycle:extensions:$project.arch"
+
+    compile "com.itextpdf:itextg:$project.itext"
+
+    compile "com.google.maps.android:android-maps-utils:$project.maps_utils"
+
+    compile "com.android.support:appcompat-v7:$project.app_support"
+    compile "com.android.support:design:$project.app_support"
+    compile "com.android.support:support-v4:$project.app_support"
+    compile "com.android.support:cardview-v7:$project.app_support"
+    compile "com.android.support:recyclerview-v7:$project.app_support"
+
+    compile "com.android.support.constraint:constraint-layout:$project.constraintLayout"
+
+    compile "com.google.android.gms:play-services-location:$project.play_services"
+    compile "com.google.android.gms:play-services-places:$project.play_services"
+    compile "com.google.android.gms:play-services-plus:$project.play_services"
+    compile "com.google.android.gms:play-services-maps:$project.play_services"
+
+    testCompile 'junit:junit:4.12'
+}
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+}

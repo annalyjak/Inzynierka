@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <data>
+        <variable
+            name="route"
+            type="lyjak.anna.inzynierka.service.model.realm.Route"/>
+        <variable
+            name="callback"
+            type="lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback"/>
+    </data>
+
+    <LinearLayout
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:typeface="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:onClick="@{() ->  callback.onClick(route)}"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="8dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewRouteId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentStart="false"
+                    android:layout_margin="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:typeface="serif"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textViewDateStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@{String.format(@string/cardview_startDate, route.startDate)}"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/textViewRouteId"
+                    card_view:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textViewDateEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@{String.format(@string/cardview_endDate, route.endDate)}"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/textViewDateStart"
+                    card_view:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/textViewActualDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@+id/textViewDateEnd"
+                    card_view:layout_constraintVertical_bias="0.0" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</layout>
