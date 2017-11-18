@@ -20,11 +20,11 @@ import java.util.List;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.view.listeners.ItemTouchHelperViewHolder;
-import lyjak.anna.inzynierka.view.listeners.OnCardViewTouchListener;
-import lyjak.anna.inzynierka.view.listeners.OnStartDragListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.ItemTouchHelperViewHolder;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnCardViewTouchListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
 import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
-import lyjak.anna.inzynierka.service.utils.GoogleMapsStaticUtil;
+import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna on 20.10.2017.

@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.view.adapters;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -27,19 +30,17 @@ import java.util.List;
 
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.view.activities.MainActivity;
+import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportConfirmBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
-import lyjak.anna.inzynierka.view.activities.MainActivity;
-import lyjak.anna.inzynierka.view.activities.MapsActivity;
-import lyjak.anna.inzynierka.view.callbacks.PlannedRouteCallback;
 import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
+import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
-import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
-import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
-import lyjak.anna.inzynierka.service.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna Łyjak on 08.10.2017.
@@ -54,7 +55,6 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
     private static Activity activity;
 
     private static GenerateReport generateReport;
-    private PlannedRouteCallback plannedRouteClickCallback;
 
     public PlannedRouteAdapter(Activity activity, List<PlannedRoute> myDataset) {
         this.activity = activity;
@@ -73,12 +73,6 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         View v = LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.card_planned_route, parent, false);
         return new ViewHolder(v, parent.getContext());
-
-//        CardPlannedRouteBinding binding = DataBindingUtil
-//                .inflate(LayoutInflater.from(parent.getContext()), R.layout.card_planned_route,
-//                        parent, false);
-//        binding.setCallback(plannedRouteClickCallback);
-//        return new PlannedRouteAdapter.ViewHolder(binding);
     }
 
     @Override
@@ -87,7 +81,6 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         Resources resources = activity.getApplicationContext().getResources();
 
         holder.position = position;
-//        holder.binding.setPlannedRoute(route);
         holder.title.setText(resources.getString(R.string.cardview_title) + " " + route.getTitle());
         holder.date.setText(resources.getString(R.string.cardview_date) + " "
                 + String.format(DATE_FORMAT, route.getDate()));
@@ -102,7 +95,6 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
             setImageFromUrl(holder, route);
         }
 
-//        holder.binding.executePendingBindings();
     }
 
     private String getPolyline(RealmList<RealmLocation> line) {
@@ -113,10 +105,39 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
 
     private void setImageFromUrl(final PlannedRouteAdapter.ViewHolder holder, PlannedRoute route) {
         if (route.getPoints().size() > 1) { // if route is to short - displays only first element
-            PolylineImageFromUrlAsyncTask setImageFromUrl = new PolylineImageFromUrlAsyncTask(holder.picture);
+            @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, Bitmap> setImageFromUrl = new AsyncTask<String, Void, Bitmap>() {
+
+                @Override
+                protected Bitmap doInBackground(String... points) {
+                    return GoogleMapsStaticUtil.getGoogleMapStaticPictureWithPolyline(points[0]);
+                }
+
+                protected void onPostExecute(Bitmap bmp) {
+                    if (bmp != null) {
+                        holder.picture.setImageBitmap(bmp);
+                    }
+
+                }
+            };
             setImageFromUrl.execute(getPolyline(route.getLine()));
         } else {
-            PointImageFromUrlAsyncTask setImageFromUrl = new PointImageFromUrlAsyncTask(holder.picture);
+            @SuppressLint("StaticFieldLeak") AsyncTask<LatLng, Void, Bitmap> setImageFromUrl = new AsyncTask<LatLng, Void, Bitmap>(){
+
+                @Override
+                protected Bitmap doInBackground(LatLng... points) {
+                    return GoogleMapsStaticUtil.getGoogleMapStaticPicture(
+                            points[0].latitude,
+                            points[0].longitude
+                    );
+                }
+
+                protected void onPostExecute(Bitmap bmp) {
+                    if (bmp!=null) {
+                        holder.picture.setImageBitmap(bmp);
+                    }
+
+                }
+            };
             LatLng latLng = new LatLng(
                     route.getPoints().get(0).getPoint().getLatitude(),
                     route.getPoints().get(0).getPoint().getLongitude());
@@ -140,7 +161,7 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
             Log.i(TAG, "Usuwam trasę o id: " + position);
             OnMarkersOperations operations = new OnMarkersOperations(activity);
             operations.removePlannedRouteFromDatabase(routeToRemove);
-//            mDataset.removeRoute(routeToRemove);
+//            mDataset.remove(routeToRemove);
         }
     }
 
@@ -154,22 +175,10 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-//        private final CardPlannedRouteBinding binding;
         public int position;
         public TextView title, date, distance, duration, points;
         public ImageView picture;
         private Context context;
-
-//        public ViewHolder(CardPlannedRouteBinding binding) {
-//            super(binding.getRoot());
-//            this.binding = binding;
-//
-//            if (generateReport == null) {
-//                setBasicOnClickListener(binding.getRoot());
-//            } else {
-//                setSelectionOnClickListener(binding.getRoot());
-//            }
-//        }
 
         public ViewHolder(View v, final Context context) {
             super(v);

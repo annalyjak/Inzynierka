@@ -2,10 +2,14 @@ package lyjak.anna.inzynierka.view.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -13,9 +17,14 @@ import java.util.List;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardActualRouteBinding;
+import lyjak.anna.inzynierka.databinding.DialogActualRouteCardClickBinding;
 import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
+import lyjak.anna.inzynierka.view.activities.MainActivity;
+import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback;
-import lyjak.anna.inzynierka.service.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
+import lyjak.anna.inzynierka.viewmodel.utils.DistanceAndDurationUtil;
 
 /**
  * Created by Anna on 14.10.2017.
@@ -28,56 +37,53 @@ public class ActualRouteAdapter extends RecyclerView.Adapter<ActualRouteAdapter.
 
     private static List<Route> mDataset;
     private static Activity activity;
-    //TODO przenieść inicjację tego Callbacka do MainActivity
-    private ActualRouteCallback actualRouteClickCallback;
-//    = new ActualRouteCallback() {
-//        @Override
-//        public void onClick(Route route) {
-//            final Dialog dialog = new Dialog(activity, R.style.SettingsDialogStyle);
-//            LayoutInflater layoutInflater = LayoutInflater.from(activity.getApplicationContext());
-//            DialogActualRouteCardClickBinding viewDataBinding = DataBindingUtil
-//                    .inflate(layoutInflater,
-//                            R.layout.dialog_actual_route_card_click,
-//                            null, false);
-//
-//            viewDataBinding.buttonGenerateReport.setOnClickListener(v2 -> {
-//                dialog.dismiss();
-//                final TransportSelectionFragment fragment = TransportSelectionFragment
-//                        .newInstance(route);
-//                MainActivity.attachNewFragment(fragment);
-//            });
-//            viewDataBinding.buttonShowRouteOnMap.setOnClickListener(v12 -> {
-//                dialog.dismiss();
-//                Intent openMapIntent = new Intent(((Dialog) dialog).getContext(),
-//                        MapsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("title", "@ACTUALL_ROUTE@");
-//                bundle.putLong("date", route.getDate().getTime());
-//                if (route.getStartDate() != null) {
-//                    bundle.putLong("startDate", route.getStartDate().getTime());
-//                }
-//                if (route.getEndDate() != null) {
-//                    bundle.putLong("endDate", route.getEndDate().getTime());
-//                }
-//                openMapIntent.putExtras(bundle);
-//                activity.startActivity(openMapIntent);
-//            });
-//            viewDataBinding.buttonDeleteRoute.setOnClickListener(view2 -> {
-//                dialog.dismiss();
-//                removeThisItemFromDatabase(route);
-//                if (activity instanceof MainActivity) {
-//                    ((MainActivity) activity).notyfyDataSetChange();
-//                }
-//            });
-//            viewDataBinding.buttonAnuluj.setOnClickListener(v2 -> dialog.dismiss());
-//
-//            dialog.setContentView(viewDataBinding.getRoot());
-//            dialog.show();
-//        }
-//    };
+    private ActualRouteCallback actualRouteClickCallback = new ActualRouteCallback() {
+        @Override
+        public void onClick(Route route) {
+            final Dialog dialog = new Dialog(activity, R.style.SettingsDialogStyle);
+            LayoutInflater layoutInflater = LayoutInflater.from(activity.getApplicationContext());
+            DialogActualRouteCardClickBinding viewDataBinding = DataBindingUtil
+                    .inflate(layoutInflater,
+                            R.layout.dialog_actual_route_card_click,
+                            null, false);
 
-    public ActualRouteAdapter(ActualRouteCallback actualRouteClickCallback, Activity activity, List<Route> myDataset) {
-        this.actualRouteClickCallback = actualRouteClickCallback;
+            viewDataBinding.buttonGenerateReport.setOnClickListener(v2 -> {
+                dialog.dismiss();
+                final TransportSelectionFragment fragment = TransportSelectionFragment
+                        .newInstance(route);
+                MainActivity.attachNewFragment(fragment);
+            });
+            viewDataBinding.buttonShowRouteOnMap.setOnClickListener(v12 -> {
+                dialog.dismiss();
+                Intent openMapIntent = new Intent(((Dialog) dialog).getContext(),
+                        MapsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "@ACTUALL_ROUTE@");
+                bundle.putLong("date", route.getDate().getTime());
+                if (route.getStartDate() != null) {
+                    bundle.putLong("startDate", route.getStartDate().getTime());
+                }
+                if (route.getEndDate() != null) {
+                    bundle.putLong("endDate", route.getEndDate().getTime());
+                }
+                openMapIntent.putExtras(bundle);
+                activity.startActivity(openMapIntent);
+            });
+            viewDataBinding.buttonDeleteRoute.setOnClickListener(view2 -> {
+                dialog.dismiss();
+                removeThisItemFromDatabase(route);
+                if (activity instanceof MainActivity) {
+                    ((MainActivity) activity).notyfyDataSetChange();
+                }
+            });
+            viewDataBinding.buttonAnuluj.setOnClickListener(v2 -> dialog.dismiss());
+
+            dialog.setContentView(viewDataBinding.getRoot());
+            dialog.show();
+        }
+    };
+
+    public ActualRouteAdapter(Activity activity, List<Route> myDataset) {
         this.activity = activity;
         this.mDataset = myDataset;
     }
@@ -152,22 +158,22 @@ public class ActualRouteAdapter extends RecyclerView.Adapter<ActualRouteAdapter.
         mDataset.add(route);
     }
 
-//    @Deprecated
-//    private static void removeThisItemFromDatabase(int position) {
-//        if (position >= 0) {
-//            Route routeToRemove = mDataset.get(position);
-//            Log.i(TAG, "Usuwam trasę o id: " + position);
-//            OnMarkersOperations operations = new OnMarkersOperations(activity);
-//            operations.removeRouteFromDatabase(routeToRemove);
-//        }
-//    }
+    @Deprecated
+    private static void removeThisItemFromDatabase(int position) {
+        if (position >= 0) {
+            Route routeToRemove = mDataset.get(position);
+            Log.i(TAG, "Usuwam trasę o id: " + position);
+            OnMarkersOperations operations = new OnMarkersOperations(activity);
+            operations.removeRouteFromDatabase(routeToRemove);
+        }
+    }
 
-//    private static void removeThisItemFromDatabase(Route route) {
-//        if (route != null) {
-//            OnMarkersOperations operations = new OnMarkersOperations(activity);
-//            operations.removeRouteFromDatabase(route);
-//        }
-//    }
+    private static void removeThisItemFromDatabase(Route route) {
+        if (route != null) {
+            OnMarkersOperations operations = new OnMarkersOperations(activity);
+            operations.removeRouteFromDatabase(route);
+        }
+    }
 
     private static Route getSelectedRoute(int position) {
         if (position >= 0) {

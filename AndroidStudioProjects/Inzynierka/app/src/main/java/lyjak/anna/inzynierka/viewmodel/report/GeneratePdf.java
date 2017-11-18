@@ -34,7 +34,7 @@ import lyjak.anna.inzynierka.service.model.Car;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.viewmodel.utils.DistanceAndDurationUtil;
 
 /**
  * Created by Anna on 28.10.2017.

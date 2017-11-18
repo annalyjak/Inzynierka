@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.view.listeners.FindDirectionListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 
 /**
  * Created by Anna on 26.12.2016.

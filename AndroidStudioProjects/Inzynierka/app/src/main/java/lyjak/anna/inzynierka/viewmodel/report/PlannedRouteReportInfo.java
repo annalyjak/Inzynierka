@@ -6,7 +6,7 @@ import java.util.List;
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.service.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.viewmodel.utils.DistanceAndDurationUtil;
 
 /**
  * Created by Anna on 03.11.2017.

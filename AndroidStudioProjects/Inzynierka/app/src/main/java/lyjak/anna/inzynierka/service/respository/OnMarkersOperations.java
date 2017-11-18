@@ -24,14 +24,14 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.utils.CreateModelDataUtil;
 import lyjak.anna.inzynierka.view.fragments.dummy.TempCreatePolyline;
+import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
 
 /**
  * Created by Anna on 14.10.2017.
  */
 
-public class OnMarkersOperations implements RouteService {
+public class OnMarkersOperations {
 
     private final static String TAG = OnMarkersOperations.class.getSimpleName();
     private static Activity activity;
@@ -281,15 +281,6 @@ public class OnMarkersOperations implements RouteService {
         mDataset.get(i1).setId(i+1);
         Collections.swap(mDataset, i, i1);
         realm.commitTransaction();
-    }
-
-    public List<Route> getRoutesFromDatabase() {
-        Realm.init(activity);
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Route> results = realm.where(Route.class).findAllAsync();
-        results.load();
-
-        return results;
     }
 
 }

@@ -28,9 +28,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".viewmodel.location.LocationReceiver" />
+        <receiver android:name=".service.broadcasts.LocationReceiver" />
 
-        <service android:name=".viewmodel.location.LocationService" />
+        <service android:name=".service.LocationService" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

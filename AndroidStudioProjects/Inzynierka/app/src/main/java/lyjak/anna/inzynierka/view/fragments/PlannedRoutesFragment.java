@@ -18,8 +18,8 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.databinding.FragmentPlannedRoutesBinding;
 import lyjak.anna.inzynierka.view.adapters.PlannedRouteAdapter;
+import lyjak.anna.inzynierka.databinding.FragmentPlannedRoutesBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 

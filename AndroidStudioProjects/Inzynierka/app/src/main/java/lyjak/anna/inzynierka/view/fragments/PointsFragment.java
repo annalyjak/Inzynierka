@@ -21,8 +21,8 @@ import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentPointsBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.view.listeners.OnStartDragListener;
-import lyjak.anna.inzynierka.view.callbacks.SimpleItemTouchHelperCallback;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
+import lyjak.anna.inzynierka.viewmodel.others.SimpleItemTouchHelperCallback;
 
 public class PointsFragment extends Fragment implements OnStartDragListener {
 

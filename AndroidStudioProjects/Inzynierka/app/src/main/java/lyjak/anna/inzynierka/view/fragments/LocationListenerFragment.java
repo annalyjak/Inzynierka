@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.view.listeners.OnLocationServiceListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 
 /**
  * A simple {@link Fragment} subclass.

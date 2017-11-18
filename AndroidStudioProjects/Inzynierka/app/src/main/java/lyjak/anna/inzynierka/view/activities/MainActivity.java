@@ -32,8 +32,8 @@ import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
-import lyjak.anna.inzynierka.view.listeners.NotifyDataSetChangedListener;
-import lyjak.anna.inzynierka.view.listeners.OnLocationServiceListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.service.LocationService;
 import lyjak.anna.inzynierka.viewmodel.others.MyContextWrapper;
 

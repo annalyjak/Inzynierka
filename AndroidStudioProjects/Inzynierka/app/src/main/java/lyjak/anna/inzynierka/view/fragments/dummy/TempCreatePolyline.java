@@ -16,7 +16,7 @@ import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
-import lyjak.anna.inzynierka.view.listeners.FindDirectionListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
 import lyjak.anna.inzynierka.viewmodel.others.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
@@ -53,18 +53,18 @@ public class TempCreatePolyline implements FindDirectionListener {
     @Override
     public void onStartFindDirection() {
         Log.i(TAG, "onStartFindDirection");
-        // removeRoute origin, destination and polyline markers between 2 points of route
+        // remove origin, destination and polyline markers between 2 points of route
         // and put it into one list for all route
         if (originMarkers != null) {
             allOriginMarkers.add(originMarkers);
 //            for (MarkerOptions marker : originMarkers) {
-//                marker.removeRoute(); removeRoute from map
+//                marker.remove(); remove from map
 //            }
         }
         if (destinationMarkers != null) {
             alldestinationMarkers.add(destinationMarkers);
 //            for (MarkerOptions marker : destinationMarkers) {
-//                marker.removeRoute();
+//                marker.remove();
 //            }
         }
         if (polylinePaths != null) {
