@@ -7,27 +7,23 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.view.adapters.PlannedRouteAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentPlannedRoutesBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.view.adapters.PlannedRouteAdapter;
+import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 
 public class PlannedRoutesFragment extends Fragment {
 
-//    public RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private List<PlannedRoute> myDataset;
+    private PlannedRoutesCardListViewModel viewModel;
 
     private GenerateReport mGenerateReport;
 
@@ -37,6 +33,7 @@ public class PlannedRoutesFragment extends Fragment {
 
     public static PlannedRoutesFragment newInstance(GenerateReport mGenerateReport) {
         PlannedRoutesFragment fragment = new PlannedRoutesFragment();
+        fragment.viewModel = new PlannedRoutesCardListViewModel(fragment.getContext());
         fragment.mGenerateReport = mGenerateReport;
         return fragment;
     }
@@ -46,19 +43,17 @@ public class PlannedRoutesFragment extends Fragment {
                              Bundle savedInstanceState) {
         FragmentPlannedRoutesBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_planned_routes, container, false);
-//        View view = inflater.inflate(R.layout.fragment_planned_routes, container, false);
-//        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleViewPlannedRoutes);
-        //  mRecyclerView.setHasFixedSize(true);
 
-//        Log.i("", mRecyclerView == null? "null" : mRecyclerView.toString());
-        myDataset=new ArrayList<>();
+        if (viewModel == null) {
+            viewModel = new PlannedRoutesCardListViewModel(getContext());
+        }
         if (mGenerateReport == null) {
-            mAdapter = new PlannedRouteAdapter(getActivity(), myDataset);
+            mAdapter = new PlannedRouteAdapter(getActivity(), viewModel);
         } else {
-            mAdapter = new PlannedRouteAdapter(getActivity(), myDataset, mGenerateReport);
+            mAdapter = new PlannedRouteAdapter(getActivity(), viewModel, mGenerateReport);
         }
 
-        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());//(getActivity());
+        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.recycleViewPlannedRoutes.setLayoutManager(mLayoutManager);
         binding.recycleViewPlannedRoutes.setItemAnimator(new DefaultItemAnimator());
         binding.recycleViewPlannedRoutes.setAdapter(mAdapter);
@@ -68,23 +63,7 @@ public class PlannedRoutesFragment extends Fragment {
     }
 
     public void getPlannedRoutesFromDatabase() {
-        Realm.init(getActivity());
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<PlannedRoute> results = realm.where(PlannedRoute.class).findAllAsync();
-        results.load();
-
-        myDataset = new ArrayList<>(results);
-
-        Log.i("TAG", "SIZE : " + myDataset.size());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            results.stream().forEach(route -> ((PlannedRouteAdapter) mAdapter).addNewPlannedRoute(route));
-        } else {
-            for(PlannedRoute route : results) {
-                ((PlannedRouteAdapter) mAdapter).addNewPlannedRoute(route);
-            }
-        }
-
+        viewModel.getPlannedRoutesFromDatabase();
         mAdapter.notifyDataSetChanged();
     }
 }

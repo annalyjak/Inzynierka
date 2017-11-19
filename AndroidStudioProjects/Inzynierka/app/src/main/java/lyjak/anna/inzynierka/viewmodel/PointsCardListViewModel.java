@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.viewmodel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class PointsCardListViewModel {
     private PlannedRoute route;
     private List<PointOfRoute> dataset;
 
-    public PointsCardListViewModel(Activity activity, PlannedRoute route) {
+    public PointsCardListViewModel(Context context, PlannedRoute route) {
         this.route = route;
         this.dataset = route.getPoints();
-        routeService = new RouteService(activity);
+        routeService = new RouteService(context);
     }
 
     public void onCardMove(int fromPosition, int toPosition) {

@@ -1,6 +1,6 @@
 package lyjak.anna.inzynierka.view.fragments.dummy;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -43,11 +43,11 @@ public class TempCreatePolyline implements FindDirectionListener {
     private List<List<Polyline>> allpolylinePaths = new ArrayList<>(); // list of all polylines
 
     private PlannedRoute route;
-    private Activity activity;
+    private Context context;
 
-    public TempCreatePolyline(PlannedRoute route, Activity activity) {
+    public TempCreatePolyline(PlannedRoute route, Context context) {
         this.route = route;
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class TempCreatePolyline implements FindDirectionListener {
     @Override
     public void onStoreFindDirection() {
         Log.i(TAG, "onStoreFindDirection");
-        RouteService operations = new RouteService(activity);
+        RouteService operations = new RouteService(context);
         operations.storePlannedRouteInDatabase(route, this);
         Log.i(TAG, "onStoreFindDirection end");
     }

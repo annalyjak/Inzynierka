@@ -1,7 +1,7 @@
 package lyjak.anna.inzynierka.service.respository;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,10 +34,10 @@ import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
 public class RouteService {
 
     private final static String TAG = RouteService.class.getSimpleName();
-    private static Activity activity;
+    private static Context context;
 
-    public RouteService(Activity activity) {
-        this.activity = activity;
+    public RouteService(Context context) {
+        RouteService.context = context;
     }
 
     /**
@@ -45,7 +45,7 @@ public class RouteService {
      * createNewPlannedRoute with 2 arguments (title of the new route and marker)
      */
     public void createNewPlannedRoute(final Marker marker) {
-        final Dialog titleDialog = new Dialog(activity, R.style.SettingsDialogStyle);
+        final Dialog titleDialog = new Dialog(context, R.style.SettingsDialogStyle);
         titleDialog.setContentView(R.layout.dialog_add_new_planned_route_title);
 
         titleDialog.setTitle(R.string.dialog_add_new_planned_route_title_title);
@@ -67,7 +67,7 @@ public class RouteService {
     }
 
     public void createNewPlannedRoute(String title, Marker marker) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         RealmResults<TempPlannedRoute> results = realm.where(TempPlannedRoute.class).findAllAsync();
@@ -100,14 +100,14 @@ public class RouteService {
     }
 
     public void calculateLine(PlannedRoute route) {
-        TempCreatePolyline obj = new TempCreatePolyline(route, activity);
+        TempCreatePolyline obj = new TempCreatePolyline(route, context);
         obj.createPolylinePlannedRoute(route);
     }
 
     public void storePlannedRouteInDatabase(PlannedRoute route,
                                             TempCreatePolyline calculatedFields) {
 
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         PlannedRoute result = realm.where(PlannedRoute.class)
@@ -152,7 +152,7 @@ public class RouteService {
         TempPlannedRoute tempPlannedRoute;
         int number;
 
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         RealmResults<TempPlannedRoute> results = realm.where(TempPlannedRoute.class).findAllAsync();
@@ -187,7 +187,7 @@ public class RouteService {
     }
 
     public void addPointToRoute(Marker marker, PlannedRoute route) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         PlannedRoute result = realm.where(PlannedRoute.class)
@@ -217,7 +217,7 @@ public class RouteService {
     }
 
     public void removeRouteFromDatabase(Route routeToRemove) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         realm.beginTransaction();
@@ -232,7 +232,7 @@ public class RouteService {
     }
 
     public void removePlannedRouteFromDatabase(PlannedRoute routeToRemove) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         realm.beginTransaction();
@@ -248,7 +248,7 @@ public class RouteService {
     }
 
     public PlannedRoute findPlannedRoute(String title, int distance, int duration) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         PlannedRoute result = realm.where(PlannedRoute.class)
@@ -261,7 +261,7 @@ public class RouteService {
     }
 
     public Route findRoute(Date date, Date startDate, Date endDate) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
         Route result = realm.where(Route.class)
@@ -274,7 +274,7 @@ public class RouteService {
     }
 
     public void swap(List<PointOfRoute> mDataset, int i, int i1) {
-        Realm.init(activity);
+        Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         mDataset.get(i).setId(i1+1);
@@ -283,4 +283,11 @@ public class RouteService {
         realm.commitTransaction();
     }
 
+    public List<PlannedRoute> getAllPlannedRoutes() {
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<PlannedRoute> results = realm.where(PlannedRoute.class).findAllAsync();
+        results.load();
+        return results;
+    }
 }

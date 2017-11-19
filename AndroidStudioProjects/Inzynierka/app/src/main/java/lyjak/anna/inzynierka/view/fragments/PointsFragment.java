@@ -18,7 +18,7 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
-import lyjak.anna.inzynierka.viewmodel.others.SimpleItemTouchHelperCallback;
+import lyjak.anna.inzynierka.view.callbacks.SimpleItemTouchHelperCallback;
 
 public class PointsFragment extends Fragment implements OnStartDragListener {
 

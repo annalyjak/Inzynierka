@@ -34,7 +34,7 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
-import lyjak.anna.inzynierka.service.respository.RouteService;
+import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
@@ -49,20 +49,20 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
     private static final String TAG = PlannedRouteAdapter.class.getSimpleName();
     private static final String DATE_FORMAT = "%1$ta, %1$te %1$tB %1$tY"; // example: Pon, 12 października 2017
 
-    private static List<PlannedRoute> mDataset;
+    private static PlannedRoutesCardListViewModel viewModel;
     private static Activity activity;
 
     private static GenerateReport generateReport;
 
-    public PlannedRouteAdapter(Activity activity, List<PlannedRoute> myDataset) {
+    public PlannedRouteAdapter(Activity activity, PlannedRoutesCardListViewModel viewModel) {
         this.activity = activity;
-        this.mDataset = myDataset;
+        this.viewModel = viewModel;
     }
 
-    public PlannedRouteAdapter(Activity activity, List<PlannedRoute> myDataset,
+    public PlannedRouteAdapter(Activity activity, PlannedRoutesCardListViewModel viewModel,
                                GenerateReport generateReport) {
         this.activity = activity;
-        this.mDataset = myDataset;
+        this.viewModel = viewModel;
         this.generateReport = generateReport;
     }
 
@@ -75,7 +75,7 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
 
     @Override
     public void onBindViewHolder(final PlannedRouteAdapter.ViewHolder holder, int position) {
-        PlannedRoute route = mDataset.get(position);
+        PlannedRoute route = viewModel.getPlannedRoute(position);
         Resources resources = activity.getApplicationContext().getResources();
 
         holder.position = position;
@@ -114,29 +114,20 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         }
     }
 
-    public void addNewPlannedRoute(PlannedRoute route) {
-        mDataset.add(route);
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return viewModel.getDatasetSize();
     }
 
     private static void removeThisItemFromDatabase(int position) {
         if (position >= 0) {
-            PlannedRoute routeToRemove = mDataset.get(position);
-            Log.i(TAG, "Usuwam trasę o id: " + position);
-            RouteService operations = new RouteService(activity);
-            operations.removePlannedRouteFromDatabase(routeToRemove);
-//            mDataset.remove(routeToRemove);
+            viewModel.removePlannedRoute(position);
         }
     }
 
     private static PlannedRoute getSelectedRoute(int position) {
         if (position >= 0) {
-            PlannedRoute route = mDataset.get(position);
+            PlannedRoute route = viewModel.getPlannedRoute(position);
             return route;
         }
         return null;

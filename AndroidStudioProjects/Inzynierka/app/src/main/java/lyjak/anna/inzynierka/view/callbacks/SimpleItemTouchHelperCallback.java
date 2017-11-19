@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.others;
+package lyjak.anna.inzynierka.view.callbacks;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;
