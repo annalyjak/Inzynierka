@@ -5,7 +5,6 @@ package lyjak.anna.inzynierka.viewmodel.listeners;
  */
 
 public interface OnCardViewTouchListener {
-
     void onCardMove(int fromPosition, int toPosition);
     void onCardDismiss(int position);
 }

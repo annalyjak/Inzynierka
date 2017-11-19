@@ -39,6 +39,8 @@ import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
 import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
+import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
 import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
@@ -81,13 +83,13 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         Resources resources = activity.getApplicationContext().getResources();
 
         holder.position = position;
-        holder.title.setText(resources.getString(R.string.cardview_title) + " " + route.getTitle());
-        holder.date.setText(resources.getString(R.string.cardview_date) + " "
-                + String.format(DATE_FORMAT, route.getDate()));
-        holder.points.setText(resources.getString(R.string.cardview_points) + " "
-                + String.valueOf(route.getSize()));
-        holder.duration.setText(resources.getString(R.string.cardview_duartion) + " " + String.valueOf(route.getDuration()));
-        holder.distance.setText(resources.getString(R.string.cardview_distance) + " " + String.valueOf(route.getDistance()));
+        holder.title.setText((resources.getString(R.string.cardview_title) + " " + route.getTitle()));
+        holder.date.setText(((resources.getString(R.string.cardview_date) + " "
+                + String.format(DATE_FORMAT, route.getDate()))));
+        holder.points.setText((resources.getString(R.string.cardview_points) + " "
+                + String.valueOf(route.getSize())));
+        holder.duration.setText((resources.getString(R.string.cardview_duartion) + " " + String.valueOf(route.getDuration())));
+        holder.distance.setText((resources.getString(R.string.cardview_distance) + " " + String.valueOf(route.getDistance())));
 
         if (route.getSize() > 0 && ContextCompat.checkSelfPermission(
                 this.activity.getApplicationContext(), Manifest.permission.INTERNET)
@@ -105,39 +107,10 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
 
     private void setImageFromUrl(final PlannedRouteAdapter.ViewHolder holder, PlannedRoute route) {
         if (route.getPoints().size() > 1) { // if route is to short - displays only first element
-            @SuppressLint("StaticFieldLeak") AsyncTask<String, Void, Bitmap> setImageFromUrl = new AsyncTask<String, Void, Bitmap>() {
-
-                @Override
-                protected Bitmap doInBackground(String... points) {
-                    return GoogleMapsStaticUtil.getGoogleMapStaticPictureWithPolyline(points[0]);
-                }
-
-                protected void onPostExecute(Bitmap bmp) {
-                    if (bmp != null) {
-                        holder.picture.setImageBitmap(bmp);
-                    }
-
-                }
-            };
+            PolylineImageFromUrlAsyncTask setImageFromUrl = new PolylineImageFromUrlAsyncTask(holder.picture);
             setImageFromUrl.execute(getPolyline(route.getLine()));
         } else {
-            @SuppressLint("StaticFieldLeak") AsyncTask<LatLng, Void, Bitmap> setImageFromUrl = new AsyncTask<LatLng, Void, Bitmap>(){
-
-                @Override
-                protected Bitmap doInBackground(LatLng... points) {
-                    return GoogleMapsStaticUtil.getGoogleMapStaticPicture(
-                            points[0].latitude,
-                            points[0].longitude
-                    );
-                }
-
-                protected void onPostExecute(Bitmap bmp) {
-                    if (bmp!=null) {
-                        holder.picture.setImageBitmap(bmp);
-                    }
-
-                }
-            };
+            PointImageFromUrlAsyncTask setImageFromUrl = new PointImageFromUrlAsyncTask(holder.picture);
             LatLng latLng = new LatLng(
                     route.getPoints().get(0).getPoint().getLatitude(),
                     route.getPoints().get(0).getPoint().getLongitude());
