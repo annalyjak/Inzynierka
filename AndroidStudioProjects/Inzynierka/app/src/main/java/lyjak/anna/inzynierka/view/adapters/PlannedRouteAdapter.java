@@ -1,7 +1,6 @@
 package lyjak.anna.inzynierka.view.adapters;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,8 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,12 +34,11 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
+import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
-import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna Łyjak on 08.10.2017.
@@ -132,7 +128,7 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         if (position >= 0) {
             PlannedRoute routeToRemove = mDataset.get(position);
             Log.i(TAG, "Usuwam trasę o id: " + position);
-            OnMarkersOperations operations = new OnMarkersOperations(activity);
+            RouteService operations = new RouteService(activity);
             operations.removePlannedRouteFromDatabase(routeToRemove);
 //            mDataset.remove(routeToRemove);
         }

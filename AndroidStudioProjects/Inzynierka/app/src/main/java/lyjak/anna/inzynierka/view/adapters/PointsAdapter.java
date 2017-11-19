@@ -1,34 +1,23 @@
 package lyjak.anna.inzynierka.view.adapters;
 
-import android.app.Activity;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.List;
-
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.databinding.CardActualRouteBinding;
 import lyjak.anna.inzynierka.databinding.CardPointOfRouteBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
+import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.ItemTouchHelperViewHolder;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnCardViewTouchListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
 import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
-import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna on 20.10.2017.
@@ -36,18 +25,13 @@ import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
 
 public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder> implements OnCardViewTouchListener {
 
-    private List<PointOfRoute> mDataset;
-    private PlannedRoute route;
-    private static Activity activity;
+    private PointsCardListViewModel viewModel;
 
     private final OnStartDragListener mDragStartListener;
 
-    public PointsAdapter(Activity contexts, OnStartDragListener dragStartListener,
-                         List<PointOfRoute> myDataset, PlannedRoute route) {
-        this.activity = contexts;
-        this.route = route;
+    public PointsAdapter(OnStartDragListener dragStartListener, PointsCardListViewModel viewModel) {
         this.mDragStartListener = dragStartListener;
-        this.mDataset = myDataset;
+        this.viewModel = viewModel;
     }
 
     @Override
@@ -60,7 +44,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final PointsAdapter.ViewHolder holder, int position) {
-        PointOfRoute pointOfRoute = mDataset.get(position);
+        PointOfRoute pointOfRoute = viewModel.getPoint(position);
 
         holder.binding.textViewRouteId.setText((pointOfRoute.getId() + " - " + pointOfRoute.getName()));
         setImage(holder, pointOfRoute);
@@ -68,38 +52,27 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.ViewHolder
         holder.binding.imageViewCardMap.setOnTouchListener((v, event) -> {
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                 mDragStartListener.onStartDrag(holder);
-                return true;
             }
-            return false;
+            v.performClick();
+            return true;
         });
 
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return viewModel.getDatasetSize();
     }
 
     @Override
     public void onCardMove(int fromPosition, int toPosition) {
-        OnMarkersOperations operations = new OnMarkersOperations(activity);
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                operations.swap(mDataset, i, i + 1);
-                operations.calculateLine(route);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                operations.swap(mDataset, i, i - 1);
-                operations.calculateLine(route);
-            }
-        }
+        viewModel.onCardMove(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onCardDismiss(int position) {
-        mDataset.remove(position);
+        viewModel.removePoint(position);
         notifyItemRemoved(position);
     }
 

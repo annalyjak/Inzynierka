@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.service;
+package lyjak.anna.inzynierka.service.respository;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -16,7 +16,6 @@ import android.widget.Toast;
 import java.util.Date;
 
 import io.realm.Realm;
-import lyjak.anna.inzynierka.service.broadcasts.LocationReceiver;
 
 /**
  * Service stores current user location every 10 seconds and 100 meters minimum change.

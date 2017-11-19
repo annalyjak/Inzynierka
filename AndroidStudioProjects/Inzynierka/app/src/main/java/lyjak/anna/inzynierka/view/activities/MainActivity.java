@@ -34,7 +34,7 @@ import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
 import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
-import lyjak.anna.inzynierka.service.LocationService;
+import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.viewmodel.others.MyContextWrapper;
 
 //TODO MVVM

@@ -52,7 +52,7 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
+import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -92,14 +92,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private OnMarkersOperations onMarkersOperations;
+    private RouteService routeService;
     private PlannedRoute savePlannedRoute;
     private Route saveRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onMarkersOperations = new OnMarkersOperations(this);
+        routeService = new RouteService(this);
 
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -109,7 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int distance = savedInstanceState.getInt("distance");
                 int duration = savedInstanceState.getInt("duration");
                 if (title != null) {
-                    savePlannedRoute = onMarkersOperations.findPlannedRoute(title, distance, duration);
+                    savePlannedRoute = routeService.findPlannedRoute(title, distance, duration);
                 }
             }
         } else {
@@ -137,11 +137,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             endDate = new Date();
                             endDate.setTime(endDateLong);
                         }
-                        saveRoute = onMarkersOperations.findRoute(date, startDate, endDate);
+                        saveRoute = routeService.findRoute(date, startDate, endDate);
                     } else {
                         int distance = extras.getInt("distance");
                         int duration = extras.getInt("duration");
-                        savePlannedRoute = onMarkersOperations.findPlannedRoute(title, distance, duration);
+                        savePlannedRoute = routeService.findPlannedRoute(title, distance, duration);
                     }
                 }
                 generate = extras.getBoolean("REPORT"); //if report should be generated
@@ -289,8 +289,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(line.size() != 0) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(line.get(0), DEFAULT_ZOOM));
         } else {
-            onMarkersOperations.calculateLine(savePlannedRoute);
-            savePlannedRoute = onMarkersOperations.findPlannedRoute(
+            routeService.calculateLine(savePlannedRoute);
+            savePlannedRoute = routeService.findPlannedRoute(
                     savePlannedRoute.getTitle(),
                     savePlannedRoute.getDistance(),
                     savePlannedRoute.getDuration());
@@ -654,7 +654,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 markerDialog.dismiss();
-                onMarkersOperations.createNewPlannedRoute(marker);
+                routeService.createNewPlannedRoute(marker);
             }
         });
 
@@ -686,9 +686,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void addPointToActualRoute(Marker marker) {
         if (savePlannedRoute != null) {
-            onMarkersOperations.addPointToRoute(marker, savePlannedRoute);
+            routeService.addPointToRoute(marker, savePlannedRoute);
         } else {
-            onMarkersOperations.addPointToActualRoute(marker);
+            routeService.addPointToActualRoute(marker);
         }
         Toast.makeText(getApplicationContext(),
                 getApplicationContext().getString(R.string.map_new_point_created),

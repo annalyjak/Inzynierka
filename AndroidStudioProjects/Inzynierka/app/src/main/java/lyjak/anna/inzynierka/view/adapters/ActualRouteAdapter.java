@@ -19,7 +19,7 @@ import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardActualRouteBinding;
 import lyjak.anna.inzynierka.databinding.DialogActualRouteCardClickBinding;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
+import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback;
@@ -163,14 +163,14 @@ public class ActualRouteAdapter extends RecyclerView.Adapter<ActualRouteAdapter.
         if (position >= 0) {
             Route routeToRemove = mDataset.get(position);
             Log.i(TAG, "Usuwam trasę o id: " + position);
-            OnMarkersOperations operations = new OnMarkersOperations(activity);
+            RouteService operations = new RouteService(activity);
             operations.removeRouteFromDatabase(routeToRemove);
         }
     }
 
     private static void removeThisItemFromDatabase(Route route) {
         if (route != null) {
-            OnMarkersOperations operations = new OnMarkersOperations(activity);
+            RouteService operations = new RouteService(activity);
             operations.removeRouteFromDatabase(route);
         }
     }

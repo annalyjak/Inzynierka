@@ -31,12 +31,12 @@ import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
  * Created by Anna on 14.10.2017.
  */
 
-public class OnMarkersOperations {
+public class RouteService {
 
-    private final static String TAG = OnMarkersOperations.class.getSimpleName();
+    private final static String TAG = RouteService.class.getSimpleName();
     private static Activity activity;
 
-    public OnMarkersOperations(Activity activity) {
+    public RouteService(Activity activity) {
         this.activity = activity;
     }
 

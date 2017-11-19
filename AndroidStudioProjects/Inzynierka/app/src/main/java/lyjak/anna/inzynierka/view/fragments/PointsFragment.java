@@ -21,6 +21,7 @@ import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentPointsBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
+import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
 import lyjak.anna.inzynierka.viewmodel.others.SimpleItemTouchHelperCallback;
 
@@ -28,11 +29,9 @@ public class PointsFragment extends Fragment implements OnStartDragListener {
 
     private static final String TAG = PointsFragment.class.getSimpleName();
 
-//    public RecyclerView mRecyclerView;
     private FragmentPointsBinding binding;
     private PointsAdapter mAdapter;
-    private List<PointOfRoute> myDataset;
-    private PlannedRoute route;
+    private PointsCardListViewModel viewModel;
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -42,8 +41,7 @@ public class PointsFragment extends Fragment implements OnStartDragListener {
 
     public static PointsFragment newInstance(PlannedRoute plannedRoute) {
         PointsFragment fragment = new PointsFragment();
-        fragment.route = plannedRoute;
-        fragment.setDataset(plannedRoute.getPoints());
+        fragment.viewModel = new PointsCardListViewModel(fragment.getActivity(), plannedRoute);
         return fragment;
     }
 
@@ -52,23 +50,14 @@ public class PointsFragment extends Fragment implements OnStartDragListener {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_points, container, false);
+        if (viewModel != null) {
+            mAdapter = new PointsAdapter(this, viewModel);
 
-//        View v = inflater.inflate(R.layout.fragment_points, container, false);
-//        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycleViewPoints);
-
-        if (myDataset == null) {
-            Log.i(TAG, "Lista pusta, tworzę nową");
-            myDataset = new ArrayList<>();
-        } else {
-            Log.i(TAG, "lista ma elemetów: " + myDataset.size());
+            final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+            binding.recycleViewPoints.setLayoutManager(mLayoutManager);
+            binding.recycleViewPoints.setItemAnimator(new DefaultItemAnimator());
+            binding.recycleViewPoints.setAdapter(mAdapter);
         }
-        mAdapter = new PointsAdapter(getActivity(), this, myDataset, route);
-
-        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        binding.recycleViewPoints.setLayoutManager(mLayoutManager);
-        binding.recycleViewPoints.setItemAnimator(new DefaultItemAnimator());
-        binding.recycleViewPoints.setAdapter(mAdapter);
-
         return binding.getRoot();
     }
 
@@ -79,17 +68,6 @@ public class PointsFragment extends Fragment implements OnStartDragListener {
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(binding.recycleViewPoints);
-    }
-
-    public void setDataset(List<PointOfRoute> list) {
-        if (myDataset == null) {
-            Log.i(TAG, "ustawiam nową listę " + list.size());
-            myDataset = list;
-        } else {
-            Log.i(TAG, "dodaję elementy " + list.size());
-            this.myDataset.addAll(list);
-            mAdapter.notifyDataSetChanged();
-        }
     }
 
     @Override

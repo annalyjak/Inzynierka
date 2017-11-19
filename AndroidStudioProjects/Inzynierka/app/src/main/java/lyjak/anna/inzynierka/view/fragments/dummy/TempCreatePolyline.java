@@ -17,7 +17,7 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
+import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.viewmodel.others.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
@@ -117,7 +117,7 @@ public class TempCreatePolyline implements FindDirectionListener {
     @Override
     public void onStoreFindDirection() {
         Log.i(TAG, "onStoreFindDirection");
-        OnMarkersOperations operations = new OnMarkersOperations(activity);
+        RouteService operations = new RouteService(activity);
         operations.storePlannedRouteInDatabase(route, this);
         Log.i(TAG, "onStoreFindDirection end");
     }

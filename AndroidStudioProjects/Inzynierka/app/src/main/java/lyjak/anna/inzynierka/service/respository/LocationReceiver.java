@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.service.broadcasts;
+package lyjak.anna.inzynierka.service.respository;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
