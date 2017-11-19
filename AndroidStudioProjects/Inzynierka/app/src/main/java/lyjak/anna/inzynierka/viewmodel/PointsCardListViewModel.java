@@ -5,10 +5,11 @@ import android.util.Log;
 
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.respository.RouteService;
-import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 
 /**
  * Created by Anna on 19.11.2017.
@@ -18,19 +19,15 @@ public class PointsCardListViewModel {
 
     private static final String TAG = PointsCardListViewModel.class.getSimpleName();
 
-    private static RouteService routeService;
+    @Singleton
+    private RouteService routeService;
+
     private PlannedRoute route;
     private List<PointOfRoute> dataset;
 
     public PointsCardListViewModel(Activity activity, PlannedRoute route) {
         this.route = route;
         this.dataset = route.getPoints();
-        routeService = new RouteService(activity);
-    }
-
-    public PointsCardListViewModel(Activity activity, PlannedRoute route, List<PointOfRoute> dataset) {
-        this.route = route;
-        this.dataset = dataset;
         routeService = new RouteService(activity);
     }
 

@@ -8,26 +8,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentPointsBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
+import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
 import lyjak.anna.inzynierka.viewmodel.others.SimpleItemTouchHelperCallback;
 
 public class PointsFragment extends Fragment implements OnStartDragListener {
-
-    private static final String TAG = PointsFragment.class.getSimpleName();
 
     private FragmentPointsBinding binding;
     private PointsAdapter mAdapter;
