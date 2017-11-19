@@ -1,5 +1,7 @@
 package lyjak.anna.inzynierka.view.fragments;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,19 +19,25 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.databinding.DialogActualRouteCardClickBinding;
+import lyjak.anna.inzynierka.view.activities.MainActivity;
+import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.adapters.ActualRouteAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentActualRoutesBinding;
 import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback;
+import lyjak.anna.inzynierka.view.callbacks.ListActualRouteCallback;
+import lyjak.anna.inzynierka.view.callbacks.ReportActualRouteCallback;
+import lyjak.anna.inzynierka.viewmodel.ActualRouteListViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 
 public class ActualRoutesFragment extends Fragment {
 
     private static final String TAG = ActualRoutesFragment.class.getSimpleName();
 
-//    public RecyclerView mRecyclerView;
+    private ActualRouteListViewModel viewModel;
     private RecyclerView.Adapter mAdapter;
-    private List<Route> myDataset;
-
+    private ActualRouteCallback actualRouteClickCallback;
     private GenerateReport mGenerateReport;
 
     public ActualRoutesFragment() {
@@ -38,29 +46,36 @@ public class ActualRoutesFragment extends Fragment {
 
     public static ActualRoutesFragment newInstance() {
         ActualRoutesFragment fragment = new ActualRoutesFragment();
+        fragment.viewModel = new ActualRouteListViewModel(fragment.getContext());
+        fragment.actualRouteClickCallback = new ListActualRouteCallback(fragment.getActivity(),
+                fragment.viewModel);
         return fragment;
     }
 
     public static ActualRoutesFragment newInstance(GenerateReport mGenerateReport) {
         ActualRoutesFragment fragment = new ActualRoutesFragment();
+        fragment.viewModel = new ActualRouteListViewModel(fragment.getContext());
         fragment.mGenerateReport = mGenerateReport;
+        fragment.actualRouteClickCallback = new ReportActualRouteCallback(fragment.getActivity(),
+                fragment.viewModel);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         FragmentActualRoutesBinding binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_actual_routes, container, false);
-//        View view = inflater.inflate(R.layout.fragment_actual_routes, container, false);
-//        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleViewActualRoutes);
         binding.recycleViewActualRoutes.setHasFixedSize(true);
 
-//        Log.i(TAG, mRecyclerView == null? "null" : mRecyclerView.toString());
-        myDataset=new ArrayList<>();
-        mAdapter = new ActualRouteAdapter(getActivity(), myDataset);
+        if (viewModel == null) {
+            viewModel = new ActualRouteListViewModel(getContext());
+        }
+        if (actualRouteClickCallback == null) {
+            actualRouteClickCallback = new ListActualRouteCallback(getActivity(), viewModel);
+        }
+        mAdapter = new ActualRouteAdapter(getActivity(), viewModel, actualRouteClickCallback);
+
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.recycleViewActualRoutes.setLayoutManager(mLayoutManager);
         binding.recycleViewActualRoutes.setItemAnimator(new DefaultItemAnimator());
@@ -72,18 +87,7 @@ public class ActualRoutesFragment extends Fragment {
     }
 
     private void getRoutesFromDatabase() {
-        Realm.init(getActivity());
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Route> results = realm.where(Route.class).findAllAsync();
-        results.load();
-
-        myDataset = new ArrayList<>(results);
-
-        Log.i("TAG", "SIZE : " + myDataset.size());
-
-        for(Route route : results) {
-            ((ActualRouteAdapter) mAdapter).addNewRoute(route);
-        }
+        viewModel.getRoutes();
         mAdapter.notifyDataSetChanged();
     }
 

@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import lyjak.anna.inzynierka.viewmodel.utils.GoogleMapsStaticUtil;
+import lyjak.anna.inzynierka.service.model.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna on 18.11.2017.

@@ -18,7 +18,7 @@ import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.service.respository.RouteService;
-import lyjak.anna.inzynierka.viewmodel.others.RoadFinder;
+import lyjak.anna.inzynierka.service.respository.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 public class TempCreatePolyline implements FindDirectionListener {

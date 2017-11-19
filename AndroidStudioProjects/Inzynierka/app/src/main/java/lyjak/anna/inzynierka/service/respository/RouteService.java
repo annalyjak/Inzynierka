@@ -25,7 +25,7 @@ import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.view.fragments.dummy.TempCreatePolyline;
-import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 
 /**
  * Created by Anna on 14.10.2017.
@@ -287,6 +287,14 @@ public class RouteService {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PlannedRoute> results = realm.where(PlannedRoute.class).findAllAsync();
+        results.load();
+        return results;
+    }
+
+    public List<Route> getAllActualRoutes() {
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Route> results = realm.where(Route.class).findAllAsync();
         results.load();
         return results;
     }

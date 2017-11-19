@@ -12,8 +12,8 @@ import java.util.Locale;
  * Created by Anna Łyjak on 23.08.2017.
  */
 
-public class MyContextWrapper extends ContextWrapper {
-    public MyContextWrapper(Context base) {
+public class ChangeLanguageContextWrapper extends ContextWrapper {
+    public ChangeLanguageContextWrapper(Context base) {
         super(base);
     }
 
@@ -40,7 +40,7 @@ public class MyContextWrapper extends ContextWrapper {
                 context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
             }
         }
-        return new MyContextWrapper(context);
+        return new ChangeLanguageContextWrapper(context);
     }
 
     @SuppressWarnings("deprecation")

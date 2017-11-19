@@ -1,7 +1,6 @@
 package lyjak.anna.inzynierka.view.fragments;
 
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.FragmentPlannedRoutesBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.view.adapters.PlannedRouteAdapter;
 import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;

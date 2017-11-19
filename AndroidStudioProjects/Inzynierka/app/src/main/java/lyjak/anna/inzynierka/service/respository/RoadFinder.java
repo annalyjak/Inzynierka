@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.others;
+package lyjak.anna.inzynierka.service.respository;
 
 import android.os.AsyncTask;
 
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
+import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 /**
  * Created by Anna on 26.12.2016.

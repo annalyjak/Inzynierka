@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
-import lyjak.anna.inzynierka.viewmodel.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 
 /**
  * Created by Anna Łyjak on 08.10.2017.

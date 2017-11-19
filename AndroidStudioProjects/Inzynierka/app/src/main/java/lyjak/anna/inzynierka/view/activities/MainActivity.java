@@ -35,7 +35,7 @@ import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
 import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.service.respository.LocationService;
-import lyjak.anna.inzynierka.viewmodel.others.MyContextWrapper;
+import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
 //TODO MVVM
 //TODO ekran główny
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, language));
     }
 
     /**

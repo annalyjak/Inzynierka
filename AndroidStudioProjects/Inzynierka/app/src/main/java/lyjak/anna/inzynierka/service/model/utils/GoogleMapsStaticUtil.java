@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.utils;
+package lyjak.anna.inzynierka.service.model.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
