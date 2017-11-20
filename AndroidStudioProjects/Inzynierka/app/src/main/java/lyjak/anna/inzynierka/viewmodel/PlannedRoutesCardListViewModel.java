@@ -45,4 +45,8 @@ public class PlannedRoutesCardListViewModel extends MainViewModel {
         PlannedRoute routeToRemove = getPlannedRoute(position);
         service.removePlannedRouteFromDatabase(routeToRemove);
     }
+
+    public void removePlannedRoute(PlannedRoute routeToRemove) {
+        service.removePlannedRouteFromDatabase(routeToRemove);
+    }
 }

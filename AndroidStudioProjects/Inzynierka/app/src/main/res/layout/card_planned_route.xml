@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="route"
+            type="lyjak.anna.inzynierka.service.model.realm.PlannedRoute"/>
+        <variable
+            name="callback"
+            type="lyjak.anna.inzynierka.view.callbacks.PlannedRouteCallback"/>
+    </data>
+
     <LinearLayout
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:typeface="serif"
@@ -13,6 +22,7 @@
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="8dp"
             android:id="@+id/card_view"
+            android:onClick="@{() ->  callback.onClick(route)}"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="250dp"
