@@ -80,7 +80,7 @@ public class GenerateReport {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf(Activity activity, Context context, Bitmap bitmap) {
         String targetPdf = "/LogMilesRaport" + System.currentTimeMillis() + ".pdf";
-        GeneratePdf pdf = new GeneratePdf(context);
+        GeneratePdf pdf = new GeneratePdf(activity);
         pdf.setBitmap(bitmap);
         File savedFile = pdf.generate(mPlannedRoute, targetPdf);
         sendFile(activity, savedFile);

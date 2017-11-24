@@ -11,6 +11,7 @@ import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportConfirmBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
+import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 
 /**
@@ -44,7 +45,7 @@ public class ReportPlannedRouteCallback implements PlannedRouteCallback {
             //TODO otworz kolejne pytanie "Czy chcesz przejść do generowania rapotu?"
             Intent openMapIntent = new Intent(activity,
                     MapsActivity.class);
-            MapsActivity.report = generateReport;
+            MapsViewModel.report = generateReport;
             Bundle bundle = new Bundle();
             bundle.putString("title", route.getTitle());
             bundle.putInt("duration", route.getDuration());

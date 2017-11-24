@@ -13,9 +13,9 @@ import lyjak.anna.inzynierka.service.respository.RouteService;
 public class MainViewModel {
 
     @Singleton
-    RouteService service;
+    RouteService routeService;
 
     public MainViewModel(Context context) {
-        service = new RouteService(context);
+        routeService = new RouteService(context);
     }
 }

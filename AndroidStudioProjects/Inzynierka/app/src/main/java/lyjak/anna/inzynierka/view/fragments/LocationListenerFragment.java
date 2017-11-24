@@ -23,7 +23,6 @@ public class LocationListenerFragment extends Fragment {
     private static final String ARG_SERVICE_STATUS = "paramService";
     public static final String SERVICE_LOCATION_STATUS_STARTED = "STARTED";
     public static final String SERVICE_LOCATION_STATUS_STOPED = "STOPED";
-    //TODO zmienić przyciski we fragmencie z nagrywaniem aktualnej trasy
     private String mParamServiceStatus = "STOPED";
 
     private OnLocationServiceListener mListener;
@@ -55,13 +54,6 @@ public class LocationListenerFragment extends Fragment {
         }
     }
 
-    /**
-     * Inflate the layout for this fragment
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

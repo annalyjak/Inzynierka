@@ -16,20 +16,17 @@ import lyjak.anna.inzynierka.service.respository.RouteService;
  * Created by Anna on 19.11.2017.
  */
 
-public class PointsCardListViewModel {
+public class PointsCardListViewModel extends MainViewModel {
 
     private static final String TAG = PointsCardListViewModel.class.getSimpleName();
-
-    @Singleton
-    private RouteService routeService;
 
     private PlannedRoute route;
     private List<PointOfRoute> dataset;
 
     public PointsCardListViewModel(Context context, PlannedRoute route) {
+        super(context);
         this.route = route;
         this.dataset = route.getPoints();
-        routeService = new RouteService(context);
     }
 
     public void onCardMove(int fromPosition, int toPosition) {

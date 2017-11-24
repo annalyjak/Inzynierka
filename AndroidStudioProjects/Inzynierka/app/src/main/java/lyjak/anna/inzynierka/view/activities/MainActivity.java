@@ -1,49 +1,43 @@
 package lyjak.anna.inzynierka.view.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.databinding.generated.callback.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.widget.RadioButton;
+import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
+import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
 import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
-import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
 //TODO MVVM
-//TODO ekran główny
-//TODO podpiąc dobre akcje pod menu
 //TODO dodać ładne przyciski do nagrywania położenia
 //TODO dodać ładne przyciski do transportu
 //TODO zmienić kolor wyświetlania trasy zaplanowanej na inny niż rzeczywistej
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
 
-    public static String language = "en"; // default app language, can change if user change settings
+    public static String language = "pl"; // default app language, can change if user change settings
     private static Fragment mFragment = null; // fragment actuall atached on FrameLayout in MainActivity
     private static FragmentManager fragmentManager;
 
@@ -99,7 +93,13 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
+        setDefaultView(); //sets main view
+    }
 
+    private void setDefaultView() {
+        mFragment = new LocationListenerFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frameLayoutMain, mFragment).commit();
     }
 
     /**
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
@@ -307,6 +307,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().detach(mFragment)
                     .attach(mFragment)
                     .commit();
+        } else {
+            setDefaultView();
         }
     }
 

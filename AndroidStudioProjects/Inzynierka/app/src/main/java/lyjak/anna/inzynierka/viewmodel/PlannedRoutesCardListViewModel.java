@@ -5,12 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Singleton;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.respository.RouteService;
 
 /**
  * Created by Anna on 19.11.2017.
@@ -25,7 +20,7 @@ public class PlannedRoutesCardListViewModel extends MainViewModel {
     }
 
     public List<PlannedRoute> getPlannedRoutesFromDatabase() {
-        dataset = new ArrayList<>(service.getAllPlannedRoutes());
+        dataset = new ArrayList<>(routeService.getAllPlannedRoutes());
         return dataset;
     }
 
@@ -43,10 +38,10 @@ public class PlannedRoutesCardListViewModel extends MainViewModel {
 
     public void removePlannedRoute(int position) {
         PlannedRoute routeToRemove = getPlannedRoute(position);
-        service.removePlannedRouteFromDatabase(routeToRemove);
+        routeService.removePlannedRouteFromDatabase(routeToRemove);
     }
 
     public void removePlannedRoute(PlannedRoute routeToRemove) {
-        service.removePlannedRouteFromDatabase(routeToRemove);
+        routeService.removePlannedRouteFromDatabase(routeToRemove);
     }
 }
