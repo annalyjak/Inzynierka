@@ -18,7 +18,7 @@ public class MainActivityViewModel extends MainViewModel {
         super(context);
     }
 
-    public String getLanguage() {
+    public static String getLanguage() {
         return language;
     }
 

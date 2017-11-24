@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.service.model;
 
 import lyjak.anna.inzynierka.view.activities.MainActivity;
+import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
 
 /**
  * Created by Anna on 21.10.2017.
@@ -14,7 +15,7 @@ public final class Car extends TypeOfTransport {
 
     public Car() {
         fuel = 7;
-        if (MainActivity.language.equals("pl")) {
+        if (MainActivityViewModel.language.equals("pl")) {
             name = "Samochód osobowy";
             shortName = "Samochód osobowy";
         } else {

@@ -182,10 +182,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.frameLayoutMain, mFragment).commit();
 
-//            mFragment = new LocationFragment();
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.frameLayoutMain, mFragment).commit();
-//            LocationContent.ITEMS = getDataFromDatabase();
 
         } else if (id == R.id.nav_manage) {
             if (mFragment != null) {
@@ -243,7 +239,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, viewModel.getLanguage()));
+        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, MainActivityViewModel.getLanguage()));
     }
 
     /**
@@ -276,7 +272,7 @@ public class MainActivity extends AppCompatActivity
 
     private void createNotification() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.pln) // TODO ZMIEN ikonkę
+        mBuilder.setSmallIcon(R.drawable.ic_satellite_black_24dp) // TODO ZMIEN ikonkę
                 .setContentTitle(getString(R.string.notification_titile))
                 .setContentText(getString(R.string.notification_text));
 

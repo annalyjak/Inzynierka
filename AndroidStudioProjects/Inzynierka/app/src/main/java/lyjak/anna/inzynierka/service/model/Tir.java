@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.service.model;
 
 import lyjak.anna.inzynierka.view.activities.MainActivity;
+import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
 
 /**
  * Created by Anna on 21.10.2017.
@@ -14,7 +15,7 @@ public final class Tir extends TypeOfTransport {
 
     public Tir() {
         fuel = 25;
-        if (MainActivity.language.equals("pl")) {
+        if (MainActivityViewModel.language.equals("pl")) {
             name = "Bus powyżej 7,5 tony";
             shortName = "Tir";
         } else {
