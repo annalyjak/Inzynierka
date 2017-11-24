@@ -33,6 +33,7 @@ import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
+import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
@@ -56,12 +57,10 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
 
-    public static String language = "pl"; // default app language, can change if user change settings
     private static Fragment mFragment = null; // fragment actuall atached on FrameLayout in MainActivity
     private static FragmentManager fragmentManager;
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        viewModel = new MainActivityViewModel(this);
 
         //Check if all permisions are granded and please to grand them
         checkPermissions();
@@ -112,20 +113,20 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+//            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+//            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.INTERNET)
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.INTERNET},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_INTERNET);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 
@@ -153,10 +154,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void setLanguage(String lang) {
-        language = lang;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -208,19 +205,19 @@ public class MainActivity extends AppCompatActivity
             languageDialog.setTitle(R.string.choose_language);
             viewDataBinding.plLanguageButton.setOnClickListener(v -> {
                 languageDialog.dismiss();
-                if(!language.equals("pl")) {
-                    setLanguage("pl");
+                if(!viewModel.isLanguagePolish()) {
+                    viewModel.setPolishLanguage();
                     refresh();
                 }
             });
             viewDataBinding.engLanguageButton.setOnClickListener(v -> {
                 languageDialog.dismiss();
-                if(!language.equals("en")) {
-                    setLanguage("en");
+                if(!viewModel.isLanguageEng()) {
+                    viewModel.setEnglishLanguage();
                     refresh();
                 }
             });
-            if(language.equals("pl")) {
+            if(viewModel.isLanguagePolish()) {
                 viewDataBinding.plLanguageButton.setChecked(true);
                 viewDataBinding.engLanguageButton.setChecked(false);
             } else {
@@ -246,7 +243,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, language));
+        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, viewModel.getLanguage()));
     }
 
     /**
