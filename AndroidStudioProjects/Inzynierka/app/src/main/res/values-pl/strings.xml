@@ -17,13 +17,15 @@
     <string name="menu_option_open_routes_list">Otwórz listę dotychczasowych tras</string>
     <string name="menu_option_save_route">Nagrywaj trasę</string>
     <string name="menu_option_generate_report">Generuj raport</string>
-
-    <string name="menu_option_gallery">Galeria</string>
-    <string name="menu_option_communicate">Komunikacja</string>
+    <string name="menu_option_basic">Podróż</string>
+    <string name="menu_option_routes">Trasy</string>
     <string name="menu_option_share">Udostępnij</string>
     <string name="menu_option_send">Wyślij</string>
     <string name="menu_option_tools">Narzędzia</string>
     <string name="menu_option_slideshow">Pokaz slajdów</string>
+    <string name="menu_option_play_location">Nagrywaj trasę</string>
+    <string name="menu_option_planned_routes">Planowane trasy</string>
+    <string name="menu_option_actual_routes">Zrealizowane trasy</string>
 
 
     <string name="default_info_title">Domyślna lokalizacja</string>
@@ -144,5 +146,7 @@
     <string name="notification_titile">LogMiles</string>
     <string name="notification_text">Monitoruję Twoje aktualne położenie!</string>
     <string name="menu">Menu</string>
+    <string name="menu_option_option">Ustawienia</string>
+
 
 </resources>

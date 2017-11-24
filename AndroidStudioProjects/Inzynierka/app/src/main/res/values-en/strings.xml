@@ -14,12 +14,13 @@
     <string name="ok">Ok</string>
 
     <string name="menu_option_open_map">Open map</string>
-    <string name="menu_option_gallery">Gallery</string>
-    <string name="menu_option_communicate">Communicate</string>
+    <string name="menu_option_play_location">Play your corrent location</string>
+    <string name="menu_option_planned_routes">Planned routes</string>
+    <string name="menu_option_actual_routes">Actual routes</string>
+    <string name="menu_option_routes">Routes</string>
     <string name="menu_option_share">Share</string>
     <string name="menu_option_send">Send</string>
-    <string name="menu_option_tools">Tools</string>
-    <string name="menu_option_slideshow">Slideshow</string>
+    <string name="menu_option_basic">Basic</string>
 
 
     <string name="default_info_title">Default Location</string>
@@ -137,6 +138,7 @@
     <string name="notification_titile">LogMiles</string>
     <string name="notification_text">Monitors your current location!</string>
     <string name="menu">Menu</string>
+    <string name="menu_option_option">Ustawienia</string>
 
 
 </resources>

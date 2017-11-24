@@ -50,17 +50,13 @@ public class RouteService {
 
         titleDialog.setTitle(R.string.dialog_add_new_planned_route_title_title);
         Button enLanguageButton = (Button) titleDialog.findViewById(R.id.buttonNo);
-        enLanguageButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v)
-            {
-                titleDialog.dismiss();
-                EditText editText = (EditText) titleDialog.findViewById(R.id.editTextTitleOfRoute);
-                if (editText.getText() == null) {
-                    createNewPlannedRoute("", marker);
-                } else {
-                    createNewPlannedRoute(editText.getText().toString(), marker);
-                }
+        enLanguageButton.setOnClickListener(v -> {
+            titleDialog.dismiss();
+            EditText editText = (EditText) titleDialog.findViewById(R.id.editTextTitleOfRoute);
+            if (editText.getText() == null) {
+                createNewPlannedRoute("", marker);
+            } else {
+                createNewPlannedRoute(editText.getText().toString(), marker);
             }
         });
         titleDialog.show();
@@ -106,7 +102,6 @@ public class RouteService {
 
     public void storePlannedRouteInDatabase(PlannedRoute route,
                                             TempCreatePolyline calculatedFields) {
-
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
@@ -114,6 +109,7 @@ public class RouteService {
                 .equalTo("title", route.getTitle())
                 .equalTo("date", route.getDate())
                 .findFirst();
+
         result.load();
 
         RealmList<RealmLocation> locations =

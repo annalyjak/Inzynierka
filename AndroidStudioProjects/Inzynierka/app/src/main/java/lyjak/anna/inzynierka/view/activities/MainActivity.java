@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.databinding.DataBindingUtil;
+import android.databinding.generated.callback.OnClickListener;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +32,7 @@ import android.view.MenuItem;
 import android.widget.RadioButton;
 
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
@@ -40,7 +44,6 @@ import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 //TODO MVVM
 //TODO ekran główny
 //TODO podpiąc dobre akcje pod menu
-//TODO zmienić ikonki w menu
 //TODO dodać ładne przyciski do nagrywania położenia
 //TODO dodać ładne przyciski do transportu
 //TODO zmienić kolor wyświetlania trasy zaplanowanej na inny niż rzeczywistej
@@ -152,67 +155,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     *  Inflate the menu; this adds items to the action bar if it is present.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            final Dialog languageDialog = new Dialog(MainActivity.this, R.style.SettingsDialogStyle);
-            languageDialog.setContentView(R.layout.dialog_language_settings);
-            final Resources resources = getResources();
-            final Configuration configuration = resources.getConfiguration();
-
-            languageDialog.setTitle(R.string.choose_language);
-            RadioButton plLanguageButton = (RadioButton) languageDialog.findViewById(R.id.pl_language_button);
-            plLanguageButton.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("NewApi")
-                @Override
-                public void onClick(View v) {
-                    languageDialog.dismiss();
-                    if(!language.equals("pl")) {
-                        setLanguage("pl");
-                        refresh();
-                    }
-                }
-
-            });
-            RadioButton enLanguageButton = (RadioButton) languageDialog.findViewById(R.id.eng_language_button);
-            enLanguageButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v)
-                {
-                    languageDialog.dismiss();
-                    if(!language.equals("en")) {
-                        setLanguage("en");
-                        refresh();
-                    }
-                }
-            });
-            if(language.equals("pl")) {
-                plLanguageButton.setChecked(true);
-                enLanguageButton.setChecked(false);
-            } else {
-                plLanguageButton.setChecked(false);
-                enLanguageButton.setChecked(true);
-            }
-
-            languageDialog.show();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void setLanguage(String lang) {
         language = lang;
     }
@@ -256,14 +198,37 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.frameLayoutMain, mFragment).commit();
 
-        } else if (id == R.id.nav_share) {
-            if (mFragment != null) {
-                fragmentManager.beginTransaction().detach(mFragment).commit();
+        } else if (id == R.id.nav_settings) {
+            final Dialog languageDialog = new Dialog(MainActivity.this, R.style.SettingsDialogStyle);
+            LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+            DialogLanguageSettingsBinding viewDataBinding = DataBindingUtil
+                    .inflate(layoutInflater,
+                            R.layout.dialog_language_settings,
+                            null, false);
+            languageDialog.setTitle(R.string.choose_language);
+            viewDataBinding.plLanguageButton.setOnClickListener(v -> {
+                languageDialog.dismiss();
+                if(!language.equals("pl")) {
+                    setLanguage("pl");
+                    refresh();
+                }
+            });
+            viewDataBinding.engLanguageButton.setOnClickListener(v -> {
+                languageDialog.dismiss();
+                if(!language.equals("en")) {
+                    setLanguage("en");
+                    refresh();
+                }
+            });
+            if(language.equals("pl")) {
+                viewDataBinding.plLanguageButton.setChecked(true);
+                viewDataBinding.engLanguageButton.setChecked(false);
+            } else {
+                viewDataBinding.plLanguageButton.setChecked(false);
+                viewDataBinding.engLanguageButton.setChecked(true);
             }
-        } else if (id == R.id.nav_send) {
-            if (mFragment != null) {
-                fragmentManager.beginTransaction().detach(mFragment).commit();
-            }
+            languageDialog.setContentView(viewDataBinding.getRoot());
+            languageDialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
