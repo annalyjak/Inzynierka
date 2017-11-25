@@ -19,6 +19,7 @@ import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
+import lyjak.anna.inzynierka.viewmodel.report.GeneratePlannedRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 /**
@@ -32,6 +33,7 @@ public class MapsViewModel extends MainViewModel {
 
     public static GenerateStandardReport report;
     public static GenerateActualRouteReport reportAcctualRoute;
+    public static GeneratePlannedRouteReport reportPlannedRoute;
     private Boolean generate;
 
     private PlannedRoute savePlannedRoute;
@@ -68,15 +70,18 @@ public class MapsViewModel extends MainViewModel {
     }
 
     public List<LatLng> createLatListFromSavedLocations() {
-        return createLatListFromLocations(savePlannedRoute.getLine());
+        return createLatListFromLocations((!savePlannedRoute.isValid() || savePlannedRoute.getLine()== null)? new ArrayList<>()
+                : savePlannedRoute.getLine());
     }
 
     public void createLine() {
-        routeService.calculateLine(savePlannedRoute);
-        savePlannedRoute = routeService.findPlannedRoute(
-                savePlannedRoute.getTitle(),
-                savePlannedRoute.getDistance(),
-                savePlannedRoute.getDuration());
+        if(savePlannedRoute.isValid()) {
+            routeService.calculateLine(savePlannedRoute);
+            savePlannedRoute = routeService.findPlannedRoute(
+                    savePlannedRoute.getTitle(),
+                    savePlannedRoute.getDistance(),
+                    savePlannedRoute.getDuration());
+        }
     }
 
     public void findPlannedRoute(String title, int distance, int duration) {
@@ -103,8 +108,12 @@ public class MapsViewModel extends MainViewModel {
         return saveRoute;
     }
 
-    public RealmList<PointOfRoute> getSavedPlannedRoutePoints() {
-        return savePlannedRoute.getPoints();
+    public List<PointOfRoute> getSavedPlannedRoutePoints() {
+        if (savePlannedRoute.isValid() && savePlannedRoute.getPoints().isValid()) {
+            return savePlannedRoute.getPoints();
+        } else {
+            return null;
+        }
     }
 
     public List<RealmLocation> getSavedRouteLocations() {
@@ -118,6 +127,8 @@ public class MapsViewModel extends MainViewModel {
     public void doReport(MapsActivity activity, Context applicationContext, Bitmap bitmap) {
         report.createPdf(activity, applicationContext, bitmap);
         report = null;
+        savePlannedRoute = null;
+        saveRoute = null;
     }
 
     public boolean isActualRouteReportMode() {
@@ -127,6 +138,19 @@ public class MapsViewModel extends MainViewModel {
     public void doActualRouteReport(MapsActivity activity, Bitmap bitmap) {
         reportAcctualRoute.createPdf(activity, bitmap);
         reportAcctualRoute = null;
+        savePlannedRoute = null;
+        saveRoute = null;
+    }
+
+    public boolean isPlannedRouteReportMode() {
+        return reportPlannedRoute != null;
+    }
+
+    public void doPlannedRouteReport(MapsActivity activity, Bitmap bitmap) {
+        reportPlannedRoute.createPdf(activity, bitmap);
+        reportPlannedRoute = null;
+        savePlannedRoute = null;
+        saveRoute = null;
     }
 
     public void addToMarkersList(Marker marker) {
@@ -188,5 +212,10 @@ public class MapsViewModel extends MainViewModel {
         else {
             return false;
         }
+    }
+
+    public void findPlannedAndAcctualRoute(String title, int distance, int duration, Date date, Date startDate, Date endDate) {
+        findPlannedRoute(title,distance,duration);
+        findRoute(date, startDate, endDate);
     }
 }

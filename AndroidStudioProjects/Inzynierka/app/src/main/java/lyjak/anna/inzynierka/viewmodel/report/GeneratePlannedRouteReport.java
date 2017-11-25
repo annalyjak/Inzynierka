@@ -30,7 +30,7 @@ public class GeneratePlannedRouteReport {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf(Activity activity, Bitmap bitmap) {
-        String targetPdf = "/LogMilesActualRouteRaport" + System.currentTimeMillis() + ".pdf";
+        String targetPdf = "/LogMilesPlannedRouteRaport" + System.currentTimeMillis() + ".pdf";
         GeneratePdf pdf = new GeneratePdf(activity);
         pdf.setBitmap(bitmap);
         PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(plannedRoute);

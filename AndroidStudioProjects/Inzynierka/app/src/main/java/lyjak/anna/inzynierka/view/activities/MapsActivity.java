@@ -3,6 +3,7 @@ package lyjak.anna.inzynierka.view.activities;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -44,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.realm.RealmList;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
@@ -99,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+            Log.i(TAG, "savedInstanceState isnt null");
             if (viewModel.isPlannedRouteNull()) {
                 String title = savedInstanceState.getString("title");
                 int distance = savedInstanceState.getInt("distance");
@@ -109,11 +110,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         } else {
             Bundle extras = getIntent().getExtras();
+            if(extras!= null && extras.getString("STANDARDREPORT")!=null) {
+                Log.i(TAG, "STANDARDREPORT");
+                //Actual route
+                Long dateLong = extras.getLong("date");
+                Long startDateLong = extras.getLong("startDate");
+                Long endDateLong = extras.getLong("endDate");
+                Date date = new Date();
+                Date startDate = new Date();
+                Date endDate = new Date();
+                date.setTime(dateLong);
+                startDate.setTime(startDateLong);
+                endDate.setTime(endDateLong);
+//                viewModel.findRoute(date, startDate, endDate);
+                //PlannedRoute
+                String title = extras.getString("title");
+                int distance = extras.getInt("distance");
+                int duration = extras.getInt("duration");
+                viewModel.findPlannedAndAcctualRoute(title, distance, duration, date, startDate, endDate);
+//                viewModel.findPlannedRoute(title, distance, duration);
+
+                viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
+            }
+
             // if bundle had been put -> get infromations about route to display
             if(extras != null && viewModel.isActuallRouteNull()) {
+                Log.i(TAG, "actual is null");
                 String title = extras.getString("title");
                 if(title != null) {
                     if(title.equals("@ACTUALL_ROUTE@")) {
+                        Log.i(TAG, "@ACTUALL_ROUTE@");
                         Long dateLong = extras.getLong("date");
                         Long startDateLong = extras.getLong("startDate");
                         Long endDateLong = extras.getLong("endDate");
@@ -134,6 +160,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         viewModel.findRoute(date, startDate, endDate);
                     } else {
+                        Log.i(TAG, "@PLANNED_ROUTE@");
                         int distance = extras.getInt("distance");
                         int duration = extras.getInt("duration");
                         viewModel.findPlannedRoute(title, distance, duration);
@@ -253,18 +280,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
-        if (!viewModel.isPlannedRouteNull()) {
-            drawPlannedRouteOnMap();
+        if(!viewModel.isPlannedRouteNull() && !viewModel.isActuallRouteNull()) {
+            drawRoutesOnMap();
+        } else {
+            if (!viewModel.isPlannedRouteNull()) {
+                drawPlannedRouteOnMap();
+            }
+            if (!viewModel.isActuallRouteNull()) {
+                drawRouteOnMap();
+            }
         }
-        if (!viewModel.isActuallRouteNull()) {
-            drawRouteOnMap();
+    }
+
+    private void drawRoutesOnMap() {
+        Log.i(TAG, "drawRouteOnMap");
+        List<LatLng> firstLine = viewModel.createLatListFromLocations(viewModel.getSavedRouteLocations());
+        mMap.addPolyline(new PolylineOptions().color(Color.BLACK).addAll(firstLine));
+
+        List<PointOfRoute> points = viewModel.getSavedPlannedRoutePoints();
+        if (points!= null) {
+            for (PointOfRoute point : points) {
+                LatLng latLng = new LatLng(point.getPoint().getLatitude(),
+                        point.getPoint().getLongitude());
+                Marker tempMarker = mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(point.getName()));
+                viewModel.addToMarkersList(tempMarker);
+            }
         }
+        List<LatLng> secondLine = viewModel.createLatListFromSavedLocations();
+        if(secondLine.size() != 0) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(secondLine.get(0), DEFAULT_ZOOM));
+        } else {
+            viewModel.createLine();
+        }
+        mMap.addPolyline(new PolylineOptions().color(Color.RED).addAll(secondLine));
+
+        calculateZoom(firstLine, secondLine);
     }
 
     private void drawRouteOnMap() {
         Log.i(TAG, "drawRouteOnMap");
         List<LatLng> line = viewModel.createLatListFromLocations(viewModel.getSavedRouteLocations());
         Polyline routePolyline = mMap.addPolyline(new PolylineOptions()
+                .color(Color.BLACK)
                 .addAll(line)
         );
         calculateZoom(line);
@@ -272,7 +331,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void drawPlannedRouteOnMap() {
         Log.i(TAG, "drawPlannedRouteOnMap");
-        RealmList<PointOfRoute> points = viewModel.getSavedPlannedRoutePoints();
+        List<PointOfRoute> points = viewModel.getSavedPlannedRoutePoints();
         for (PointOfRoute point : points) {
             LatLng latLng = new LatLng(point.getPoint().getLatitude(),
                     point.getPoint().getLongitude());
@@ -289,6 +348,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Polyline actuallRoutePolyline = mMap.addPolyline( new PolylineOptions()
+                .color(Color.RED)
                 .addAll(line)
         );
 
@@ -416,6 +476,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             screenShot();
         }
     }
+
+    private void calculateZoom(List<LatLng> firstLine, List<LatLng> secondLine) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//        viewModel.includeMarkersToBuilder(builder);
+        viewModel.includeLatLngToBuilder(builder, firstLine);
+        viewModel.includeLatLngToBuilder(builder, secondLine);
+        LatLngBounds bounds = builder.build();
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.15);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+        mMap.animateCamera(cu);
+        if (viewModel.isGenerated()) {
+            screenShot();
+        }
+    }
+
 
     private void setLongClickContextMenu() {
         mMap.setOnMapLongClickListener(latLng -> {
@@ -611,7 +688,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Log.i(TAG, "Wykonuję report zrealizowanej trasy");
                     viewModel.doActualRouteReport(getActivity(), snapshot);
                 }
-                //TODO PlannedRouteReport
+                if (viewModel.isPlannedRouteReportMode()) {
+                    Log.i(TAG, "Wykonuję report zrealizowanej trasy");
+                    viewModel.doPlannedRouteReport(getActivity(), snapshot);
+                }
             };
             mMap.snapshot(callback);
         });

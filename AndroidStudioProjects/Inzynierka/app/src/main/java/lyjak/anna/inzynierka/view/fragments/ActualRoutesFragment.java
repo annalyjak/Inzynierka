@@ -35,8 +35,6 @@ public class ActualRoutesFragment extends Fragment {
     public static ActualRoutesFragment newInstance() {
         ActualRoutesFragment fragment = new ActualRoutesFragment();
         fragment.viewModel = new ActualRouteListViewModel(fragment.getContext());
-        fragment.actualRouteClickCallback = new ListActualRouteCallback(fragment.getActivity(),
-                fragment.viewModel);
         return fragment;
     }
 
@@ -44,8 +42,6 @@ public class ActualRoutesFragment extends Fragment {
         ActualRoutesFragment fragment = new ActualRoutesFragment();
         fragment.viewModel = new ActualRouteListViewModel(fragment.getContext());
         fragment.mGenerateStandardReport = mGenerateStandardReport;
-        fragment.actualRouteClickCallback = new ReportActualRouteCallback(fragment.getActivity(),
-                fragment.viewModel);
         return fragment;
     }
 
@@ -59,8 +55,11 @@ public class ActualRoutesFragment extends Fragment {
         if (viewModel == null) {
             viewModel = new ActualRouteListViewModel(getContext());
         }
-        if (actualRouteClickCallback == null) {
+        if (mGenerateStandardReport == null) {
             actualRouteClickCallback = new ListActualRouteCallback(getActivity(), viewModel);
+        } else {
+            actualRouteClickCallback = new ReportActualRouteCallback(getActivity(),
+                    mGenerateStandardReport);
         }
         mAdapter = new ActualRouteAdapter(getActivity(), viewModel, actualRouteClickCallback);
 

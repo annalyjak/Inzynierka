@@ -62,6 +62,7 @@
 
     <string name="dialog_planned_route_card_click_generate_report">Wygeneruj raport z podróży służbowej</string>
     <string name="dialog_planned_route_card_click_generate_acctual_report">Wygeneruj raport trasy zrealizowanej</string>
+    <string name="dialog_planned_route_card_click_generate_planned_report">Wygeneruj raport trasy zaplanowanej</string>
     <string name="dialog_planned_route_card_click_show_route_on_map">Pokaż trasę na mapie</string>
     <string name="dialog_planned_route_card_click_show_all_points">Pokaż wszystkie punkty</string>
     <string name="dialog_planned_route_card_click_delete_route">Usuń trasę</string>
@@ -127,7 +128,7 @@
     <string name="report_anotherCosts">Inne udokumentowane wydatki</string>
     <string name="report_sum">Ogółem</string>
     <string name="report_sum2">Słownie</string>
-    <string name="report_planned_title">Raport z podróży służbowej</string>
+    <string name="report_planned_title">Raport planowanej trasy</string>
     <string name="report_planned_title2">Trasa zaplanowana</string>
     <string name="report_planned_route_title">Tytuł:</string>
     <string name="report_planned_route_points">Liczba punktów:</string>

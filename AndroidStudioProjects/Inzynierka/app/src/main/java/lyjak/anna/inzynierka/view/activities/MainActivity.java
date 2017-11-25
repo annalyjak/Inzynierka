@@ -38,16 +38,14 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
+//TODO duration
 //TODO dodać ładne przyciski do nagrywania położenia
-//TODO zmienić kolor wyświetlania trasy zaplanowanej na inny niż rzeczywistej
 //TODO dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
-//TODO dodać kręciołka do gernerowania raportu (dodany w AdditionalNotesFragment)
-//TODO dodać wykonywanie raportu w innym wątku
+//TODO dodać dobre rysowanie dróg (rysować obie jeśli istnieją!)
 //TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
 //TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
 //TODO zmienić tworzenie raportu na "automatyczne"
-//TODO dodać dodatkowe opcje do menu: generuj raport trasy zaplanowanej i rzeczywistej
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {
@@ -270,7 +268,7 @@ public class MainActivity extends AppCompatActivity
 
     private void createNotification() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.ic_satellite_black_24dp) // TODO ZMIEN ikonkę
+        mBuilder.setSmallIcon(R.drawable.ic_satellite_black_24dp)
                 .setContentTitle(getString(R.string.notification_titile))
                 .setContentText(getString(R.string.notification_text));
 

@@ -42,14 +42,17 @@ public class ReportPlannedRouteCallback implements PlannedRouteCallback {
         viewDataBinding.buttonYes.setOnClickListener(v2 -> {
             dialog.dismiss();
             generateStandardReport.setPlannedRoute(route);
-            //TODO otworz kolejne pytanie "Czy chcesz przejść do generowania rapotu?"
             Intent openMapIntent = new Intent(activity,
                     MapsActivity.class);
             MapsViewModel.report = generateStandardReport;
             Bundle bundle = new Bundle();
+            bundle.putString("STANDARDREPORT", "@STANDARD_REPORT@");
             bundle.putString("title", route.getTitle());
             bundle.putInt("duration", route.getDuration());
             bundle.putInt("distance", route.getDistance());
+            bundle.putLong("endDate", generateStandardReport.getActualRoute().getEndDate().getTime());
+            bundle.putLong("startDate", generateStandardReport.getActualRoute().getStartDate().getTime());
+            bundle.putLong("date", generateStandardReport.getActualRoute().getDate().getTime());
             bundle.putBoolean("REPORT", true);
             openMapIntent.putExtras(bundle);
             activity.startActivity(openMapIntent);

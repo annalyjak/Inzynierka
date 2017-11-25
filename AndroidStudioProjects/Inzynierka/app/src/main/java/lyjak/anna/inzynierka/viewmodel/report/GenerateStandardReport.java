@@ -29,7 +29,7 @@ public class GenerateStandardReport {
     private static final String TAG = GenerateStandardReport.class.getSimpleName();
 
     private PlannedRoute mPlannedRoute;
-    private List<Route> mActualRoutes;
+    private Route mActualRoutes;
     private TypeOfTransport mTypeOfTransport;
     private Combustion mCombustion;
     private TimeTripInfo mTimeTripInfo;
@@ -49,15 +49,14 @@ public class GenerateStandardReport {
         this.mPlannedRoute = plannedRoute;
     }
 
-    public void setActualRoute(List<Route> actualRoutes) {
+    public void setActualRoute(Route actualRoutes) {
         this.mActualRoutes = actualRoutes;
     }
 
     public void addActualRoute(Route route) {
         if (mActualRoutes == null) {
-            mActualRoutes = new ArrayList<>();
+            mActualRoutes = route;
         }
-        mActualRoutes.add(route);
     }
 
     public void setCombustion(Combustion combustion) {
@@ -74,6 +73,10 @@ public class GenerateStandardReport {
 
     public boolean plannedRouteSelected() {
         return mPlannedRoute == null;
+    }
+
+    public Route getActualRoute() {
+        return mActualRoutes;
     }
 
     public GenerateStandardReport getGenerateReportObject() {

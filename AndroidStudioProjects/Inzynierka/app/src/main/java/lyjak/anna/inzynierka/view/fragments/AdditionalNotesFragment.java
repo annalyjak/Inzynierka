@@ -1,19 +1,15 @@
 package lyjak.anna.inzynierka.view.fragments;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.view.activities.MainActivity;
-import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportBinding;
 import lyjak.anna.inzynierka.databinding.FragmentAdditionalNotesBinding;
+import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.viewmodel.report.AdditionalFields;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
@@ -49,65 +45,15 @@ public class AdditionalNotesFragment extends Fragment {
                     .hospital(binding.checkBoxHospital.isSelected())
                     .other(binding.checkBoxOther.isSelected())
                     .build();
+            mGenerateStandardReport.setAdditionalFields(additionalFields);
 
-            final Dialog infoDialog = new Dialog(getActivity(),
-                    R.style.SettingsDialogStyle);
-//            infoDialog.setContentView(R.layout.dialog_adding_route_to_report);
-//            TextView textView = (TextView) infoDialog.findViewById(R.id.textViewQuestion);
-//            Button yesButton = (Button) infoDialog.findViewById(R.id.buttonYes);
-
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity().getApplicationContext());
-            DialogAddingRouteToReportBinding viewDataBinding = DataBindingUtil
-                    .inflate(layoutInflater,
-                            R.layout.dialog_adding_route_to_report,
-                            null, false);
-
-//                if (mGenerateStandardReport.plannedRouteSelected()) {
-//                    textView.setText("Czy chcesz dodać porównanie z rzeczywiście przebytą trasą?");
-//                    yesButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            infoDialog.dismiss();
-//                            // TODO otwórz listę rzeczywistych tras
-//
-//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
-//                            ((MainActivity)getActivity()).attachNewFragment(next);
-//                        }
-//                    });
-//                } else {
-//                    textView.setText("Czy chcesz dodać porównanie z zaplanowaną trasą?");
-//                    yesButton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            infoDialog.dismiss();
-//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
-//                            ((MainActivity)getActivity()).attachNewFragment(next);
-//                        }
-//                    });
-//                }
-            viewDataBinding.buttonYes.setOnClickListener(v11 -> {
-                infoDialog.dismiss();
-                // TODO otwórz listę rzeczywistych tras
+            if (mGenerateStandardReport.plannedRouteSelected()) {
                 Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
-                ((MainActivity)getActivity()).attachNewFragment(next);
-            });
-            viewDataBinding.buttonNo.setOnClickListener(v112 -> {
-                infoDialog.dismiss();
-                ProgressDialog progressDialog = ProgressDialog.show(getActivity(),
-                        "Please wait ...",  "Task in progress ...", true);
-                progressDialog.setCancelable(true);
-                new Thread(() -> {
-                    try {
-                        //TODO generuj raport
-                        Thread.sleep(100000);
-                    } catch (Exception e) {
-                        Log.e("error: ", e.getMessage());
-                    }
-                    progressDialog.dismiss();
-                }).start();
-            });
-            infoDialog.setContentView(viewDataBinding.getRoot());
-            infoDialog.show();
+                ((MainActivity) getActivity()).attachNewFragment(next);
+            } else {
+                Fragment next = ActualRoutesFragment.newInstance(mGenerateStandardReport);
+                ((MainActivity) getActivity()).attachNewFragment(next);
+            }
         });
 
         return binding.getRoot();
