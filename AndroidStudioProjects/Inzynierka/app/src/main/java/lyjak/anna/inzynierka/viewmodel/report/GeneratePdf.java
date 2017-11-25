@@ -19,6 +19,7 @@ import lyjak.anna.inzynierka.service.model.Car;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
 
 /**
  *
@@ -84,7 +85,7 @@ public class GeneratePdf {
         this.bitmap = bitmap;
     }
 
-    File generateBuissnesTripReport(PlannedRoute route, String fileName) {
+    File generateBuissnesTripReport(PlannedRouteForReportDTO route, String fileName) {
         try {
             BuissnesTripPdfTable buissnesTripReport = new BuissnesTripPdfTable(context);
             PlannedRoutePdfTable plannedReport = new PlannedRoutePdfTable(context);
@@ -128,7 +129,7 @@ public class GeneratePdf {
         return null;
     }
 
-    File generatePlannedRouteReport(PlannedRoute route, String fileName) {
+    File generatePlannedRouteReport(PlannedRouteForReportDTO route, String fileName) {
         try {
             PlannedRoutePdfTable plannedReport = new PlannedRoutePdfTable(context);
 

@@ -9,12 +9,25 @@ import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.viewmodel.report.reportModel.LocationForReportDTO;
 
 /**
+ *
  * Created by Anna on 03.11.2017.
  */
 
 public class DistanceAndDurationUtil {
 
     public static float getDistanceInKm(RealmLocation first, RealmLocation second) {
+        int result = 0;
+        float[] results = new float[1];
+        Location.distanceBetween(
+                first.getLatitude(),
+                first.getLongitude(),
+                second.getLatitude(),
+                second.getLongitude(),
+                results);
+        return results[0]/1000;
+    }
+
+    public static float getDistanceInKm(LocationForReportDTO first, LocationForReportDTO second) {
         int result = 0;
         float[] results = new float[1];
         Location.distanceBetween(
@@ -51,7 +64,7 @@ public class DistanceAndDurationUtil {
         return result;
     }
 
-    public static int calculateDistance(List<LocationForReportDTO> locations) {
+    private static int calculateDistance(List<LocationForReportDTO> locations) {
         int result = 0;
         if (locations == null) {
             return result;

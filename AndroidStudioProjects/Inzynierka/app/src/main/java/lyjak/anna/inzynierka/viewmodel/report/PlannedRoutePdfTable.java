@@ -19,6 +19,7 @@ import java.util.List;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
 
 /**
  * For generateBuissnesTripReport Report of PlannedRoute
@@ -74,7 +75,7 @@ public class PlannedRoutePdfTable {
         return paragraph;
     }
 
-    public Paragraph createPlannedInfo(PlannedRoute route, TypeOfTransport transport) {
+    public Paragraph createPlannedInfo(PlannedRouteForReportDTO route, TypeOfTransport transport) {
         Paragraph paragraph = new Paragraph(getString(R.string.report_planned_route_title)
                 + " " + route.getTitle(), normalFont);
         paragraph.add(new Paragraph(getString(R.string.report_planned_route_points) + " "

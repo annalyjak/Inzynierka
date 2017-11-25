@@ -7,6 +7,8 @@ import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.PointOfRouteForReportDTO;
 
 /**
  * Created by Anna on 03.11.2017.
@@ -14,24 +16,24 @@ import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
 
 public class PlannedRouteReportInfo {
 
-    private PlannedRoute basicRouteInfo;
+    private PlannedRouteForReportDTO basicRouteInfo;
     private List<Point> infos;
 
-    public PlannedRouteReportInfo(PlannedRoute route) {
+    public PlannedRouteReportInfo(PlannedRouteForReportDTO route) {
         basicRouteInfo = route;
     }
 
     public void generateInfoForReport() {
         infos = new ArrayList<>();
-        RealmList<PointOfRoute> points = basicRouteInfo.getPoints();
+        List<PointOfRouteForReportDTO> points = basicRouteInfo.getPoints();
         for(int i = 0; i < points.size() - 1 ; i++) {
-            PointOfRoute first = points.get(i);
-            PointOfRoute second = points.get(i + 1);
+            PointOfRouteForReportDTO first = points.get(i);
+            PointOfRouteForReportDTO second = points.get(i + 1);
             infos.add(generatePoint(first, second));
         }
     }
 
-    private Point generatePoint(PointOfRoute first, PointOfRoute second) {
+    private Point generatePoint(PointOfRouteForReportDTO first, PointOfRouteForReportDTO second) {
         Point result = new Point();
         result.setNumer(first.getId());
         result.setName(first.getName() + " (" + first.getPoint().getLatitude() + ", "
@@ -39,7 +41,7 @@ public class PlannedRouteReportInfo {
         result.setStartPoint(first.getName());
         result.setEndPoint(second.getName());
         result.setDistance(DistanceAndDurationUtil.getDistanceInKm(first.getPoint(), second.getPoint()));
-//        result.setDuration();
+//        result.setDuration(); //TODO duration
         return result;
     }
 

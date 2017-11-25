@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.viewmodel.report;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,8 @@ import java.util.List;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
 
 /**
  *
@@ -83,8 +86,19 @@ public class GenerateStandardReport {
         String targetPdf = "/LogMilesRaport" + System.currentTimeMillis() + ".pdf";
         GeneratePdf pdf = new GeneratePdf(activity);
         pdf.setBitmap(bitmap);
-        File savedFile = pdf.generateBuissnesTripReport(mPlannedRoute, targetPdf);
-        sendFile(activity, savedFile);
+        PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(mPlannedRoute);
+        ProgressDialog progressDialog = ProgressDialog.show(activity,
+                "Please wait ...",  "Task in progress ...", true);
+        progressDialog.setCancelable(true);
+        new Thread(() -> {
+            try {
+                File savedFile = pdf.generateBuissnesTripReport(prfr, targetPdf);
+                sendFile(activity, savedFile);
+            } catch (Exception e) {
+                Log.e("error: ", e.getMessage());
+            }
+            progressDialog.dismiss();
+        }).start();
     }
 
     private void sendFile(Activity activity, File file) {
