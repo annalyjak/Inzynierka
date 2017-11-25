@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.report.reportModel;
+package lyjak.anna.inzynierka.viewmodel.report.modelDTO;
 
 import java.util.Date;
 import java.util.List;

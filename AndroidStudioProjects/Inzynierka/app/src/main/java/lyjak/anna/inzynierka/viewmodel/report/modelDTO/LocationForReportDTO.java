@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.report.reportModel;
+package lyjak.anna.inzynierka.viewmodel.report.modelDTO;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

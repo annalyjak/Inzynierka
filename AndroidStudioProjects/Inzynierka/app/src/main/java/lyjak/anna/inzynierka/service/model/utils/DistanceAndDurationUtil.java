@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.LocationForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.LocationForReportDTO;
 
 /**
  *

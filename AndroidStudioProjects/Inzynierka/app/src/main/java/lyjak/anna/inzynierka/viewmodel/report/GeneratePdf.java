@@ -16,10 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import lyjak.anna.inzynierka.service.model.Car;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *
@@ -141,7 +140,10 @@ public class GeneratePdf {
             document.add(plannedReport.createPlannedInfo(route, new Car()));
             document.add(getEmptyParagraph());
             document.add(plannedReport.createPlannedTable(new PlannedRouteReportInfo(route)));
-
+            if(bitmap != null) {
+                document.newPage();
+                document.add(plannedReport.createBitmap(bitmap));
+            }
             return save();
         } catch (IOException | DocumentException e) {
             e.printStackTrace();

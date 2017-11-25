@@ -11,20 +11,21 @@ import android.util.Log;
 
 import java.io.File;
 
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
+ *
  * Created by Anna on 25.11.2017.
  */
 
-public class GenerateActualRouteReport {
+public class GeneratePlannedRouteReport {
 
     private static final String TAG = GenerateActualRouteReport.class.getSimpleName();
-    private Route actualRoute;
+    private PlannedRoute plannedRoute;
 
-    public GenerateActualRouteReport(Route actualRoute) {
-        this.actualRoute = actualRoute;
+    public GeneratePlannedRouteReport(PlannedRoute plannedRoute) {
+        this.plannedRoute = plannedRoute;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -32,13 +33,13 @@ public class GenerateActualRouteReport {
         String targetPdf = "/LogMilesActualRouteRaport" + System.currentTimeMillis() + ".pdf";
         GeneratePdf pdf = new GeneratePdf(activity);
         pdf.setBitmap(bitmap);
-        ActualRouteForReportDTO arfr = ActualRouteForReportDTO.getInstance(actualRoute);
+        PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(plannedRoute);
         ProgressDialog progressDialog = ProgressDialog.show(activity,
                 "Please wait ...",  "Task in progress ...", true);
         progressDialog.setCancelable(true);
         new Thread(() -> {
             try {
-                File savedFile = pdf.generateAcctualRouteReport(arfr, targetPdf);
+                File savedFile = pdf.generatePlannedRouteReport(prfr, targetPdf);
                 sendFile(activity, savedFile);
             } catch (Exception e) {
                 Log.e("error: ", e.getMessage());
@@ -56,7 +57,7 @@ public class GenerateActualRouteReport {
 
             intentShareFile.putExtra(Intent.EXTRA_SUBJECT,
                     "Raport");
-            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Witam, przesyłam raport zrealizowanej trasy. Z poważaniem, ");
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Witam, przesyłam raport zaplanowanej trasy. Z poważaniem, ");
 
             activity.startActivity(Intent.createChooser(intentShareFile, "Share File"));
         } else {

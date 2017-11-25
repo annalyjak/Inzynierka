@@ -1,11 +1,9 @@
-package lyjak.anna.inzynierka.viewmodel.report.reportModel;
+package lyjak.anna.inzynierka.viewmodel.report.modelDTO;
 
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.List;
 
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 
 /**
  * Created by Anna on 25.11.2017.

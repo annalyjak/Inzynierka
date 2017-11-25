@@ -1,25 +1,29 @@
 package lyjak.anna.inzynierka.viewmodel.report;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
  * For generateBuissnesTripReport Report of PlannedRoute
@@ -117,7 +121,7 @@ public class PlannedRoutePdfTable {
 
         List<PlannedRouteReportInfo.Point> infoForReport = route.getInfoForReport();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            infoForReport.stream().forEach(info -> {
+            infoForReport.forEach(info -> {
                 PdfPCell cellRow;
                 cellRow = new PdfPCell(new Phrase(String.valueOf(info.getNumer()), tableCellMiniFont));
                 table.addCell(cellRow);
@@ -161,5 +165,32 @@ public class PlannedRoutePdfTable {
         table.addCell(" ");
 
         return table;
+    }
+
+    Paragraph createBitmap(Bitmap bitmap) {
+        Paragraph paragraph = new Paragraph();
+        if (bitmap != null) {
+            paragraph.add(new Paragraph(getString(R.string.report_acctual_route_map), normalFont));
+            paragraph.add(createMapImage(bitmap));
+            Paragraph par = new Paragraph(getString(R.string.report_acctual_legend),
+                    tableCellMiniFont);
+            par.setAlignment(Paragraph.ALIGN_CENTER);
+            paragraph.add(par);
+        }
+        return paragraph;
+    }
+
+    private Image createMapImage(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 , stream);
+        try {
+            Image image = Image.getInstance(stream.toByteArray());
+            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight() - 200);
+            image.setAlignment(Image.ALIGN_CENTER);
+            return image;
+        } catch (IOException | BadElementException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

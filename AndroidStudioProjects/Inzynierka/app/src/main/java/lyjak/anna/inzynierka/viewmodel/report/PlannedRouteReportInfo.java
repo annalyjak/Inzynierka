@@ -3,12 +3,9 @@ package lyjak.anna.inzynierka.viewmodel.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmList;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.PointOfRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PointOfRouteForReportDTO;
 
 /**
  * Created by Anna on 03.11.2017.

@@ -17,8 +17,7 @@ import java.util.List;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.reportModel.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *
