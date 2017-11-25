@@ -42,7 +42,7 @@ import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 //TODO dodać ładne przyciski do nagrywania położenia
 //TODO dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
-//TODO dodać dobre rysowanie dróg (rysować obie jeśli istnieją!)
+//TODO usunąć Bundle z PlannedRoute i ActualRoute Callback's
 //TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
 //TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
 //TODO zmienić tworzenie raportu na "automatyczne"

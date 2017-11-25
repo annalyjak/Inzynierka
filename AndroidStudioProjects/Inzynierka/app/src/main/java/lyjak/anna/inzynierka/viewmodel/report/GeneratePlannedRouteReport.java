@@ -64,4 +64,8 @@ public class GeneratePlannedRouteReport {
             Log.i(TAG, "Plik nie istnieje");
         }
     }
+
+    public PlannedRoute getPlannedRoute() {
+        return plannedRoute;
+    }
 }

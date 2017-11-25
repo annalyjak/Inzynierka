@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
@@ -21,8 +20,11 @@ import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GeneratePlannedRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
+ *
  * Created by Anna on 24.11.2017.
  */
 
@@ -41,6 +43,16 @@ public class MapsViewModel extends MainViewModel {
 
     public MapsViewModel(Context context) {
         super(context);
+        if(report != null) {
+            saveRoute = report.getActualRoute();
+            savePlannedRoute = report.getPlannedRoute();
+        }
+        if(reportAcctualRoute != null) {
+            saveRoute = reportAcctualRoute.getActualRoute();
+        }
+        if(reportPlannedRoute != null) {
+            savePlannedRoute = reportPlannedRoute.getPlannedRoute();
+        }
     }
 
     public MapsViewModel(GenerateStandardReport report, Context context) {

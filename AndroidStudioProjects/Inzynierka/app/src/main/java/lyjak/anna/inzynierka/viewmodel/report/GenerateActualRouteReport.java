@@ -27,6 +27,10 @@ public class GenerateActualRouteReport {
         this.actualRoute = actualRoute;
     }
 
+    public Route getActualRoute() {
+        return actualRoute;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf(Activity activity, Bitmap bitmap) {
         String targetPdf = "/LogMilesActualRouteRaport" + System.currentTimeMillis() + ".pdf";

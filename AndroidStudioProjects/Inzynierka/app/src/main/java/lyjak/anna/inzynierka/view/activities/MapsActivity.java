@@ -56,8 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
-//    public static GenerateStandardReport report;
-//    private Boolean generate;
 
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -85,15 +83,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-//    private RouteService routeService;
     private MapsViewModel viewModel;
-//    private PlannedRoute savePlannedRoute;
-//    private Route saveRoute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        routeService = new RouteService(this);
         viewModel = new MapsViewModel(this);
 
         if (savedInstanceState != null) {
@@ -111,25 +105,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Bundle extras = getIntent().getExtras();
             if(extras!= null && extras.getString("STANDARDREPORT")!=null) {
-                Log.i(TAG, "STANDARDREPORT");
-                //Actual route
-                Long dateLong = extras.getLong("date");
-                Long startDateLong = extras.getLong("startDate");
-                Long endDateLong = extras.getLong("endDate");
-                Date date = new Date();
-                Date startDate = new Date();
-                Date endDate = new Date();
-                date.setTime(dateLong);
-                startDate.setTime(startDateLong);
-                endDate.setTime(endDateLong);
-//                viewModel.findRoute(date, startDate, endDate);
-                //PlannedRoute
-                String title = extras.getString("title");
-                int distance = extras.getInt("distance");
-                int duration = extras.getInt("duration");
-                viewModel.findPlannedAndAcctualRoute(title, distance, duration, date, startDate, endDate);
-//                viewModel.findPlannedRoute(title, distance, duration);
-
                 viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
             }
 

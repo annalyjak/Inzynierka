@@ -120,4 +120,7 @@ public class GenerateStandardReport {
         }
     }
 
+    public PlannedRoute getPlannedRoute() {
+        return mPlannedRoute;
+    }
 }
