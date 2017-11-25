@@ -1,5 +1,6 @@
 package lyjak.anna.inzynierka.viewmodel.report;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import lyjak.anna.inzynierka.service.model.Car;
+import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
@@ -28,6 +30,7 @@ import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 public class GeneratePdf {
 
     private static final String TAG = GeneratePdf.class.getSimpleName();
+    private AdditionalFields additionalFields;
 
     private Bitmap bitmap;
 
@@ -42,6 +45,11 @@ public class GeneratePdf {
 
     GeneratePdf(Context context) {
         this.context = context;
+    }
+
+    public GeneratePdf(Context context, AdditionalFields mAdditionalFields) {
+        this.context = context;
+        this.additionalFields = mAdditionalFields;
     }
 
     void init(String fileName) throws IOException, DocumentException {
@@ -67,15 +75,6 @@ public class GeneratePdf {
         return file;
     }
 
-//    public void createNewPage() {
-//        document.newPage();
-//    }
-//
-//    private Paragraph getTypeOfTransport(String type) {
-//        Paragraph paragraph = new Paragraph(getString(R.string.report_transport_type) + "   " +type, normalFont);
-//        return paragraph;
-//    }
-
     private Chunk getEmptyParagraph() {
         return Chunk.NEWLINE;
     }
@@ -84,24 +83,37 @@ public class GeneratePdf {
         this.bitmap = bitmap;
     }
 
-    File generateBuissnesTripReport(PlannedRouteForReportDTO route, String fileName) {
+    File generateBuissnesTripReport(TypeOfTransport type, PlannedRouteForReportDTO route,
+                                    String fileName) {
         try {
             BuissnesTripPdfTable buissnesTripReport = new BuissnesTripPdfTable(context);
             PlannedRoutePdfTable plannedReport = new PlannedRoutePdfTable(context);
             AcctualRoutePdfTable acctualReport = new AcctualRoutePdfTable(context, bitmap);
 
             init(fileName);
-//            createNewPage();
             document.add(buissnesTripReport.getBasicTitleHeader());
-//            document.add(getEmptyParagraph());
-            document.add(buissnesTripReport.createTypeOfTransport("samochód"));
-            document.add(buissnesTripReport.createPersonalDataTable());
-            document.add(buissnesTripReport.createPurposeOfTravelTable());
-            document.add(buissnesTripReport.createFeedingTable());
-            document.add(buissnesTripReport.createAccommodation());
-            document.add(buissnesTripReport.createTravelCost());
-            document.add(buissnesTripReport.createHospitlization());
-            document.add(buissnesTripReport.createAnother());
+            document.add(buissnesTripReport.createTypeOfTransport(type.getShortName()));
+            if (additionalFields.isPersonalDataAboutEmployee()) {
+                document.add(buissnesTripReport.createPersonalDataTable());
+            }
+            if (additionalFields.isPurposeOfTravel()) {
+                document.add(buissnesTripReport.createPurposeOfTravelTable());
+            }
+            if (additionalFields.isFeeding()) {
+                document.add(buissnesTripReport.createFeedingTable());
+            }
+            if (additionalFields.isAccomodation()) {
+                document.add(buissnesTripReport.createAccommodation());
+            }
+            if (additionalFields.isPublicTransport()) {
+                document.add(buissnesTripReport.createTravelCost());
+            }
+            if (additionalFields.isHospital()) {
+                document.add(buissnesTripReport.createHospitlization());
+            }
+            if(additionalFields.isOther()) {
+                document.add(buissnesTripReport.createAnother());
+            }
             document.add(buissnesTripReport.createEndingSummary());
             document.add(getEmptyParagraph());
 //            document.add(getEmptyParagraph());

@@ -19,7 +19,7 @@ import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
 
 /**
- * For generateBuissnesTripReport Report of AcctualRoute
+ * For Report of AcctualRoute
  * Created by Anna on 25.11.2017.
  */
 

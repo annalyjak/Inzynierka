@@ -40,12 +40,12 @@ import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
 //TODO duration
 //TODO dodać ładne przyciski do nagrywania położenia
-//TODO dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
+//TODO dodatek: dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
 //TODO usunąć Bundle z PlannedRoute i ActualRoute Callback's
 //TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
 //TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
-//TODO zmienić tworzenie raportu na "automatyczne"
+//TODO zmienić tworzenie raportu na "automatyczne" - dodano sprawdzić, dlaczego nie działa
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {

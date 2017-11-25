@@ -86,7 +86,7 @@ public class GenerateStandardReport {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf(Activity activity, Context context, Bitmap bitmap) {
         String targetPdf = "/LogMilesRaport" + System.currentTimeMillis() + ".pdf";
-        GeneratePdf pdf = new GeneratePdf(activity);
+        GeneratePdf pdf = new GeneratePdf(activity, mAdditionalFields);
         pdf.setBitmap(bitmap);
         PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(mPlannedRoute);
         ProgressDialog progressDialog = ProgressDialog.show(activity,
@@ -94,7 +94,10 @@ public class GenerateStandardReport {
         progressDialog.setCancelable(true);
         new Thread(() -> {
             try {
-                File savedFile = pdf.generateBuissnesTripReport(prfr, targetPdf);
+                File savedFile = pdf.generateBuissnesTripReport(
+                        getTypeOfTransport(),
+                        prfr,
+                        targetPdf);
                 sendFile(activity, savedFile);
             } catch (Exception e) {
                 Log.e("error: ", e.getMessage());

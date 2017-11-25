@@ -30,6 +30,34 @@ public class AdditionalFields {
         this.other = other;
     }
 
+    public boolean isPersonalDataAboutEmployee() {
+        return personalDataAboutEmployee;
+    }
+
+    public boolean isPurposeOfTravel() {
+        return purposeOfTravel;
+    }
+
+    public boolean isAccomodation() {
+        return accomodation;
+    }
+
+    public boolean isFeeding() {
+        return feeding;
+    }
+
+    public boolean isPublicTransport() {
+        return publicTransport;
+    }
+
+    public boolean isHospital() {
+        return hospital;
+    }
+
+    public boolean isOther() {
+        return other;
+    }
+
     public AdditionalFields(AdditionalFieldsBuilder builder) {
         this (
                 builder.personalDataAboutEmployee,

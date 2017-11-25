@@ -26,7 +26,7 @@ import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
- * For generateBuissnesTripReport Report of PlannedRoute
+ * For Report of PlannedRoute
  * Created by Anna on 25.11.2017.
  */
 
