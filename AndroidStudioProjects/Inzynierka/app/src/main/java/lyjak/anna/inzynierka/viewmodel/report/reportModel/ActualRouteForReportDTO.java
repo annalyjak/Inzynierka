@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.viewmodel.reportModel;
+package lyjak.anna.inzynierka.viewmodel.report.reportModel;
 
 import java.util.Date;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ActualRouteForReportDTO {
         return endDate;
     }
 
-    public List<?> getLocations() {
+    public List<LocationForReportDTO> getLocations() {
         return locations;
     }
 }

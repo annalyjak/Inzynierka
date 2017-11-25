@@ -15,7 +15,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.viewmodel.reportModel.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
 
 /**
  * For generateBuissnesTripReport Report of AcctualRoute
@@ -78,9 +79,9 @@ public class AcctualRoutePdfTable {
                     + route.getEndDate(), normalFont));
         }
         if (route.getLocations() != null) {
-//            paragraph.add(new Paragraph(getString(R.string.report_acctual_route_distance) + " "
-//                    + DistanceAndDurationUtil.calculateDistanceInKm(route.getLocations()) +
-//                    " " + getString(R.string.report_acctual_route_distance2), normalFont));
+            paragraph.add(new Paragraph(getString(R.string.report_acctual_route_distance) + " "
+                    + DistanceAndDurationUtil.calculateDistanceInKm(route.getLocations()) +
+                    " " + getString(R.string.report_acctual_route_distance2), normalFont));
         }
         if (bitmap != null) {
             paragraph.add(new Paragraph(getString(R.string.report_acctual_route_map), normalFont));

@@ -12,7 +12,7 @@ import android.util.Log;
 import java.io.File;
 
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.reportModel.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
 
 /**
  * Created by Anna on 25.11.2017.

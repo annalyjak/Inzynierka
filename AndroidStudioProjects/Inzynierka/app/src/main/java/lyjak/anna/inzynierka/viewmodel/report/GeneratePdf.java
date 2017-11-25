@@ -18,7 +18,7 @@ import java.io.IOException;
 import lyjak.anna.inzynierka.service.model.Car;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.reportModel.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.ActualRouteForReportDTO;
 
 /**
  *

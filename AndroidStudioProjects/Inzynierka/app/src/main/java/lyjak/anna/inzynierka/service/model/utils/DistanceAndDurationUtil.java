@@ -2,8 +2,11 @@ package lyjak.anna.inzynierka.service.model.utils;
 
 import android.location.Location;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
+import lyjak.anna.inzynierka.viewmodel.report.reportModel.LocationForReportDTO;
 
 /**
  * Created by Anna on 03.11.2017.
@@ -48,8 +51,36 @@ public class DistanceAndDurationUtil {
         return result;
     }
 
+    public static int calculateDistance(List<LocationForReportDTO> locations) {
+        int result = 0;
+        if (locations == null) {
+            return result;
+        }
+        if (locations.size() > 1) {
+            LocationForReportDTO first = locations.get(0);
+            LocationForReportDTO second;
+            for (int i = 1; i < locations.size(); i++) {
+                second = locations.get(i);
+                float[] results = new float[1];
+                Location.distanceBetween(
+                        first.getLatitude(),
+                        first.getLongitude(),
+                        second.getLatitude(),
+                        second.getLongitude(),
+                        results);
+                result += results[0];
+
+                first = locations.get(i);
+            }
+        }
+        return result;
+    }
+
     public static int calculateDistanceInKm(RealmList<RealmLocation> locations) {
         return calculateDistance(locations)/1000;
     }
 
+    public static int calculateDistanceInKm(List<LocationForReportDTO> locations) {
+        return calculateDistance(locations)/1000;
+    }
 }
