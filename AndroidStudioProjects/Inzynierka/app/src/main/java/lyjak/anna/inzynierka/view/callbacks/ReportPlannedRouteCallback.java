@@ -12,7 +12,7 @@ import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportConfirmBinding
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 /**
  * Created by Anna on 20.11.2017.
@@ -21,11 +21,11 @@ import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 public class ReportPlannedRouteCallback implements PlannedRouteCallback {
 
     Activity activity;
-    private GenerateReport generateReport;
+    private GenerateStandardReport generateStandardReport;
 
-    public ReportPlannedRouteCallback(Activity activity, GenerateReport generateReport) {
+    public ReportPlannedRouteCallback(Activity activity, GenerateStandardReport generateStandardReport) {
         this.activity = activity;
-        this.generateReport = generateReport;
+        this.generateStandardReport = generateStandardReport;
     }
 
     @Override
@@ -41,11 +41,11 @@ public class ReportPlannedRouteCallback implements PlannedRouteCallback {
         });
         viewDataBinding.buttonYes.setOnClickListener(v2 -> {
             dialog.dismiss();
-            generateReport.setPlannedRoute(route);
+            generateStandardReport.setPlannedRoute(route);
             //TODO otworz kolejne pytanie "Czy chcesz przejść do generowania rapotu?"
             Intent openMapIntent = new Intent(activity,
                     MapsActivity.class);
-            MapsViewModel.report = generateReport;
+            MapsViewModel.report = generateStandardReport;
             Bundle bundle = new Bundle();
             bundle.putString("title", route.getTitle());
             bundle.putInt("duration", route.getDuration());

@@ -56,7 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
-//    public static GenerateReport report;
+//    public static GenerateStandardReport report;
 //    private Boolean generate;
 
     private GoogleMap mMap;
@@ -604,8 +604,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLoadedCallback(() -> {
             GoogleMap.SnapshotReadyCallback callback = snapshot -> {
                 if (viewModel.isReportMode()) {
+                    Log.i(TAG, "Wykonuję report z podróży służbowej");
                     viewModel.doReport(getActivity(), getApplicationContext(), snapshot);
                 }
+                if (viewModel.isActualRouteReportMode()) {
+                    Log.i(TAG, "Wykonuję report zrealizowanej trasy");
+                    viewModel.doActualRouteReport(getActivity(), snapshot);
+                }
+                //TODO PlannedRouteReport
             };
             mMap.snapshot(callback);
         });

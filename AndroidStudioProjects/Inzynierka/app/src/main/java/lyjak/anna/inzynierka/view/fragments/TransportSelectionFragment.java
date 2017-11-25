@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.service.model.Plane;
+import lyjak.anna.inzynierka.service.model.Railway;
+import lyjak.anna.inzynierka.service.model.Ship;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.databinding.FragmentTransportSelectionBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.service.model.Bus;
 import lyjak.anna.inzynierka.service.model.Car;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 import lyjak.anna.inzynierka.service.model.Tir;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 
@@ -64,6 +67,9 @@ public class TransportSelectionFragment extends Fragment {
         binding.imageButtonCarTransport.setOnClickListener(v1 -> setCarTransport());
         binding.imageButtonBusTransport.setOnClickListener(v12 -> setBusTransport());
         binding.imageButtonTirTransport.setOnClickListener(v13 -> setTirTransport());
+        binding.imageButtonPlaneTransport.setOnClickListener(v14 -> setPlaneTransport());
+        binding.imageButtonRailwayTransport.setOnClickListener(v14 -> setRailwayTransport());
+        binding.imageButtonShipTransport.setOnClickListener(v15 -> setShipTransport());
         return binding.getRoot();
     }
 
@@ -82,16 +88,31 @@ public class TransportSelectionFragment extends Fragment {
         openNextFragment();
     }
 
+    public void setPlaneTransport() {
+        mTypeOfTransport = new Plane();
+        openNextFragment();
+    }
+
+    public void setShipTransport() {
+        mTypeOfTransport = new Ship();
+        openNextFragment();
+    }
+
+    public void setRailwayTransport() {
+        mTypeOfTransport = new Railway();
+        openNextFragment();
+    }
+
     private void openNextFragment() {
-        GenerateReport generateReport = new GenerateReport();
+        GenerateStandardReport generateStandardReport = new GenerateStandardReport();
         if (mPlannedRoute != null) {
-            generateReport.setPlannedRoute(mPlannedRoute);
+            generateStandardReport.setPlannedRoute(mPlannedRoute);
         }
         if (mRoute != null) {
-            generateReport.addActualRoute(mRoute);
+            generateStandardReport.addActualRoute(mRoute);
         }
-        generateReport.setTypeOfTransport(mTypeOfTransport);
-        CombustionFragment fragment = CombustionFragment.newInstance(generateReport);
+        generateStandardReport.setTypeOfTransport(mTypeOfTransport);
+        CombustionFragment fragment = CombustionFragment.newInstance(generateStandardReport);
         MainActivity.attachNewFragment(fragment);
     }
 }

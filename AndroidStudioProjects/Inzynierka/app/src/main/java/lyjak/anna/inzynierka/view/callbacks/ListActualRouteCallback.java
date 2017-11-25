@@ -2,10 +2,12 @@ package lyjak.anna.inzynierka.view.callbacks;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import lyjak.anna.inzynierka.R;
@@ -15,6 +17,8 @@ import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
 import lyjak.anna.inzynierka.viewmodel.ActualRouteListViewModel;
+import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
 
 /**
  * Created by Anna on 19.11.2017.
@@ -43,6 +47,22 @@ public class ListActualRouteCallback implements ActualRouteCallback {
             final TransportSelectionFragment fragment = TransportSelectionFragment
                     .newInstance(route);
             MainActivity.attachNewFragment(fragment);
+        });
+        viewDataBinding.buttonGenerateAcctualRouteReport.setOnClickListener(v -> {
+            dialog.dismiss();
+
+            GenerateActualRouteReport report = new GenerateActualRouteReport(route);
+            Intent openMapIntent = new Intent(activity,
+                    MapsActivity.class);
+            MapsViewModel.reportAcctualRoute = report;
+            Bundle bundle = new Bundle();
+            bundle.putString("title", "@ACTUALL_ROUTE@");
+            bundle.putLong("endDate", route.getEndDate().getTime());
+            bundle.putLong("startDate", route.getStartDate().getTime());
+            bundle.putLong("date", route.getDate().getTime());
+            bundle.putBoolean("REPORT", true);
+            openMapIntent.putExtras(bundle);
+            activity.startActivity(openMapIntent);
         });
         viewDataBinding.buttonShowRouteOnMap.setOnClickListener(v12 -> {
             dialog.dismiss();

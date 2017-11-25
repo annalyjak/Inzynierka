@@ -38,9 +38,7 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO MVVM
 //TODO dodać ładne przyciski do nagrywania położenia
-//TODO dodać ładne przyciski do transportu
 //TODO zmienić kolor wyświetlania trasy zaplanowanej na inny niż rzeczywistej
 //TODO dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy

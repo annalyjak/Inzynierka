@@ -17,24 +17,24 @@ import lyjak.anna.inzynierka.view.callbacks.ListPlannedRouteCallback;
 import lyjak.anna.inzynierka.view.callbacks.PlannedRouteCallback;
 import lyjak.anna.inzynierka.view.callbacks.ReportPlannedRouteCallback;
 import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class PlannedRoutesFragment extends Fragment {
 
     private RecyclerView.Adapter mAdapter;
     private PlannedRoutesCardListViewModel viewModel;
 
-    private GenerateReport mGenerateReport;
+    private GenerateStandardReport mGenerateStandardReport;
     private PlannedRouteCallback plannedRouteClickCallback;
 
     public PlannedRoutesFragment() {
         // Required empty public constructor
     }
 
-    public static PlannedRoutesFragment newInstance(GenerateReport mGenerateReport) {
+    public static PlannedRoutesFragment newInstance(GenerateStandardReport mGenerateStandardReport) {
         PlannedRoutesFragment fragment = new PlannedRoutesFragment();
         fragment.viewModel = new PlannedRoutesCardListViewModel(fragment.getContext());
-        fragment.mGenerateReport = mGenerateReport;
+        fragment.mGenerateStandardReport = mGenerateStandardReport;
         return fragment;
     }
 
@@ -47,11 +47,11 @@ public class PlannedRoutesFragment extends Fragment {
         if (viewModel == null) {
             viewModel = new PlannedRoutesCardListViewModel(getContext());
         }
-        if (mGenerateReport == null) {
+        if (mGenerateStandardReport == null) {
             plannedRouteClickCallback = new ListPlannedRouteCallback(getActivity(), viewModel);
 //            mAdapter = new PlannedRouteAdapter(getActivity(), viewModel, plannedRouteClickCallback);
         } else {
-            plannedRouteClickCallback = new ReportPlannedRouteCallback(getActivity(), mGenerateReport);
+            plannedRouteClickCallback = new ReportPlannedRouteCallback(getActivity(), mGenerateStandardReport);
         }
         mAdapter = new PlannedRouteAdapter(getActivity(), viewModel, plannedRouteClickCallback);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

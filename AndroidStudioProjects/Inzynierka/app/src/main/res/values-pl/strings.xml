@@ -60,7 +60,8 @@
 
     <string name="dialog_adding_route_confirm_question">Czy na pewno dodać ten punkt do porównania?</string>
 
-    <string name="dialog_planned_route_card_click_generate_report">Wygeneruj raport</string>
+    <string name="dialog_planned_route_card_click_generate_report">Wygeneruj raport z podróży służbowej</string>
+    <string name="dialog_planned_route_card_click_generate_acctual_report">Wygeneruj raport trasy zrealizowanej</string>
     <string name="dialog_planned_route_card_click_show_route_on_map">Pokaż trasę na mapie</string>
     <string name="dialog_planned_route_card_click_show_all_points">Pokaż wszystkie punkty</string>
     <string name="dialog_planned_route_card_click_delete_route">Usuń trasę</string>
@@ -75,6 +76,12 @@
     <string name="cardview_points">Liczba punktów:</string>
 
     <string name="fragment_transport_selection">Wybierz rodzaj transportu:</string>
+    <string name="fragment_transport_selection_car">Samochód</string>
+    <string name="fragment_transport_selection_bus">Bus</string>
+    <string name="fragment_transport_selection_tir">Tir</string>
+    <string name="fragment_transport_selection_plane">Samolot</string>
+    <string name="fragment_transport_selection_ship">Statek</string>
+    <string name="fragment_transport_selection_railway">Pociąg</string>
 
     <string name="frag_time_of_travel_time">Czas trwania podróży</string>
     <string name="frag_time_of_travel_number_hour">Liczba godzin postojowych:</string>

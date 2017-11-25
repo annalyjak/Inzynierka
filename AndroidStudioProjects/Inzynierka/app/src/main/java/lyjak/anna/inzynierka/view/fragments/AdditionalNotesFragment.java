@@ -15,19 +15,19 @@ import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportBinding;
 import lyjak.anna.inzynierka.databinding.FragmentAdditionalNotesBinding;
 import lyjak.anna.inzynierka.viewmodel.report.AdditionalFields;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class AdditionalNotesFragment extends Fragment {
 
-    private GenerateReport mGenerateReport;
+    private GenerateStandardReport mGenerateStandardReport;
 
     public AdditionalNotesFragment() {
         // Required empty public constructor
     }
 
-    public static AdditionalNotesFragment newInstance(GenerateReport mGenerateReport) {
+    public static AdditionalNotesFragment newInstance(GenerateStandardReport mGenerateStandardReport) {
         AdditionalNotesFragment fragment = new AdditionalNotesFragment();
-        fragment.mGenerateReport = mGenerateReport;
+        fragment.mGenerateStandardReport = mGenerateStandardReport;
         return fragment;
     }
 
@@ -62,7 +62,7 @@ public class AdditionalNotesFragment extends Fragment {
                             R.layout.dialog_adding_route_to_report,
                             null, false);
 
-//                if (mGenerateReport.plannedRouteSelected()) {
+//                if (mGenerateStandardReport.plannedRouteSelected()) {
 //                    textView.setText("Czy chcesz dodać porównanie z rzeczywiście przebytą trasą?");
 //                    yesButton.setOnClickListener(new View.OnClickListener() {
 //                        @Override
@@ -70,7 +70,7 @@ public class AdditionalNotesFragment extends Fragment {
 //                            infoDialog.dismiss();
 //                            // TODO otwórz listę rzeczywistych tras
 //
-//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateReport);
+//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
 //                            ((MainActivity)getActivity()).attachNewFragment(next);
 //                        }
 //                    });
@@ -80,7 +80,7 @@ public class AdditionalNotesFragment extends Fragment {
 //                        @Override
 //                        public void onClick(View v) {
 //                            infoDialog.dismiss();
-//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateReport);
+//                            Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
 //                            ((MainActivity)getActivity()).attachNewFragment(next);
 //                        }
 //                    });
@@ -88,7 +88,7 @@ public class AdditionalNotesFragment extends Fragment {
             viewDataBinding.buttonYes.setOnClickListener(v11 -> {
                 infoDialog.dismiss();
                 // TODO otwórz listę rzeczywistych tras
-                Fragment next = PlannedRoutesFragment.newInstance(mGenerateReport);
+                Fragment next = PlannedRoutesFragment.newInstance(mGenerateStandardReport);
                 ((MainActivity)getActivity()).attachNewFragment(next);
             });
             viewDataBinding.buttonNo.setOnClickListener(v112 -> {

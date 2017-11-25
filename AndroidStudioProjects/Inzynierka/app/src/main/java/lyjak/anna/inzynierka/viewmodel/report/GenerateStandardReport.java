@@ -18,12 +18,13 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
 
 /**
+ *
  * Created by Anna on 21.10.2017.
  */
 
-public class GenerateReport {
+public class GenerateStandardReport {
 
-    private static final String TAG = GenerateReport.class.getSimpleName();
+    private static final String TAG = GenerateStandardReport.class.getSimpleName();
 
     private PlannedRoute mPlannedRoute;
     private List<Route> mActualRoutes;
@@ -32,7 +33,7 @@ public class GenerateReport {
     private TimeTripInfo mTimeTripInfo;
     private AdditionalFields mAdditionalFields;
 
-    public GenerateReport() {}
+    public GenerateStandardReport() {}
 
     public void setTypeOfTransport(TypeOfTransport typeOfTransport) {
         this.mTypeOfTransport = typeOfTransport;
@@ -73,7 +74,7 @@ public class GenerateReport {
         return mPlannedRoute == null;
     }
 
-    public GenerateReport getGenerateReportObject() {
+    public GenerateStandardReport getGenerateReportObject() {
         return this;
     }
 
@@ -82,7 +83,7 @@ public class GenerateReport {
         String targetPdf = "/LogMilesRaport" + System.currentTimeMillis() + ".pdf";
         GeneratePdf pdf = new GeneratePdf(activity);
         pdf.setBitmap(bitmap);
-        File savedFile = pdf.generate(mPlannedRoute, targetPdf);
+        File savedFile = pdf.generateBuissnesTripReport(mPlannedRoute, targetPdf);
         sendFile(activity, savedFile);
     }
 

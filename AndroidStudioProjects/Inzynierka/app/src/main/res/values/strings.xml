@@ -54,7 +54,8 @@
 
     <string name="dialog_adding_route_confirm_question">Add this point to comaprison?</string>
 
-    <string name="dialog_planned_route_card_click_generate_report">Generate report</string>
+    <string name="dialog_planned_route_card_click_generate_report">Generate a business trip report</string>
+    <string name="dialog_planned_route_card_click_generate_acctual_report">Generate actual route report</string>
     <string name="dialog_planned_route_card_click_show_route_on_map">Show route on map</string>
     <string name="dialog_planned_route_card_click_show_all_points">Show all points</string>
     <string name="dialog_planned_route_card_click_delete_route">Delete route</string>
@@ -71,6 +72,12 @@
     <string name="cardview_startDate">Start date: %1$ta, %1$te %1$tB %1$tY</string>
 
     <string name="fragment_transport_selection">Select type of transport:</string>
+    <string name="fragment_transport_selection_car">Car</string>
+    <string name="fragment_transport_selection_bus">Bus</string>
+    <string name="fragment_transport_selection_tir">Tir</string>
+    <string name="fragment_transport_selection_plane">Plane</string>
+    <string name="fragment_transport_selection_ship">Ship</string>
+    <string name="fragment_transport_selection_railway">Railway</string>
 
     <string name="frag_time_of_travel_time">Time of travel</string>
     <string name="frag_time_of_travel_number_hour">Time of stops:</string>

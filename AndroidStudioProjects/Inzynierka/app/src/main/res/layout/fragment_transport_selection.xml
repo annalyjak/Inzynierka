@@ -1,6 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <FrameLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,10 +30,9 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -42,25 +41,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/imageButtonCarTransport"
+                    style="@android:style/Widget.DeviceDefault.ImageButton"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/car" />
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_directions_car_black_24dp"
+                    android:text="@string/fragment_transport_selection_car"/>
 
                 <ImageButton
                     android:id="@+id/imageButtonBusTransport"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/busicon" />
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_directions_bus_black_24dp"
+                    android:text="@string/fragment_transport_selection_bus"/>
 
                 <ImageButton
                     android:id="@+id/imageButtonTirTransport"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:srcCompat="@drawable/tir"/>
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_local_shipping_black_24dp"
+                    android:text="@string/fragment_transport_selection_tir"/>
+
+                <ImageButton
+                    android:id="@+id/imageButtonPlaneTransport"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_flight_black_24dp"
+                    android:text="@string/fragment_transport_selection_plane"/>
+
+                <ImageButton
+                    android:id="@+id/imageButtonShipTransport"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_directions_boat_black_24dp"
+                    android:text="@string/fragment_transport_selection_ship"/>
+
+                <ImageButton
+                    android:id="@+id/imageButtonRailwayTransport"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:theme="@style/ButtonStyle"
+                    app:srcCompat="@drawable/ic_directions_railway_black_24dp"
+                    android:text="@string/fragment_transport_selection_railway"/>
             </LinearLayout>
         </ScrollView>
 

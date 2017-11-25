@@ -12,17 +12,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Singleton;
-
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.respository.RouteService;
-import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 /**
  * Created by Anna on 24.11.2017.
@@ -33,7 +30,8 @@ public class MapsViewModel extends MainViewModel {
     // List of temp markers of user's founded localization
     private final List<Marker> mListOfMarkers = new ArrayList<>();
 
-    public static GenerateReport report;
+    public static GenerateStandardReport report;
+    public static GenerateActualRouteReport reportAcctualRoute;
     private Boolean generate;
 
     private PlannedRoute savePlannedRoute;
@@ -43,7 +41,7 @@ public class MapsViewModel extends MainViewModel {
         super(context);
     }
 
-    public MapsViewModel(GenerateReport report, Context context) {
+    public MapsViewModel(GenerateStandardReport report, Context context) {
         super(context);
         this.report = report;
     }
@@ -120,6 +118,15 @@ public class MapsViewModel extends MainViewModel {
     public void doReport(MapsActivity activity, Context applicationContext, Bitmap bitmap) {
         report.createPdf(activity, applicationContext, bitmap);
         report = null;
+    }
+
+    public boolean isActualRouteReportMode() {
+        return reportAcctualRoute != null;
+    }
+
+    public void doActualRouteReport(MapsActivity activity, Bitmap bitmap) {
+        reportAcctualRoute.createPdf(activity, bitmap);
+        reportAcctualRoute = null;
     }
 
     public void addToMarkersList(Marker marker) {

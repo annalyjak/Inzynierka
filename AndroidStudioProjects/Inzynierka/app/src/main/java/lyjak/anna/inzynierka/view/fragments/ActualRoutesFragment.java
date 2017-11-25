@@ -1,35 +1,23 @@
 package lyjak.anna.inzynierka.view.fragments;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.databinding.DialogActualRouteCardClickBinding;
-import lyjak.anna.inzynierka.view.activities.MainActivity;
-import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.adapters.ActualRouteAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentActualRoutesBinding;
-import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback;
 import lyjak.anna.inzynierka.view.callbacks.ListActualRouteCallback;
 import lyjak.anna.inzynierka.view.callbacks.ReportActualRouteCallback;
 import lyjak.anna.inzynierka.viewmodel.ActualRouteListViewModel;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class ActualRoutesFragment extends Fragment {
 
@@ -38,7 +26,7 @@ public class ActualRoutesFragment extends Fragment {
     private ActualRouteListViewModel viewModel;
     private RecyclerView.Adapter mAdapter;
     private ActualRouteCallback actualRouteClickCallback;
-    private GenerateReport mGenerateReport;
+    private GenerateStandardReport mGenerateStandardReport;
 
     public ActualRoutesFragment() {
         // Required empty public constructor
@@ -52,10 +40,10 @@ public class ActualRoutesFragment extends Fragment {
         return fragment;
     }
 
-    public static ActualRoutesFragment newInstance(GenerateReport mGenerateReport) {
+    public static ActualRoutesFragment newInstance(GenerateStandardReport mGenerateStandardReport) {
         ActualRoutesFragment fragment = new ActualRoutesFragment();
         fragment.viewModel = new ActualRouteListViewModel(fragment.getContext());
-        fragment.mGenerateReport = mGenerateReport;
+        fragment.mGenerateStandardReport = mGenerateStandardReport;
         fragment.actualRouteClickCallback = new ReportActualRouteCallback(fragment.getActivity(),
                 fragment.viewModel);
         return fragment;
