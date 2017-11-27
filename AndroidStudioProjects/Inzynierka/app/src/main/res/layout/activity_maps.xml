@@ -38,10 +38,6 @@
                     />
 
             </RelativeLayout>
-
-
         </fragment>
-
-
     </android.support.constraint.ConstraintLayout>
 </layout>

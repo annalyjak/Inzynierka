@@ -10,6 +10,15 @@ public class HistoricalReports extends RealmObject {
 
     private PlannedRoute plannedRoute;
     private Route actualRoute;
+    private String filePath;
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public PlannedRoute getPlannedRoute() {
         return plannedRoute;

@@ -46,6 +46,7 @@ import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 //TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
 //TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
 //TODO zmienić tworzenie raportu na "automatyczne" - dodano sprawdzić, dlaczego nie działa
+//TODO dodać ładny przycisk + - który umożliwia otwarcie mapy i dodanie nowej trasy
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {

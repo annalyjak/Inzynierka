@@ -1,8 +1,13 @@
 package lyjak.anna.inzynierka.viewmodel;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.view.LayoutInflater;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -12,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.databinding.DialogAddNewPlannedRouteTitleBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
@@ -20,8 +27,6 @@ import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GeneratePlannedRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *
@@ -69,8 +74,26 @@ public class MapsViewModel extends MainViewModel {
         }
     }
 
-    public void createNewPlannedRoute(Marker marker) {
-        routeService.createNewPlannedRoute(marker);
+    public void createNewPlannedRoute(Context context, Marker marker) {
+        final Dialog dialog = new Dialog(context, R.style.SettingsDialogStyle);
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        DialogAddNewPlannedRouteTitleBinding viewDataBinding = DataBindingUtil
+                .inflate(layoutInflater,
+                        R.layout.dialog_add_new_planned_route_title,
+                        null, false);
+
+        dialog.setTitle(R.string.dialog_add_new_planned_route_title_title);
+        viewDataBinding.buttonOK.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (viewDataBinding.editTextTitleOfRoute.getText() == null) {
+                routeService.createNewPlannedRoute("", marker);
+            } else {
+                routeService.createNewPlannedRoute(
+                        viewDataBinding.editTextTitleOfRoute.getText().toString(), marker);
+            }
+        });
+        dialog.setContentView(viewDataBinding.getRoot());
+        dialog.show();
     }
 
     public List<LatLng> createLatListFromLocations(List<RealmLocation> line) {

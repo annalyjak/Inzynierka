@@ -3,7 +3,6 @@ package lyjak.anna.inzynierka.service.respository;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,6 +18,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
 import lyjak.anna.inzynierka.service.model.realm.TempPlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
@@ -44,12 +44,13 @@ public class RouteService {
      * user's need to put the title of new PlannedRoute and after that method calls
      * createNewPlannedRoute with 2 arguments (title of the new route and marker)
      */
+    @Deprecated
     public void createNewPlannedRoute(final Marker marker) {
         final Dialog titleDialog = new Dialog(context, R.style.SettingsDialogStyle);
         titleDialog.setContentView(R.layout.dialog_add_new_planned_route_title);
 
         titleDialog.setTitle(R.string.dialog_add_new_planned_route_title_title);
-        Button enLanguageButton = (Button) titleDialog.findViewById(R.id.buttonNo);
+        Button enLanguageButton = (Button) titleDialog.findViewById(R.id.buttonOK);
         enLanguageButton.setOnClickListener(v -> {
             titleDialog.dismiss();
             EditText editText = (EditText) titleDialog.findViewById(R.id.editTextTitleOfRoute);
@@ -294,4 +295,17 @@ public class RouteService {
         results.load();
         return results;
     }
+
+    public void createReportInDatabase(PlannedRoute plannedRoute, Route route, String filePath) {
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        HistoricalReports historicalReports = CreateModelDataUtil
+                .createHistoricalReport(plannedRoute, route, filePath);
+        //store created data in realm
+        realm.beginTransaction();
+        realm.copyToRealm(historicalReports);
+        realm.commitTransaction();
+    }
+
+
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
 /**
@@ -91,7 +92,9 @@ public class GenerateStandardReport {
         PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(mPlannedRoute);
         ProgressDialog progressDialog = ProgressDialog.show(activity,
                 "Please wait ...",  "Task in progress ...", true);
-        progressDialog.setCancelable(true);
+        progressDialog.setCancelable(false);
+        RouteService service = new RouteService(context);
+        service.createReportInDatabase(getPlannedRoute(), getActualRoute(), targetPdf);
         new Thread(() -> {
             try {
                 File savedFile = pdf.generateBuissnesTripReport(

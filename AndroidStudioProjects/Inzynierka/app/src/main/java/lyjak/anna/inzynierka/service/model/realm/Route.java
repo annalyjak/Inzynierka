@@ -61,9 +61,9 @@ public class Route extends RealmObject {
         this.endDate = endDate;
     }
 
-    //TODO poprawić stringa
     public String toString() {
-        return "Route started " + startDate.toString() + " and ended " + (endDate==null? "" : endDate.toString()) +
-                ", size: " + String.valueOf(locations.size());
+        return "Route started " + (startDate==null? "" : startDate.toString()) +
+                " and ended " + (endDate==null? "" : endDate.toString()) +
+                ", size: " + (locations==null? "0" : String.valueOf(locations.size())) ;
     }
 }

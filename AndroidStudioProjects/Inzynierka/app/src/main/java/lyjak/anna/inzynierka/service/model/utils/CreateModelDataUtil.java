@@ -8,6 +8,8 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
+import lyjak.anna.inzynierka.service.model.realm.Route;
 import lyjak.anna.inzynierka.service.model.realm.TempPlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
@@ -79,5 +81,14 @@ public class CreateModelDataUtil {
             result.add(new LatLng(realmLocation.getLatitude(), realmLocation.getLongitude()));
         }
         return result;
+    }
+
+    public static HistoricalReports createHistoricalReport(PlannedRoute plannedRoute,
+                                                           Route route, String path) {
+        HistoricalReports historicalReports = new HistoricalReports();
+        historicalReports.setPlannedRoute(plannedRoute);
+        historicalReports.setActualRoute(route);
+        historicalReports.setFilePath(path);
+        return historicalReports;
     }
 }

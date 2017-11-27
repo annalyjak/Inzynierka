@@ -612,6 +612,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // displays dialog menu
 //        final Marker tempMarker = marker;
+        //TODO Data Binding
         final Dialog markerDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
         markerDialog.setContentView(R.layout.dialog_map_marker_click);
         markerDialog.setTitle(R.string.dialog_map_marker_click_choose_option);
@@ -625,7 +626,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button newRouteButton = (Button) markerDialog.findViewById(R.id.buttonCreateNewRoute);
         newRouteButton.setOnClickListener(view -> {
             markerDialog.dismiss();
-            viewModel.createNewPlannedRoute(marker);
+            viewModel.createNewPlannedRoute(getActivity(), marker);
         });
 
         Button deleteMarkerButton = (Button) markerDialog.findViewById(R.id.buttonDeleteMarker);

@@ -37,13 +37,13 @@ public class AdditionalNotesFragment extends Fragment {
             AdditionalFields.AdditionalFieldsBuilder builder =
                     new AdditionalFields.AdditionalFieldsBuilder();
             AdditionalFields additionalFields = builder
-                    .personalDataAboutEmployee(binding.checkBoxPersonalData.isSelected())
-                    .purposeOfTravel(binding.checkBoxGoal.isSelected())
-                    .accomodation(binding.checkBoxAccomodation.isSelected())
-                    .feeding(binding.checkBoxFeeding.isSelected())
-                    .publicTransport(binding.checkBoxTransport.isSelected())
-                    .hospital(binding.checkBoxHospital.isSelected())
-                    .other(binding.checkBoxOther.isSelected())
+                    .personalDataAboutEmployee(binding.checkBoxPersonalData.isChecked())
+                    .purposeOfTravel(binding.checkBoxGoal.isChecked())
+                    .accomodation(binding.checkBoxAccomodation.isChecked())
+                    .feeding(binding.checkBoxFeeding.isChecked())
+                    .publicTransport(binding.checkBoxTransport.isChecked())
+                    .hospital(binding.checkBoxHospital.isChecked())
+                    .other(binding.checkBoxOther.isChecked())
                     .build();
             mGenerateStandardReport.setAdditionalFields(additionalFields);
 

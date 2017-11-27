@@ -312,14 +312,17 @@ public class BuissnesTripPdfTable {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         cell.setColspan(6);
         table.addCell(cell);
-        cell = new PdfPCell(new Phrase("", tableCellFont));
+        cell = new PdfPCell(new Phrase(" ", tableCellFont));
         cell.setColspan(5);
+        table.addCell(cell);
         table.addCell("");
-        cell = new PdfPCell(new Phrase("", tableCellFont));
+        cell = new PdfPCell(new Phrase(" ", tableCellFont));
         cell.setColspan(5);
+        table.addCell(cell);
         table.addCell("");
-        cell = new PdfPCell(new Phrase("", tableCellFont));
+        cell = new PdfPCell(new Phrase(" ", tableCellFont));
         cell.setColspan(5);
+        table.addCell(cell);
         table.addCell("");
         return table;
     }

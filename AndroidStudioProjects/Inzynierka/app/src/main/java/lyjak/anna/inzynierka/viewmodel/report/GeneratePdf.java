@@ -95,6 +95,8 @@ public class GeneratePdf {
             document.add(buissnesTripReport.createTypeOfTransport(type.getShortName()));
             if (additionalFields.isPersonalDataAboutEmployee()) {
                 document.add(buissnesTripReport.createPersonalDataTable());
+            } else {
+                Log.i("", "additionalFields.isPersonalDataAboutEmployee() - is false");
             }
             if (additionalFields.isPurposeOfTravel()) {
                 document.add(buissnesTripReport.createPurposeOfTravelTable());
@@ -113,6 +115,8 @@ public class GeneratePdf {
             }
             if(additionalFields.isOther()) {
                 document.add(buissnesTripReport.createAnother());
+            } else {
+                Log.i("", "additionalFields.isOther() - is false");
             }
             document.add(buissnesTripReport.createEndingSummary());
             document.add(getEmptyParagraph());
