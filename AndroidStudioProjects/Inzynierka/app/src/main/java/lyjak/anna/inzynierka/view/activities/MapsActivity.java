@@ -3,6 +3,7 @@ package lyjak.anna.inzynierka.view.activities;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -46,6 +48,7 @@ import java.util.Date;
 import java.util.List;
 
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.databinding.DialogMapMarkerClickBinding;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
@@ -612,33 +615,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // displays dialog menu
 //        final Marker tempMarker = marker;
-        //TODO Data Binding
         final Dialog markerDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
-        markerDialog.setContentView(R.layout.dialog_map_marker_click);
+        LayoutInflater layoutInflater = LayoutInflater.from(MapsActivity.this);
+        DialogMapMarkerClickBinding viewDataBinding = DataBindingUtil
+                .inflate(layoutInflater,
+                        R.layout.dialog_map_marker_click,
+                        null, false);
+
         markerDialog.setTitle(R.string.dialog_map_marker_click_choose_option);
 
-        Button addToActuallRouteButton = (Button) markerDialog.findViewById(R.id.buttonAddToRoute);
-        addToActuallRouteButton.setOnClickListener(view -> {
+        viewDataBinding.buttonAddToRoute.setOnClickListener(v -> {
             markerDialog.dismiss();
             addPointToActualRoute(marker);
         });
 
-        Button newRouteButton = (Button) markerDialog.findViewById(R.id.buttonCreateNewRoute);
-        newRouteButton.setOnClickListener(view -> {
+        viewDataBinding.buttonCreateNewRoute.setOnClickListener(v -> {
             markerDialog.dismiss();
             viewModel.createNewPlannedRoute(getActivity(), marker);
         });
 
-        Button deleteMarkerButton = (Button) markerDialog.findViewById(R.id.buttonDeleteMarker);
-        deleteMarkerButton.setOnClickListener(view -> {
+        viewDataBinding.buttonDeleteMarker.setOnClickListener(v -> {
             markerDialog.dismiss();
             viewModel.removeMarkerFromList(marker);
             marker.remove();
         });
 
-        Button anulujButton = (Button) markerDialog.findViewById(R.id.buttonAnuluj);
-        anulujButton.setOnClickListener(v -> markerDialog.dismiss());
+        viewDataBinding.buttonAnuluj.setOnClickListener(v -> {
+            markerDialog.dismiss();
+        });
 
+        markerDialog.setContentView(viewDataBinding.getRoot());
         markerDialog.show();
     }
 

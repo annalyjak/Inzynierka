@@ -7,7 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.widget.Button;
+import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogPlannedRouteCardClickBinding;
@@ -18,7 +18,6 @@ import lyjak.anna.inzynierka.view.fragments.PointsFragment;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
 import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateActualRouteReport;
 import lyjak.anna.inzynierka.viewmodel.report.GeneratePlannedRouteReport;
 
 /**
@@ -28,8 +27,8 @@ import lyjak.anna.inzynierka.viewmodel.report.GeneratePlannedRouteReport;
 
 public class ListPlannedRouteCallback implements PlannedRouteCallback {
 
-    Activity activity;
-    PlannedRoutesCardListViewModel viewModel;
+    private Activity activity;
+    private PlannedRoutesCardListViewModel viewModel;
 
     public ListPlannedRouteCallback(Activity activity, PlannedRoutesCardListViewModel viewModel) {
         this.activity = activity;
@@ -50,7 +49,7 @@ public class ListPlannedRouteCallback implements PlannedRouteCallback {
                     .newInstance(route);
             MainActivity.attachNewFragment(fragment);
         });
-        viewDataBinding.buttonGeneratePlannedRouteReport.setOnClickListener(v2 -> {
+        viewDataBinding.buttonGeneratePlannedRouteReport.setOnClickListener((View v2) -> {
             dialog.dismiss();
 
             GeneratePlannedRouteReport report = new GeneratePlannedRouteReport(route);
@@ -67,7 +66,7 @@ public class ListPlannedRouteCallback implements PlannedRouteCallback {
         });
         viewDataBinding.buttonShowRouteOnMap.setOnClickListener(v -> {
             dialog.dismiss();
-            Intent openMapIntent = new Intent(((Dialog) dialog).getContext(),
+            Intent openMapIntent = new Intent(dialog.getContext(),
                     MapsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("title", route.getTitle());
@@ -88,52 +87,9 @@ public class ListPlannedRouteCallback implements PlannedRouteCallback {
                 ((MainActivity) activity).notyfyDataSetChange();
             }
         });
-        viewDataBinding.buttonAnuluj.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        viewDataBinding.buttonAnuluj.setOnClickListener(v -> dialog.dismiss());
         dialog.setContentView(viewDataBinding.getRoot());
         dialog.show();
 
-//        final Dialog dialog = new Dialog(activity, R.style.SettingsDialogStyle);
-//        dialog.setContentView(R.layout.dialog_planned_route_card_click);
-//        Button generateReportButton = (Button) dialog.findViewById(R.id.buttonGenerateReport);
-//        generateReportButton.setOnClickListener(v1 -> {
-//            dialog.dismiss();
-//            final TransportSelectionFragment fragment = TransportSelectionFragment
-//                    .newInstance(route);
-//            MainActivity.attachNewFragment(fragment);
-//        });
-//        Button showRouteOnMapButton = (Button) dialog.findViewById(R.id.buttonShowRouteOnMap);
-//        showRouteOnMapButton.setOnClickListener(v12 -> {
-//            dialog.dismiss();
-//            Intent openMapIntent = new Intent(((Dialog) dialog).getContext(),
-//                    MapsActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("title", route.getTitle());
-//            bundle.putInt("duration", route.getDuration());
-//            bundle.putInt("distance", route.getDistance());
-//            openMapIntent.putExtras(bundle);
-//            activity.startActivity(openMapIntent);
-//        });
-//        Button showPointsButton = (Button) dialog.findViewById(R.id.buttonShowAllPoints);
-//        showPointsButton.setOnClickListener(v131 -> {
-//            dialog.dismiss();
-//            Fragment newFragment = PointsFragment.newInstance(route);
-//            ((MainActivity) activity).attachNewFragment(newFragment);
-//        });
-//
-//        Button deleteMarkerButton = (Button) dialog.findViewById(R.id.buttonDeleteRoute);
-//        deleteMarkerButton.setOnClickListener(view -> {
-//            dialog.dismiss();
-//            viewModel.removePlannedRoute(route);
-//            if (activity instanceof MainActivity) {
-//                ((MainActivity) activity).notyfyDataSetChange();
-//            }
-//        });
-//
-//        Button anulujButton = (Button) dialog.findViewById(R.id.buttonAnuluj);
-//        anulujButton.setOnClickListener(v1312 -> dialog.dismiss());
-//
-//        dialog.show();
     }
 }

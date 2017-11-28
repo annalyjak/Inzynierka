@@ -31,13 +31,13 @@ import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
  * Created by Anna on 14.10.2017.
  */
 
-public class RouteService {
+public class RouteService implements RouteRepository {
 
     private final static String TAG = RouteService.class.getSimpleName();
-    private static Context context;
+    private Context context;
 
     public RouteService(Context context) {
-        RouteService.context = context;
+        this.context = context;
     }
 
     /**
@@ -63,6 +63,7 @@ public class RouteService {
         titleDialog.show();
     }
 
+    @Override
     public void createNewPlannedRoute(String title, Marker marker) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -96,11 +97,13 @@ public class RouteService {
         realm.commitTransaction();
     }
 
+    @Override
     public void calculateLine(PlannedRoute route) {
         TempCreatePolyline obj = new TempCreatePolyline(route, context);
         obj.createPolylinePlannedRoute(route);
     }
 
+    @Override
     public void storePlannedRouteInDatabase(PlannedRoute route,
                                             TempCreatePolyline calculatedFields) {
         Realm.init(context);
@@ -145,6 +148,7 @@ public class RouteService {
         return locations;
     }
 
+    @Override
     public void addPointToActualRoute(Marker marker) {
         TempPlannedRoute tempPlannedRoute;
         int number;
@@ -183,6 +187,7 @@ public class RouteService {
         }
     }
 
+    @Override
     public void addPointToRoute(Marker marker, PlannedRoute route) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -213,6 +218,7 @@ public class RouteService {
         }
     }
 
+    @Override
     public void removeRouteFromDatabase(Route routeToRemove) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -228,6 +234,7 @@ public class RouteService {
         Log.i(TAG, "Usunięto trasę z bazy");
     }
 
+    @Override
     public void removePlannedRouteFromDatabase(PlannedRoute routeToRemove) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -244,6 +251,7 @@ public class RouteService {
         Log.i(TAG, "Usunięto trasę z bazy");
     }
 
+    @Override
     public PlannedRoute findPlannedRoute(String title, int distance, int duration) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -257,6 +265,7 @@ public class RouteService {
         return result;
     }
 
+    @Override
     public Route findRoute(Date date, Date startDate, Date endDate) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -270,6 +279,7 @@ public class RouteService {
         return result;
     }
 
+    @Override
     public void swap(List<PointOfRoute> mDataset, int i, int i1) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -280,6 +290,7 @@ public class RouteService {
         realm.commitTransaction();
     }
 
+    @Override
     public List<PlannedRoute> getAllPlannedRoutes() {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -288,6 +299,7 @@ public class RouteService {
         return results;
     }
 
+    @Override
     public List<Route> getAllActualRoutes() {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
@@ -296,6 +308,7 @@ public class RouteService {
         return results;
     }
 
+    @Override
     public void createReportInDatabase(PlannedRoute plannedRoute, Route route, String filePath) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();

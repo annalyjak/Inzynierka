@@ -4,6 +4,7 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import lyjak.anna.inzynierka.service.respository.RouteRepository;
 import lyjak.anna.inzynierka.service.respository.RouteService;
 
 /**
@@ -13,7 +14,7 @@ import lyjak.anna.inzynierka.service.respository.RouteService;
 public class MainViewModel {
 
     @Singleton
-    RouteService routeService;
+    RouteRepository routeService;
 
     public MainViewModel(Context context) {
         routeService = new RouteService(context);

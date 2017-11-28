@@ -20,7 +20,7 @@ import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.service.respository.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
-
+//TODO change this -> zapis pośrednich wartości (są już w RouteBeetweenTwoPointsDTO) jakoś to zmienić
 public class TempCreatePolyline implements FindDirectionListener {
 
     private static final String TAG = TempCreatePolyline.class.getSimpleName();
