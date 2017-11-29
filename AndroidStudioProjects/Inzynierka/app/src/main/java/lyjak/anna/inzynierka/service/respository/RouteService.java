@@ -24,7 +24,7 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.view.fragments.dummy.TempCreatePolyline;
+import lyjak.anna.inzynierka.view.fragments.dummy.DirectionFinder;
 import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 
 /**
@@ -99,13 +99,13 @@ public class RouteService implements RouteRepository {
 
     @Override
     public void calculateLine(PlannedRoute route) {
-        TempCreatePolyline obj = new TempCreatePolyline(route, context);
+        DirectionFinder obj = new DirectionFinder(route, context);
         obj.createPolylinePlannedRoute(route);
     }
 
     @Override
     public void storePlannedRouteInDatabase(PlannedRoute route,
-                                            TempCreatePolyline calculatedFields) {
+                                            DirectionFinder calculatedFields) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
 
@@ -321,4 +321,12 @@ public class RouteService implements RouteRepository {
     }
 
 
+    public void changePoint(PointOfRoute pointOfRoute, int distance, int duration) {
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        pointOfRoute.setDistance(distance);
+        pointOfRoute.setDuration(duration);
+        realm.commitTransaction();
+    }
 }

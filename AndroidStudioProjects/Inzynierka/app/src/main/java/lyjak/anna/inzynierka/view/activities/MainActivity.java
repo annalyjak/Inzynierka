@@ -38,14 +38,12 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO duration
 //TODO dodać ładne przyciski do nagrywania położenia
 //TODO dodatek: dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
 //TODO usunąć Bundle z PlannedRoute i ActualRoute Callback's
-//TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
-//TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
-//TODO dodać ładny przycisk + - który umożliwia otwarcie mapy i dodanie nowej trasy
+//TODO dodać wyświetlanie godzin - dodać do listy planowanych tras czas i długość trasy
+//TODO dodać jakiś komunikat jeśli trasy zrealizowane i planowane - lista jest pusta
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {
@@ -71,14 +69,13 @@ public class MainActivity extends AppCompatActivity
         checkPermissions();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(FloatingActionButton.GONE);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        fab.setVisibility(FloatingActionButton.VISIBLE);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(intent);
 //                Snackbar.make(view, "Dodaj nowy punkt do trasy", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-//            }
-//        });
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

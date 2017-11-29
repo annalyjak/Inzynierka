@@ -131,8 +131,9 @@ public class PlannedRoutePdfTable {
                 table.addCell(cellRow);
                 cellRow = new PdfPCell(new Phrase(String.valueOf(info.getEndPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
-                table.addCell(" "); //TODO DURATION!
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getDistance()), tableCellMiniFont));
+                table.addCell(new Phrase(info.getDurationHandMin(), tableCellMiniFont));
+                table.addCell(cellRow);
+                cellRow = new PdfPCell(new Phrase((String.format("%.2f", (info.getDistance()/1000))), tableCellMiniFont));
                 table.addCell(cellRow);
                 table.addCell(" ");
             });
@@ -147,8 +148,9 @@ public class PlannedRoutePdfTable {
                 table.addCell(cellRow);
                 cellRow = new PdfPCell(new Phrase(String.valueOf(info.getEndPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
-                table.addCell(" "); //TODO DURATION!
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getDistance()) + " km", tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(info.getDurationHandMin(), tableCellMiniFont));
+                table.addCell(cellRow);
+                cellRow = new PdfPCell(new Phrase(String.format("%.2f", (info.getDistance()/1000)) + " km", tableCellMiniFont));
                 table.addCell(cellRow);
                 table.addCell(" ");
             }
@@ -158,7 +160,7 @@ public class PlannedRoutePdfTable {
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
         cell.setColspan(4);
         table.addCell(cell);
-        cell = new PdfPCell(new Phrase(String.valueOf(route.getAllDuration()), tableCellFont));
+        cell = new PdfPCell(new Phrase(route.getAllFormatedDuration(), tableCellFont));
         table.addCell(cell);
         cell = new PdfPCell(new Phrase(String.valueOf(route.getAllDistance()/1000) + " km", tableCellFont));
         table.addCell(cell);

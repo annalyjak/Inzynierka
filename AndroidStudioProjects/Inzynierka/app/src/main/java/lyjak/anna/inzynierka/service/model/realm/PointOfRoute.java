@@ -14,6 +14,8 @@ public class PointOfRoute extends RealmObject {
     private String name;
     private boolean endPoint;
     private boolean startPoint;
+    private int duration = 0;
+    private int distance = 0;
 
     public PointOfRoute() {
         this.name = "";
@@ -75,4 +77,19 @@ public class PointOfRoute extends RealmObject {
         this.endPoint = endPoint;
     }
 
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
 }

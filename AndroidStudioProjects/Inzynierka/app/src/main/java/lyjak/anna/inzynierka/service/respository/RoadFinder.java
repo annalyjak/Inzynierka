@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.service.respository;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -22,6 +23,7 @@ import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 /**
+ *
  * Created by Anna on 26.12.2016.
  */
 
@@ -45,9 +47,11 @@ public class RoadFinder {
         listener.onStartFindDirection();
         temp  = new DownloadRawData();
         if(url != null){
+            Log.i("", url);
             temp.execute(url);
         }
         else {
+            Log.i("", createUrl());
             temp.execute(createUrl());
         }
     }
@@ -134,6 +138,8 @@ public class RoadFinder {
             route.createEndPoint(jsonEndLocation.getDouble("lat"), jsonEndLocation.getDouble("lng"));
             route.setEndPlaceName(jsonLeg.getString("end_address"));
             route.setStartPlaceName(jsonLeg.getString("start_address"));
+            route.setOriginEndPlace(destination);
+            route.setOriginStartPlace(origin);
 
             route.setRoutePoints(decodePolyLine(overview_polylineJson.getString("points")));
 

@@ -8,7 +8,7 @@ import java.util.List;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.view.fragments.dummy.TempCreatePolyline;
+import lyjak.anna.inzynierka.view.fragments.dummy.DirectionFinder;
 
 /**
  *
@@ -33,7 +33,7 @@ public interface RouteRepository {
     void addPointToRoute(Marker marker, PlannedRoute route);
 
     void storePlannedRouteInDatabase(PlannedRoute route,
-                                            TempCreatePolyline calculatedFields);
+                                            DirectionFinder calculatedFields);
     void swap(List<PointOfRoute> mDataset, int i, int i1);
     void calculateLine(PlannedRoute route);
 

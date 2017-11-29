@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.view.fragments.dummy;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -11,23 +12,22 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
+import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.service.respository.RouteService;
 import lyjak.anna.inzynierka.service.respository.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
-//TODO change this -> zapis pośrednich wartości (są już w RouteBeetweenTwoPointsDTO) jakoś to zmienić
-public class TempCreatePolyline implements FindDirectionListener {
 
-    private static final String TAG = TempCreatePolyline.class.getSimpleName();
-//    private GoogleMap mMap;
+public class DirectionFinder implements FindDirectionListener {
 
-//    private String km; // the number of kilometers TextView
-//    private String dt; // full time to overcome actuall route TextView
+    private static final String TAG = DirectionFinder.class.getSimpleName();
 
     public int fulldistance = 0; // the number of kilometers variable
     public int fullduration = 0; // full time to overcome actuall route variable
@@ -45,7 +45,7 @@ public class TempCreatePolyline implements FindDirectionListener {
     private PlannedRoute route;
     private Context context;
 
-    public TempCreatePolyline(PlannedRoute route, Context context) {
+    public DirectionFinder(PlannedRoute route, Context context) {
         this.route = route;
         this.context = context;
     }
@@ -57,15 +57,9 @@ public class TempCreatePolyline implements FindDirectionListener {
         // and put it into one list for all route
         if (originMarkers != null) {
             allOriginMarkers.add(originMarkers);
-//            for (MarkerOptions marker : originMarkers) {
-//                marker.remove(); remove from map
-//            }
         }
         if (destinationMarkers != null) {
             alldestinationMarkers.add(destinationMarkers);
-//            for (MarkerOptions marker : destinationMarkers) {
-//                marker.remove();
-//            }
         }
         if (polylinePaths != null) {
             allpolylinePaths.add(polylinePaths);
@@ -83,34 +77,40 @@ public class TempCreatePolyline implements FindDirectionListener {
         originMarkers = new ArrayList<>();
         destinationMarkers = new ArrayList<>();
 
+        RealmList<PointOfRoute> points = route.getPoints();
         for (RouteBeetweenTwoPointsDTO route : routes) {
+            for (PointOfRoute pointOfRoute: points) {
+                if(pointOfRoute.getPoint().getLatitude() == route.getOriginStartPlace().latitude &&
+                        pointOfRoute.getPoint().getLongitude() == route.getOriginStartPlace()
+                                .longitude) {
+                    Log.i(TAG, "Ustawiam wielkości distance and duration");
+                    RouteService routeRepository = new RouteService(context);
+                    routeRepository.changePoint(pointOfRoute,
+                            route.getDistance(),
+                            route.getDuration());
+                }
+            }
             fulldistance += route.getDistance();
             fullduration += route.getDuration();
             originMarkers.add(new MarkerOptions().title(route.getStartPlaceName())
-                    .position(route.getStartPoint()) // .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                    .position(route.getStartPoint())
             );
-            // if(routes.get(routes.size()-1)==route) {
             destinationMarkers.add(new MarkerOptions()
-                    .title(route.getEndPlaceName())  //.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+                    .title(route.getEndPlaceName())
                     .position(route.getEndPoint()));
-            // }
 
             PolylineOptions polylineOptions = new PolylineOptions().
-                    geodesic(true).width(10); //    color(getResources().getColor(R.color.colorPrimary)).
+                    geodesic(true).width(10);
 
             allPolylineOptions.add(polylineOptions);
 
             for (int i = 0; i < route.getSizeOfRoutePoints(); i++)
                 polylineOptions.add(route.getLatLngFromRoutesPoints(i));
-
-//            polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
 
         int hour = (fullduration / 60)/60;
         int min = fullduration / 60;
         String distance = String.valueOf(fulldistance);
-//        setTextViews(hour, min, distance);
-//        helpCounter--;
         Log.i(TAG, "onSucceedFindDirection ended");
     }
 
@@ -122,28 +122,28 @@ public class TempCreatePolyline implements FindDirectionListener {
         Log.i(TAG, "onStoreFindDirection end");
     }
 
-    /*
-    The method of amending Polyline to LatLng's list
-     */
-    public List<LatLng> getLatLngFromPolyline(List<PolylineOptions> polylines){
-        ArrayList<LatLng> list = new ArrayList<>();
-
-        for(PolylineOptions poly : polylines){
-            list.addAll(poly.getPoints());
-        }
-        return list;
-    }
-
-    public List<Polyline> mergeAllPolylinesIntoOne() {
-        List<Polyline> result = new ArrayList<>();
-
-        for(List<Polyline> list : allpolylinePaths) {
-            for(Polyline polylineInLis : list) {
-                result.add(polylineInLis);
-            }
-        }
-        return result;
-    }
+//    /*
+//    The method of amending Polyline to LatLng's list
+//     */
+//    public List<LatLng> getLatLngFromPolyline(List<PolylineOptions> polylines){
+//        ArrayList<LatLng> list = new ArrayList<>();
+//
+//        for(PolylineOptions poly : polylines){
+//            list.addAll(poly.getPoints());
+//        }
+//        return list;
+//    }
+//
+//    public List<Polyline> mergeAllPolylinesIntoOne() {
+//        List<Polyline> result = new ArrayList<>();
+//
+//        for(List<Polyline> list : allpolylinePaths) {
+//            for(Polyline polylineInLis : list) {
+//                result.add(polylineInLis);
+//            }
+//        }
+//        return result;
+//    }
 
 
     /**

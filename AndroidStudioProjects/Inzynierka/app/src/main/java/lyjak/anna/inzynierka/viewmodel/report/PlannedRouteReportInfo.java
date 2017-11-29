@@ -37,8 +37,10 @@ public class PlannedRouteReportInfo {
                 + first.getPoint().getLongitude() + ")");
         result.setStartPoint(first.getName());
         result.setEndPoint(second.getName());
-        result.setDistance(DistanceAndDurationUtil.getDistanceInKm(first.getPoint(), second.getPoint()));
-//        result.setDuration(); //TODO duration
+        //TODO usuń tą linijkę
+//        result.setDistance(DistanceAndDurationUtil.getDistanceInKm(first.getPoint(), second.getPoint()));
+        result.setDuration(first.getDuration());
+        result.setDistance(first.getDistance());
         return result;
     }
 
@@ -55,6 +57,12 @@ public class PlannedRouteReportInfo {
 
     public int getAllDuration() {
         return basicRouteInfo.getDuration();
+    }
+
+    public String getAllFormatedDuration() {
+        int hours = (basicRouteInfo.getDuration() / 60) / 60;
+        int minuts = ((basicRouteInfo.getDuration() - (hours*60*60)) / 60);
+        return (hours!=0? hours + " h " : "") + minuts + " min";
     }
 
     public class Point {
@@ -119,6 +127,12 @@ public class PlannedRouteReportInfo {
 
         public int getDuration() {
             return duration;
+        }
+
+        public String getDurationHandMin() {
+            int hours = (duration / 60) / 60;
+            int minuts = ((duration - (hours*60*60)) / 60);
+            return (hours!=0? hours + " h " : "") + minuts + " min";
         }
 
         public void setDuration(int duration) {
