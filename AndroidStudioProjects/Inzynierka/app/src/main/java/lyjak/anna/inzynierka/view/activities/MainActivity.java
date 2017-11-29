@@ -42,7 +42,6 @@ import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 //TODO dodatek: dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
 //TODO usunąć Bundle z PlannedRoute i ActualRoute Callback's
-//TODO dodać wyświetlanie godzin - dodać do listy planowanych tras czas i długość trasy
 //TODO dodać jakiś komunikat jeśli trasy zrealizowane i planowane - lista jest pusta
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

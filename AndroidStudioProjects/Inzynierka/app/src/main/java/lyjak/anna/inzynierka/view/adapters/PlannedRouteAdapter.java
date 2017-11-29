@@ -69,8 +69,8 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
                 + String.format(DATE_FORMAT, route.getDate()))));
         holder.points.setText((resources.getString(R.string.cardview_points) + " "
                 + String.valueOf(route.getSize())));
-        holder.duration.setText((resources.getString(R.string.cardview_duartion) + " " + String.valueOf(route.getDuration())));
-        holder.distance.setText((resources.getString(R.string.cardview_distance) + " " + String.valueOf(route.getDistance())));
+        holder.duration.setText((resources.getString(R.string.cardview_duartion) + " " + String.valueOf(route.getFormatedDuration())));
+        holder.distance.setText((resources.getString(R.string.cardview_distance) + " " + String.valueOf(route.getFormatedDistance())));
 
         if (route.getSize() > 0 && ContextCompat.checkSelfPermission(
                 this.activity.getApplicationContext(), Manifest.permission.INTERNET)

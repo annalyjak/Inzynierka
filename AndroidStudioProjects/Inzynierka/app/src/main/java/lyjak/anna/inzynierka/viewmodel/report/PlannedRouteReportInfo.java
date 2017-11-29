@@ -37,8 +37,6 @@ public class PlannedRouteReportInfo {
                 + first.getPoint().getLongitude() + ")");
         result.setStartPoint(first.getName());
         result.setEndPoint(second.getName());
-        //TODO usuń tą linijkę
-//        result.setDistance(DistanceAndDurationUtil.getDistanceInKm(first.getPoint(), second.getPoint()));
         result.setDuration(first.getDuration());
         result.setDistance(first.getDistance());
         return result;

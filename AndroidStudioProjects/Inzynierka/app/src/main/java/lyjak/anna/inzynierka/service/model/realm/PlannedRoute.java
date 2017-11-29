@@ -1,5 +1,7 @@
 package lyjak.anna.inzynierka.service.model.realm;
 
+import android.annotation.SuppressLint;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -97,5 +99,16 @@ public class PlannedRoute extends RealmObject implements Serializable {
 
     public int getSize() {
         return this.points.size();
+    }
+
+    public String getFormatedDuration() {
+        int hours = (duration / 60) / 60;
+        int minuts = ((duration - (hours*60*60)) / 60);
+        return (hours!=0? hours + " h " : "") + minuts + " min";
+    }
+
+    @SuppressLint("DefaultLocale")
+    public String getFormatedDistance() {
+        return (String.format("%.2f", (distance/1000.0))) + " km";
     }
 }
