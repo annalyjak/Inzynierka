@@ -58,9 +58,9 @@ public class ListActualRouteCallback implements ActualRouteCallback {
             MapsViewModel.reportAcctualRoute = report;
             Bundle bundle = new Bundle();
             bundle.putString("title", "@ACTUALL_ROUTE@");
-            bundle.putLong("endDate", route.getEndDate().getTime());
-            bundle.putLong("startDate", route.getStartDate().getTime());
-            bundle.putLong("date", route.getDate().getTime());
+//            bundle.putLong("endDate", route.getEndDate().getTime());
+//            bundle.putLong("startDate", route.getStartDate().getTime());
+//            bundle.putLong("date", route.getDate().getTime());
             bundle.putBoolean("REPORT", true);
             openMapIntent.putExtras(bundle);
             activity.startActivity(openMapIntent);

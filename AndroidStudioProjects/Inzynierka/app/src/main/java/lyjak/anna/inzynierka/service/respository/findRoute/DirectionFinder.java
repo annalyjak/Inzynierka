@@ -1,7 +1,6 @@
-package lyjak.anna.inzynierka.view.fragments.dummy;
+package lyjak.anna.inzynierka.service.respository.findRoute;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -12,17 +11,12 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
-import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
-import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.service.respository.RouteService;
-import lyjak.anna.inzynierka.service.respository.RoadFinder;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 public class DirectionFinder implements FindDirectionListener {
@@ -121,30 +115,6 @@ public class DirectionFinder implements FindDirectionListener {
         operations.storePlannedRouteInDatabase(route, this);
         Log.i(TAG, "onStoreFindDirection end");
     }
-
-//    /*
-//    The method of amending Polyline to LatLng's list
-//     */
-//    public List<LatLng> getLatLngFromPolyline(List<PolylineOptions> polylines){
-//        ArrayList<LatLng> list = new ArrayList<>();
-//
-//        for(PolylineOptions poly : polylines){
-//            list.addAll(poly.getPoints());
-//        }
-//        return list;
-//    }
-//
-//    public List<Polyline> mergeAllPolylinesIntoOne() {
-//        List<Polyline> result = new ArrayList<>();
-//
-//        for(List<Polyline> list : allpolylinePaths) {
-//            for(Polyline polylineInLis : list) {
-//                result.add(polylineInLis);
-//            }
-//        }
-//        return result;
-//    }
-
 
     /**
      * The method selects the currently selected route and creates polyline using RoadFinder

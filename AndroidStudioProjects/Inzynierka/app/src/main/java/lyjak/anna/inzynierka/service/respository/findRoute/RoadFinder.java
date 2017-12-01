@@ -1,4 +1,4 @@
-package lyjak.anna.inzynierka.service.respository;
+package lyjak.anna.inzynierka.service.respository.findRoute;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -19,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.viewmodel.listeners.FindDirectionListener;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 /**

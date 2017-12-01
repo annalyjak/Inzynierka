@@ -8,7 +8,7 @@ import java.util.List;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.view.fragments.dummy.DirectionFinder;
+import lyjak.anna.inzynierka.service.respository.findRoute.DirectionFinder;
 
 /**
  *
@@ -34,7 +34,7 @@ public interface RouteRepository {
 
     void storePlannedRouteInDatabase(PlannedRoute route,
                                             DirectionFinder calculatedFields);
-    void swap(List<PointOfRoute> mDataset, int i, int i1);
+    void swap(List<PointOfRoute> dataset, int index1, int index2);
     void calculateLine(PlannedRoute route);
 
     // Delete

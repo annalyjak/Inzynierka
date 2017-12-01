@@ -6,8 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.LayoutInflater;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -36,7 +34,7 @@ import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 public class MapsViewModel extends MainViewModel {
 
     // List of temp markers of user's founded localization
-    private final List<Marker> mListOfMarkers = new ArrayList<>();
+    private final List<Marker> listOfMarkers = new ArrayList<>();
 
     public static GenerateStandardReport report;
     public static GenerateActualRouteReport reportAcctualRoute;
@@ -189,12 +187,12 @@ public class MapsViewModel extends MainViewModel {
     }
 
     public void addToMarkersList(Marker marker) {
-        mListOfMarkers.add(marker);
+        listOfMarkers.add(marker);
     }
 
     public ArrayList<String> getLatitudes() {
         ArrayList<String> result = new ArrayList<>();
-        for (Marker mark: mListOfMarkers) {
+        for (Marker mark: listOfMarkers) {
             result.add(String.valueOf(mark.getPosition().latitude));
         }
         return result;
@@ -202,23 +200,23 @@ public class MapsViewModel extends MainViewModel {
 
     public ArrayList<String> getLongitudes() {
         ArrayList<String> result = new ArrayList<>();
-        for (Marker mark: mListOfMarkers) {
+        for (Marker mark: listOfMarkers) {
             result.add(String.valueOf(mark.getPosition().longitude));
         }
         return result;
     }
 
     public void removeMarkerFromList(Marker tempMarker) {
-        mListOfMarkers.remove(tempMarker);
+        listOfMarkers.remove(tempMarker);
     }
 
     public void includeMarkersToBuilder(LatLngBounds.Builder builder) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mListOfMarkers.stream().forEach(marker -> {
+            listOfMarkers.stream().forEach(marker -> {
                 builder.include(marker.getPosition());
             });
         } else {
-            for (Marker marker : mListOfMarkers) {
+            for (Marker marker : listOfMarkers) {
                 builder.include(marker.getPosition());
             }
         }

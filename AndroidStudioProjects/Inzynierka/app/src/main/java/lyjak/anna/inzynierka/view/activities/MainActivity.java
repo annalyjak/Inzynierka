@@ -38,10 +38,9 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO dodać ładne przyciski do nagrywania położenia
 //TODO dodatek: dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
-//TODO usunąć Bundle z PlannedRoute i ActualRoute Callback's
+//TODO usunąć komentarze z klas
 //TODO dodać jakiś komunikat jeśli trasy zrealizowane i planowane - lista jest pusta
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,

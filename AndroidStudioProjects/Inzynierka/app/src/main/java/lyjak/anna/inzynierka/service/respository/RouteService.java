@@ -24,8 +24,8 @@ import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.view.fragments.dummy.DirectionFinder;
 import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.service.respository.findRoute.DirectionFinder;
 
 /**
  * Created by Anna on 14.10.2017.
