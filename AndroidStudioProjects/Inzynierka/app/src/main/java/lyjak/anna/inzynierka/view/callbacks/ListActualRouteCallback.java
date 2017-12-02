@@ -71,6 +71,7 @@ public class ListActualRouteCallback implements ActualRouteCallback {
                     MapsActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("title", "@ACTUALL_ROUTE@");
+            bundle.putBoolean("editActuallRoute", true);
             bundle.putLong("date", route.getDate().getTime());
             if (route.getStartDate() != null) {
                 bundle.putLong("startDate", route.getStartDate().getTime());

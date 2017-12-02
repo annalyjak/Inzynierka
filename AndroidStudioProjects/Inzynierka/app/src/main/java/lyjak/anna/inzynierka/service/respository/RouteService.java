@@ -19,21 +19,21 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
-import lyjak.anna.inzynierka.service.model.realm.TempPlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
 import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.service.model.realm.TempPlannedRoute;
 import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 import lyjak.anna.inzynierka.service.respository.findRoute.DirectionFinder;
 
 /**
  * Created by Anna on 14.10.2017.
  */
-
 public class RouteService implements RouteRepository {
 
     private final static String TAG = RouteService.class.getSimpleName();
+
     private Context context;
 
     public RouteService(Context context) {
@@ -199,23 +199,16 @@ public class RouteService implements RouteRepository {
                 .findFirstAsync();
         result.load();
 
-        if(result == null) {
-            createNewPlannedRoute(marker);
-            Log.i(TAG, "błąd!");
-        } else {
-            int number = result.getPoints().size() + 1;
-
-            RealmLocation realmLocation = CreateModelDataUtil
-                    .createRelamLocationFromMarker(marker);
-            PointOfRoute point = CreateModelDataUtil
-                    .createNewPointOfRoute(realmLocation, number, marker.getTitle());
-
-            realm.beginTransaction();
-            result.getPoints().add(point);
-            realm.commitTransaction();
-
-            calculateLine(result);
-        }
+        int number = result.getPoints().size() + 1;
+        RealmLocation realmLocation = CreateModelDataUtil
+                .createRelamLocationFromMarker(marker);
+        PointOfRoute point = CreateModelDataUtil
+                .createNewPointOfRoute(realmLocation, number, marker.getTitle());
+        realm.beginTransaction();
+        result.getPoints().add(point);
+        realm.commitTransaction();
+        Log.i("", "Wykonuję calculateLine");
+        calculateLine(result);
     }
 
     @Override

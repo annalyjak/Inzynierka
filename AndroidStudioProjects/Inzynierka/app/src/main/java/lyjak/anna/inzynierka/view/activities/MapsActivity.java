@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -39,7 +38,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -59,31 +57,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String TAG = MapsActivity.class.getSimpleName();
 
-    private GoogleMap map;
-    private CameraPosition cameraPosition;
-
-    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
-    private GoogleApiClient googleApiClient;
-
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
-    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
-
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final String BUNDLE_LIST_LAT = "LatList";
     private static final String BUNDLE_LIST_LONG = "LongList";
-
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
     private boolean locationPermissionGranted;
 
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
-    private Location lastKnownLocation;
-    private Place searchPlaceSelected;
+    private GoogleMap map;
+    private CameraPosition cameraPosition;
+
+    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
+    private GoogleApiClient googleApiClient;
 
     private MapsViewModel viewModel;
 
@@ -93,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         viewModel = new MapsViewModel(this);
 
         if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+            viewModel.setLastKnownLocation(savedInstanceState.getParcelable(KEY_LOCATION));
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
             Log.i(TAG, "savedInstanceState isnt null");
             if (viewModel.isPlannedRouteNull()) {
@@ -109,41 +97,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(extras!= null && extras.getString("STANDARDREPORT")!=null) {
                 viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
             }
-
-            // if bundle had been put -> get infromations about route to display
-            if(extras != null && viewModel.isActuallRouteNull()) {
-//                Log.i(TAG, "actual is null");
-//                String title = extras.getString("title");
-//                if(title != null) {
-//                    if(title.equals("@ACTUALL_ROUTE@")) {
-//                        Log.i(TAG, "@ACTUALL_ROUTE@");
-//                        Long dateLong = extras.getLong("date");
-//                        Long startDateLong = extras.getLong("startDate");
-//                        Long endDateLong = extras.getLong("endDate");
-//                        Date date = null;
-//                        Date startDate = null;
-//                        Date endDate = null;
-//                        if (dateLong != null) {
-//                            date = new Date();
-//                            date.setTime(dateLong);
-//                        }
-//                        if (startDateLong != null) {
-//                            startDate = new Date();
-//                            startDate.setTime(startDateLong);
-//                        }
-//                        if (endDateLong != null) {
-//                            endDate = new Date();
-//                            endDate.setTime(endDateLong);
-//                        }
-//                        viewModel.findRoute(date, startDate, endDate);
-//                    } else {
-//                        Log.i(TAG, "@PLANNED_ROUTE@");
-//                        int distance = extras.getInt("distance");
-//                        int duration = extras.getInt("duration");
-//                        viewModel.findPlannedRoute(title, distance, duration);
-//                    }
-//                }
+            if (extras != null && extras.getBoolean("REPORT")) {
                 viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
+            }
+            // if bundle had been put -> get infromations about route to display
+            if(extras != null && extras.getBoolean("editPlannedRoute")) {
+                String title = extras.getString("title");
+                int distance = extras.getInt("distance");
+                int duration = extras.getInt("duration");
+                viewModel.findPlannedRoute(title, distance, duration);
+            }
+            if(extras != null && extras.getBoolean("editActuallRoute")) {
+                Long dateLong = extras.getLong("date");
+                Long startDateLong = extras.getLong("startDate");
+                Long endDateLong = extras.getLong("endDate");
+                Date date = null;
+                Date startDate = null;
+                Date endDate = null;
+                if (dateLong != null) {
+                    date = new Date();
+                    date.setTime(dateLong);
+                }
+                if (startDateLong != null) {
+                    startDate = new Date();
+                    startDate.setTime(startDateLong);
+                }
+                if (endDateLong != null) {
+                    endDate = new Date();
+                    endDate.setTime(endDateLong);
+                }
+                viewModel.findRoute(date, startDate, endDate);
             }
         }
         setContentView(R.layout.activity_maps);
@@ -168,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onSaveInstanceState(Bundle outState) {
         if (map != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, map.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation);
+            outState.putParcelable(KEY_LOCATION, viewModel.getLastKnownLocation());
             if(!viewModel.isPlannedRouteNull()) {
                 PlannedRoute savePlannedRoute = viewModel.getSavePlannedRoute();
                 outState.putString("title", savePlannedRoute.getTitle());
@@ -190,7 +173,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -299,7 +281,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void drawRouteOnMap() {
         Log.i(TAG, "drawRouteOnMap");
         List<LatLng> line = viewModel.createLatListFromLocations(viewModel.getSavedRouteLocations());
-        Polyline routePolyline = map.addPolyline(new PolylineOptions()
+        map.addPolyline(new PolylineOptions()
                 .color(Color.BLACK)
                 .addAll(line)
         );
@@ -324,7 +306,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             viewModel.createLine();
         }
 
-        Polyline actuallRoutePolyline = map.addPolyline( new PolylineOptions()
+        map.addPolyline( new PolylineOptions()
                 .color(Color.RED)
                 .addAll(line)
         );
@@ -375,7 +357,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             map.setMyLocationEnabled(false);
             map.getUiSettings().setMyLocationButtonEnabled(false);
-            lastKnownLocation = null;
+            viewModel.setLastKnownLocation(null);
         }
     }
 
@@ -402,20 +384,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * cases when a location is not available.
          */
         if (locationPermissionGranted) {
-            lastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(googleApiClient);
+            viewModel.setLastKnownLocation(LocationServices.FusedLocationApi
+                    .getLastLocation(googleApiClient));
         }
 
         // Set the map's camera position to the current location of the device.
         if (cameraPosition != null) {
             map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        } else if (lastKnownLocation != null) {
+        } else if (viewModel.getLastKnownLocation() != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(lastKnownLocation.getLatitude(),
-                            lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                    new LatLng(viewModel.getLastKnownLocation().getLatitude(),
+                            viewModel.getLastKnownLocation().getLongitude()), DEFAULT_ZOOM));
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(MapsViewModel.DEFAULT_LOCATION,
+                    DEFAULT_ZOOM));
             map.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
@@ -527,12 +510,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener(){
-
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place Selected: " + place.getName());
-                searchPlaceSelected = place;
-                animateToSelectedPlace();
+                viewModel.setSearchPlaceSelected(place);
+                animateToSelectedPlace(place);
             }
 
             @Override
@@ -545,15 +527,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void animateToSelectedPlace() {
-        LatLng latLng = searchPlaceSelected.getLatLng();
-
+    private void animateToSelectedPlace(Place place) {
+        LatLng latLng = place.getLatLng();
         Marker actuallMarker = map.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title(searchPlaceSelected.getName().toString()));
-
+                .title(place.getName().toString()));
         viewModel.addToMarkersList(actuallMarker);
         actuallMarker.showInfoWindow();
+        CameraUpdate cu = CameraUpdateFactory.newLatLng(latLng);
+        map.animateCamera(cu);
     }
 
     /**
@@ -574,13 +556,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setMarkers(ArrayList<String> latitudes, ArrayList<String> longitudes) {
         if(latitudes != null && longitudes != null) {
-            List<Marker> oldMarkers = new ArrayList<>();
-
             for(int i = 0; i < latitudes.size() && i < longitudes.size(); i++) {
-                oldMarkers.add(map.addMarker(new MarkerOptions().position(
+                map.addMarker(new MarkerOptions().position(
                         new LatLng(
                                 Integer.parseInt(latitudes.get(i)),
-                                Integer.parseInt(longitudes.get(i))))));
+                                Integer.parseInt(longitudes.get(i)))));
             }
         }
     }
@@ -639,9 +619,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker.remove();
         });
 
-        viewDataBinding.buttonAnuluj.setOnClickListener(v -> {
-            markerDialog.dismiss();
-        });
+        viewDataBinding.buttonAnuluj.setOnClickListener(v -> markerDialog.dismiss());
 
         markerDialog.setContentView(viewDataBinding.getRoot());
         markerDialog.show();

@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Build;
 import android.view.LayoutInflater;
 
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -36,6 +38,10 @@ public class MapsViewModel extends MainViewModel {
     // List of temp markers of user's founded localization
     private final List<Marker> listOfMarkers = new ArrayList<>();
 
+    // A default location (Sydney, Australia) and default zoom to use when location permission is
+    // not granted.
+    public static final LatLng DEFAULT_LOCATION = new LatLng(-33.8523341, 151.2106085);
+
     public static GenerateStandardReport report;
     public static GenerateActualRouteReport reportAcctualRoute;
     public static GeneratePlannedRouteReport reportPlannedRoute;
@@ -43,6 +49,11 @@ public class MapsViewModel extends MainViewModel {
 
     private PlannedRoute savePlannedRoute;
     private Route saveRoute;
+
+    // The geographical location where the device is currently located. That is, the last-known
+    // location retrieved by the Fused Location Provider.
+    private Location lastKnownLocation;
+    private Place searchPlaceSelected;
 
     public MapsViewModel(Context context) {
         super(context);
@@ -250,5 +261,21 @@ public class MapsViewModel extends MainViewModel {
     public void findPlannedAndAcctualRoute(String title, int distance, int duration, Date date, Date startDate, Date endDate) {
         findPlannedRoute(title,distance,duration);
         findRoute(date, startDate, endDate);
+    }
+
+    public Location getLastKnownLocation() {
+        return lastKnownLocation;
+    }
+
+    public void setLastKnownLocation(Location lastKnownLocation) {
+        this.lastKnownLocation = lastKnownLocation;
+    }
+
+    public Place getSearchPlaceSelected() {
+        return searchPlaceSelected;
+    }
+
+    public void setSearchPlaceSelected(Place searchPlaceSelected) {
+        this.searchPlaceSelected = searchPlaceSelected;
     }
 }

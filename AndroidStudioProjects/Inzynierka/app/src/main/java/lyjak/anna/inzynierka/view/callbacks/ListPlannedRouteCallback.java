@@ -69,6 +69,7 @@ public class ListPlannedRouteCallback implements PlannedRouteCallback {
             Intent openMapIntent = new Intent(dialog.getContext(),
                     MapsActivity.class);
             Bundle bundle = new Bundle();
+            bundle.putBoolean("editPlannedRoute", true);
             bundle.putString("title", route.getTitle());
             bundle.putInt("duration", route.getDuration());
             bundle.putInt("distance", route.getDistance());
