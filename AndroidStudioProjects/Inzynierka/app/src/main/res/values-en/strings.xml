@@ -17,6 +17,7 @@
     <string name="menu_option_play_location">Play your corrent location</string>
     <string name="menu_option_planned_routes">Planned routes</string>
     <string name="menu_option_actual_routes">Actual routes</string>
+    <string name="menu_option_historical">Historical reports</string>
     <string name="menu_option_routes">Routes</string>
     <string name="menu_option_share">Share</string>
     <string name="menu_option_send">Send</string>

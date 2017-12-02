@@ -17,6 +17,7 @@
     <string name="menu_option_open_routes_list">Otwórz listę dotychczasowych tras</string>
     <string name="menu_option_save_route">Nagrywaj trasę</string>
     <string name="menu_option_generate_report">Generuj raport</string>
+    <string name="menu_option_historical">Dotychczasowe raporty</string>
     <string name="menu_option_basic">Podróż</string>
     <string name="menu_option_routes">Trasy</string>
     <string name="menu_option_share">Udostępnij</string>

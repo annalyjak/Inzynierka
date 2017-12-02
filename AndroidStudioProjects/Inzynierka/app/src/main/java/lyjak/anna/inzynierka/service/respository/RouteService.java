@@ -302,6 +302,16 @@ public class RouteService implements RouteRepository {
     }
 
     @Override
+    public List<HistoricalReports> getAllHistoricalReports() {
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<HistoricalReports> results = realm.where(HistoricalReports.class)
+                .findAllAsync();
+        results.load();
+        return results;
+    }
+
+    @Override
     public void createReportInDatabase(PlannedRoute plannedRoute, Route route, String filePath) {
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();

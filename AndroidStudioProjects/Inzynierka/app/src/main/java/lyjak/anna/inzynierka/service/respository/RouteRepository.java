@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.Date;
 import java.util.List;
 
+import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
 import lyjak.anna.inzynierka.service.model.realm.Route;
@@ -24,6 +25,7 @@ public interface RouteRepository {
     // Read
     List<PlannedRoute> getAllPlannedRoutes();
     List<Route> getAllActualRoutes();
+    List<HistoricalReports> getAllHistoricalReports();
 
     PlannedRoute findPlannedRoute(String title, int distance, int duration);
     Route findRoute(Date date, Date startDate, Date endDate);

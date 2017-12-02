@@ -29,8 +29,10 @@ import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
+import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
 import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
+import lyjak.anna.inzynierka.view.fragments.HistoricalReportFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
 import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
@@ -173,6 +175,13 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.frameLayoutMain, mFragment).commit();
 
+        } else if (id == R.id.nav_history) {
+            if (mFragment != null) {
+                fragmentManager.beginTransaction().detach(mFragment).commit();
+            }
+            mFragment = HistoricalReportFragment.newInstance();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frameLayoutMain, mFragment).commit();
 
         } else if (id == R.id.nav_manage) {
             if (mFragment != null) {

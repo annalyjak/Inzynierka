@@ -26,6 +26,15 @@
         </menu>
     </item>
 
+    <item android:title="@string/menu_option_historical">
+        <menu>
+            <item
+                android:id="@+id/nav_history"
+                android:icon="@drawable/ic_view_list_black_24dp"
+                android:title="@string/menu_option_historical" />
+        </menu>
+    </item>
+
     <item android:title="@string/action_settings">
         <menu>
             <item

@@ -21,7 +21,7 @@ import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class PlannedRoutesFragment extends Fragment {
 
-    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter adapter;
     private PlannedRoutesCardListViewModel viewModel;
 
     private GenerateStandardReport mGenerateStandardReport;
@@ -49,15 +49,14 @@ public class PlannedRoutesFragment extends Fragment {
         }
         if (mGenerateStandardReport == null) {
             plannedRouteClickCallback = new ListPlannedRouteCallback(getActivity(), viewModel);
-//            mAdapter = new PlannedRouteAdapter(getActivity(), viewModel, plannedRouteClickCallback);
         } else {
             plannedRouteClickCallback = new ReportPlannedRouteCallback(getActivity(), mGenerateStandardReport);
         }
-        mAdapter = new PlannedRouteAdapter(getActivity(), viewModel, plannedRouteClickCallback);
+        adapter = new PlannedRouteAdapter(getActivity(), viewModel, plannedRouteClickCallback);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.recycleViewPlannedRoutes.setLayoutManager(mLayoutManager);
         binding.recycleViewPlannedRoutes.setItemAnimator(new DefaultItemAnimator());
-        binding.recycleViewPlannedRoutes.setAdapter(mAdapter);
+        binding.recycleViewPlannedRoutes.setAdapter(adapter);
 
         getPlannedRoutesFromDatabase();
         return binding.getRoot();
@@ -65,6 +64,8 @@ public class PlannedRoutesFragment extends Fragment {
 
     public void getPlannedRoutesFromDatabase() {
         viewModel.getPlannedRoutesFromDatabase();
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
+
+
 }
