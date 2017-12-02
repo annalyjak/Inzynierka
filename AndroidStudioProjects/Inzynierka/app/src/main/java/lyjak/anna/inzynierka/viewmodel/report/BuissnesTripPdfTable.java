@@ -25,7 +25,6 @@ import lyjak.anna.inzynierka.R;
 public class BuissnesTripPdfTable {
 
     private Context context;
-    private BaseFont baseFont;
     private Font headerFont;
     private Font normalFont;
     private Font tableCellFont;
@@ -37,7 +36,7 @@ public class BuissnesTripPdfTable {
     }
 
     private void init() throws IOException, DocumentException {
-        baseFont = BaseFont.createFont("assets/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.CACHED); // BaseFont.EMBEDED
+        BaseFont baseFont = BaseFont.createFont("assets/fonts/arial.ttf", BaseFont.IDENTITY_H, BaseFont.CACHED);
         headerFont = new Font(baseFont, 16);
         normalFont = new Font(baseFont, 11);
         tableCellFont = new Font(baseFont, 10);

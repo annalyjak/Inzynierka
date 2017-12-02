@@ -10,11 +10,11 @@ import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
  * Created by Anna on 02.12.2017.
  */
 
-public class HistoricalReportViewModel extends MainViewModel {
+public class HistoricalReportCardListViewModel extends MainViewModel {
 
     private List<HistoricalReports> reports;
 
-    public HistoricalReportViewModel(Context context) {
+    public HistoricalReportCardListViewModel(Context context) {
         super(context);
     }
 

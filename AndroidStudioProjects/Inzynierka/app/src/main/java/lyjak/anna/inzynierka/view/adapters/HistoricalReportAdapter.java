@@ -5,12 +5,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardHistoricalReportBinding;
 import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
-import lyjak.anna.inzynierka.viewmodel.HistoricalReportViewModel;
+import lyjak.anna.inzynierka.viewmodel.HistoricalReportCardListViewModel;
 
 /**
  *
@@ -20,9 +19,9 @@ import lyjak.anna.inzynierka.viewmodel.HistoricalReportViewModel;
 public class HistoricalReportAdapter extends RecyclerView.Adapter<HistoricalReportAdapter.ViewHolder> {
 
 
-    private final HistoricalReportViewModel viewModel;
+    private final HistoricalReportCardListViewModel viewModel;
 
-    public HistoricalReportAdapter(FragmentActivity activity, HistoricalReportViewModel viewModel) {
+    public HistoricalReportAdapter(FragmentActivity activity, HistoricalReportCardListViewModel viewModel) {
         this.viewModel = viewModel;
     }
 

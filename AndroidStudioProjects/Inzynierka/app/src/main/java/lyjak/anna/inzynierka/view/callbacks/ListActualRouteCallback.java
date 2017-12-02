@@ -2,12 +2,9 @@ package lyjak.anna.inzynierka.view.callbacks;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import lyjak.anna.inzynierka.R;

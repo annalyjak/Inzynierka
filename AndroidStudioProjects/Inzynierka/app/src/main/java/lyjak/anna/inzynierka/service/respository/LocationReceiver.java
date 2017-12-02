@@ -30,7 +30,7 @@ public class LocationReceiver extends BroadcastReceiver {
 
         if(actuallRoute.getStartDate() == null) {
             actuallRoute.setStartDate(new Date(System.currentTimeMillis()));
-            actuallRoute.setLocations(new RealmList<RealmLocation>());
+            actuallRoute.setLocations(new RealmList<>());
         }
 
         String locationKey = LocationManager.KEY_LOCATION_CHANGED;

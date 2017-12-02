@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.FragmentHistoricalReportBinding;
 import lyjak.anna.inzynierka.view.adapters.HistoricalReportAdapter;
-import lyjak.anna.inzynierka.viewmodel.HistoricalReportViewModel;
+import lyjak.anna.inzynierka.viewmodel.HistoricalReportCardListViewModel;
 
 public class HistoricalReportFragment extends Fragment {
 
     private RecyclerView.Adapter adapter;
-    private HistoricalReportViewModel viewModel;
+    private HistoricalReportCardListViewModel viewModel;
 
     public HistoricalReportFragment() {
         // Required empty public constructor
@@ -36,7 +36,7 @@ public class HistoricalReportFragment extends Fragment {
                 inflater, R.layout.fragment_historical_report, container, false);
 
         if (viewModel == null) {
-            viewModel = new HistoricalReportViewModel(getContext());
+            viewModel = new HistoricalReportCardListViewModel(getContext());
         }
         adapter = new HistoricalReportAdapter(getActivity(), viewModel);
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

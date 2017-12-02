@@ -36,9 +36,7 @@ public class ReportActualRouteCallback implements ActualRouteCallback {
                 .inflate(layoutInflater,
                         R.layout.dialog_adding_route_to_report_confirm,
                         null, false);
-        viewDataBinding.buttonNo.setOnClickListener(v2 -> {
-            dialog.dismiss();
-        });
+        viewDataBinding.buttonNo.setOnClickListener(v2 -> dialog.dismiss());
         viewDataBinding.buttonYes.setOnClickListener(v2 -> {
             dialog.dismiss();
             generateStandardReport.setActualRoute(route);

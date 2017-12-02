@@ -3,7 +3,6 @@ package lyjak.anna.inzynierka.viewmodel.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PointOfRouteForReportDTO;
 

@@ -1,6 +1,5 @@
 package lyjak.anna.inzynierka.service.model;
 
-import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
 
 /**

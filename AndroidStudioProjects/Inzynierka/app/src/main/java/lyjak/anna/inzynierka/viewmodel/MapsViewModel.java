@@ -223,9 +223,7 @@ public class MapsViewModel extends MainViewModel {
 
     public void includeMarkersToBuilder(LatLngBounds.Builder builder) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            listOfMarkers.stream().forEach(marker -> {
-                builder.include(marker.getPosition());
-            });
+            listOfMarkers.stream().forEach(marker -> builder.include(marker.getPosition()));
         } else {
             for (Marker marker : listOfMarkers) {
                 builder.include(marker.getPosition());
@@ -235,9 +233,7 @@ public class MapsViewModel extends MainViewModel {
 
     public void includeLatLngToBuilder(LatLngBounds.Builder builder, List<LatLng> line) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            line.stream().forEach(li -> {
-                builder.include(li);
-            });
+            line.stream().forEach(builder::include);
         } else {
             for (LatLng li : line) {
                 builder.include(li);
@@ -251,7 +247,7 @@ public class MapsViewModel extends MainViewModel {
 
     public boolean isGenerated() {
         if (generate != null) {
-            return generate == true;
+            return generate;
         }
         else {
             return false;

@@ -1,16 +1,12 @@
 package lyjak.anna.inzynierka.viewmodel;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
 
-import javax.inject.Singleton;
-
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
 import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.service.respository.RouteService;
 
 /**
  * Created by Anna on 19.11.2017.

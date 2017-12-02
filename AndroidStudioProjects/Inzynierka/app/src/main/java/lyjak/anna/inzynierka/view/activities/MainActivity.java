@@ -29,7 +29,6 @@ import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
-import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
 import lyjak.anna.inzynierka.service.respository.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.HistoricalReportFragment;
@@ -40,7 +39,6 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO dodatek: dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
 //TODO dodać testy
 //TODO usunąć komentarze z klas
 //TODO dodać jakiś komunikat jeśli trasy zrealizowane i planowane - lista jest pusta

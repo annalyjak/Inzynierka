@@ -11,8 +11,6 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;

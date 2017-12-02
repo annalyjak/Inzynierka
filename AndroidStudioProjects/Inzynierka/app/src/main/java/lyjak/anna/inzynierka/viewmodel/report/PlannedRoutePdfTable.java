@@ -25,6 +25,8 @@ import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.service.model.TypeOfTransport;
 import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
 
+import static java.lang.String.*;
+
 /**
  * For Report of PlannedRoute
  * Created by Anna on 25.11.2017.
@@ -123,34 +125,34 @@ public class PlannedRoutePdfTable {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             infoForReport.forEach(info -> {
                 PdfPCell cellRow;
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getNumer()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getNumer()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getName()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getName()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getStartPoint()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getStartPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getEndPoint()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getEndPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
                 table.addCell(new Phrase(info.getDurationHandMin(), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase((String.format("%.2f", (info.getDistance()/1000))), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase((format("%.2f", (info.getDistance()/1000))), tableCellMiniFont));
                 table.addCell(cellRow);
                 table.addCell(" ");
             });
         } else {
             for(PlannedRouteReportInfo.Point info : infoForReport) {
                 PdfPCell cellRow;
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getNumer()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getNumer()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getName()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getName()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getStartPoint()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getStartPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.valueOf(info.getEndPoint()), tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(valueOf(info.getEndPoint()), tableCellMiniFont));
                 table.addCell(cellRow);
                 cellRow = new PdfPCell(new Phrase(info.getDurationHandMin(), tableCellMiniFont));
                 table.addCell(cellRow);
-                cellRow = new PdfPCell(new Phrase(String.format("%.2f", (info.getDistance()/1000)) + " km", tableCellMiniFont));
+                cellRow = new PdfPCell(new Phrase(format("%.2f", (info.getDistance()/1000)) + " km", tableCellMiniFont));
                 table.addCell(cellRow);
                 table.addCell(" ");
             }
@@ -162,7 +164,7 @@ public class PlannedRoutePdfTable {
         table.addCell(cell);
         cell = new PdfPCell(new Phrase(route.getAllFormatedDuration(), tableCellFont));
         table.addCell(cell);
-        cell = new PdfPCell(new Phrase(String.valueOf(route.getAllDistance()/1000) + " km", tableCellFont));
+        cell = new PdfPCell(new Phrase(valueOf(route.getAllDistance()/1000) + " km", tableCellFont));
         table.addCell(cell);
         table.addCell(" ");
 

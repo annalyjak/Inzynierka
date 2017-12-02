@@ -28,6 +28,8 @@ import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
 
+import static java.lang.String.*;
+
 /**
  * Created by Anna Łyjak on 08.10.2017.
  */
@@ -66,11 +68,11 @@ public class PlannedRouteAdapter extends RecyclerView.Adapter<PlannedRouteAdapte
         holder.binding.setRoute(route);
         holder.title.setText((resources.getString(R.string.cardview_title) + " " + route.getTitle()));
         holder.date.setText(((resources.getString(R.string.cardview_date) + " "
-                + String.format(DATE_FORMAT, route.getDate()))));
+                + format(DATE_FORMAT, route.getDate()))));
         holder.points.setText((resources.getString(R.string.cardview_points) + " "
-                + String.valueOf(route.getSize())));
-        holder.duration.setText((resources.getString(R.string.cardview_duartion) + " " + String.valueOf(route.getFormatedDuration())));
-        holder.distance.setText((resources.getString(R.string.cardview_distance) + " " + String.valueOf(route.getFormatedDistance())));
+                + valueOf(route.getSize())));
+        holder.duration.setText((resources.getString(R.string.cardview_duartion) + " " + valueOf(route.getFormatedDuration())));
+        holder.distance.setText((resources.getString(R.string.cardview_distance) + " " + valueOf(route.getFormatedDistance())));
 
         if (route.getSize() > 0 && ContextCompat.checkSelfPermission(
                 this.activity.getApplicationContext(), Manifest.permission.INTERNET)
