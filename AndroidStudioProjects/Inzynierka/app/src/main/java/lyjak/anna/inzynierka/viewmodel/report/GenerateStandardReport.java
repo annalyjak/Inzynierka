@@ -12,11 +12,11 @@ import android.util.Log;
 
 import java.io.File;
 
-import lyjak.anna.inzynierka.service.model.TypeOfTransport;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.respository.RouteService;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.model.repository.RouteService;
+import lyjak.anna.inzynierka.model.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *

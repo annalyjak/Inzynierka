@@ -4,8 +4,8 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
-import lyjak.anna.inzynierka.service.respository.RouteRepository;
-import lyjak.anna.inzynierka.service.respository.RouteService;
+import lyjak.anna.inzynierka.model.repository.RouteRepository;
+import lyjak.anna.inzynierka.model.repository.RouteService;
 
 /**
  * Created by Anna on 19.11.2017.

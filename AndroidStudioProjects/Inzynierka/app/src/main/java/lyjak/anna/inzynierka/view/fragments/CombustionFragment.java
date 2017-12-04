@@ -12,7 +12,7 @@ import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.adapters.CurrencyAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentCombustionBinding;
 import lyjak.anna.inzynierka.viewmodel.report.Combustion;
-import lyjak.anna.inzynierka.service.model.Currency;
+import lyjak.anna.inzynierka.model.reports.Currency;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class CombustionFragment extends Fragment {

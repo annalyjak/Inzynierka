@@ -15,11 +15,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import lyjak.anna.inzynierka.service.model.Car;
-import lyjak.anna.inzynierka.service.model.TypeOfTransport;
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.model.reports.Car;
+import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.model.modelDTO.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.model.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *

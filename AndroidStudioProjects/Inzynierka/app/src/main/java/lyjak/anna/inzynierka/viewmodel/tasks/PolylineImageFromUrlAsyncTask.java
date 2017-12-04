@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import lyjak.anna.inzynierka.service.model.utils.GoogleMapsStaticUtil;
+import lyjak.anna.inzynierka.model.utils.GoogleMapsStaticUtil;
 
 /**
  * Created by Anna on 18.11.2017.

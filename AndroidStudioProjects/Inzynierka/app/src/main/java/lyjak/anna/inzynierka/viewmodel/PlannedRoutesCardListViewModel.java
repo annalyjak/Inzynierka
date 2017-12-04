@@ -5,7 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 
 /**
  * Created by Anna on 19.11.2017.

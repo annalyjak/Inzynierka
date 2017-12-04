@@ -1,7 +1,7 @@
 package lyjak.anna.inzynierka.viewmodel.report;
 
-import lyjak.anna.inzynierka.service.model.Currency;
-import lyjak.anna.inzynierka.service.model.TypeOfTransport;
+import lyjak.anna.inzynierka.model.reports.Currency;
+import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
 
 /**
  * Created by Anna on 21.10.2017.

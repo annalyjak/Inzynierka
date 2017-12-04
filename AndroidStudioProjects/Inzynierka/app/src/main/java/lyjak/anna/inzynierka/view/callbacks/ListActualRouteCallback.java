@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogActualRouteCardClickBinding;
-import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;

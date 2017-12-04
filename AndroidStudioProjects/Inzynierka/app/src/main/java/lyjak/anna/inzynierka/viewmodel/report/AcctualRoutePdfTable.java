@@ -15,8 +15,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.ActualRouteForReportDTO;
+import lyjak.anna.inzynierka.model.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.model.modelDTO.ActualRouteForReportDTO;
 
 /**
  * For Report of AcctualRoute

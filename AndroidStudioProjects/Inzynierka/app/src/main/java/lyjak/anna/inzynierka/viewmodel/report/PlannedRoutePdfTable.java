@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.List;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.service.model.TypeOfTransport;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
+import lyjak.anna.inzynierka.model.modelDTO.PlannedRouteForReportDTO;
 
 import static java.lang.String.*;
 

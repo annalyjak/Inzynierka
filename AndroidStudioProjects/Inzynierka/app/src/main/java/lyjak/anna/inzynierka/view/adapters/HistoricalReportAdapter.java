@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardHistoricalReportBinding;
-import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
+import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
 import lyjak.anna.inzynierka.viewmodel.HistoricalReportCardListViewModel;
 
 /**

@@ -11,7 +11,7 @@ import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogPlannedRouteCardClickBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.view.fragments.PointsFragment;

@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardPointOfRouteBinding;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
 import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.ItemTouchHelperViewHolder;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnCardViewTouchListener;

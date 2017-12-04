@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardActualRouteBinding;
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.model.utils.DistanceAndDurationUtil;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.model.utils.DistanceAndDurationUtil;
 import lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback;
 import lyjak.anna.inzynierka.viewmodel.ActualRouteListViewModel;
 

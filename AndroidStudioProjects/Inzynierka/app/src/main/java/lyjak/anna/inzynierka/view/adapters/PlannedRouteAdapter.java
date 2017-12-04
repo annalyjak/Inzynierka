@@ -20,13 +20,13 @@ import java.util.List;
 import io.realm.RealmList;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardPlannedRouteBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.RealmLocation;
 import lyjak.anna.inzynierka.view.callbacks.PlannedRouteCallback;
 import lyjak.anna.inzynierka.viewmodel.PlannedRoutesCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.tasks.PointImageFromUrlAsyncTask;
 import lyjak.anna.inzynierka.viewmodel.tasks.PolylineImageFromUrlAsyncTask;
-import lyjak.anna.inzynierka.service.model.utils.CreateModelDataUtil;
+import lyjak.anna.inzynierka.model.utils.CreateModelDataUtil;
 
 import static java.lang.String.*;
 

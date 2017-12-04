@@ -11,8 +11,8 @@ import android.util.Log;
 
 import java.io.File;
 
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.modelDTO.PlannedRouteForReportDTO;
 
 /**
  *

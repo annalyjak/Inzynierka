@@ -29,7 +29,7 @@ import android.view.View;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
-import lyjak.anna.inzynierka.service.respository.LocationService;
+import lyjak.anna.inzynierka.model.service.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
 import lyjak.anna.inzynierka.view.fragments.HistoricalReportFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;

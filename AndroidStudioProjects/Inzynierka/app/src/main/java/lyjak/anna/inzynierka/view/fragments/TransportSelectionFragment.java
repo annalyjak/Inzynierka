@@ -8,18 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.service.model.Plane;
-import lyjak.anna.inzynierka.service.model.Railway;
-import lyjak.anna.inzynierka.service.model.Ship;
+import lyjak.anna.inzynierka.model.reports.Plane;
+import lyjak.anna.inzynierka.model.reports.Railway;
+import lyjak.anna.inzynierka.model.reports.Ship;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.databinding.FragmentTransportSelectionBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.model.Bus;
-import lyjak.anna.inzynierka.service.model.Car;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.model.reports.Bus;
+import lyjak.anna.inzynierka.model.reports.Car;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
-import lyjak.anna.inzynierka.service.model.Tir;
-import lyjak.anna.inzynierka.service.model.TypeOfTransport;
+import lyjak.anna.inzynierka.model.reports.Tir;
+import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
 
 public class TransportSelectionFragment extends Fragment {
 

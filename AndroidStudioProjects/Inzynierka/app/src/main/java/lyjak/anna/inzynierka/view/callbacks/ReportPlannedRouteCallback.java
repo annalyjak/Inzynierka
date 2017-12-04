@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogAddingRouteToReportConfirmBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.view.activities.MapsActivity;
 import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;

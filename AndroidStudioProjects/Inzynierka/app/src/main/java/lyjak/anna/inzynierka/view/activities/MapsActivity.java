@@ -46,9 +46,9 @@ import java.util.List;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogMapMarkerClickBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
 import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,

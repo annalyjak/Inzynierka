@@ -3,8 +3,8 @@ package lyjak.anna.inzynierka.viewmodel.report;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PlannedRouteForReportDTO;
-import lyjak.anna.inzynierka.viewmodel.report.modelDTO.PointOfRouteForReportDTO;
+import lyjak.anna.inzynierka.model.modelDTO.PlannedRouteForReportDTO;
+import lyjak.anna.inzynierka.model.modelDTO.PointOfRouteForReportDTO;
 
 /**
  * Created by Anna on 03.11.2017.

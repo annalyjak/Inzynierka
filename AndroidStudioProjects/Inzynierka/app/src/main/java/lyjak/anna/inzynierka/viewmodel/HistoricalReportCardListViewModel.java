@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import lyjak.anna.inzynierka.service.model.realm.HistoricalReports;
+import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
 
 /**
  * Created by Anna on 02.12.2017.

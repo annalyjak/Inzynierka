@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.FragmentPointsBinding;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.view.adapters.PointsAdapter;
 import lyjak.anna.inzynierka.viewmodel.PointsCardListViewModel;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnStartDragListener;
