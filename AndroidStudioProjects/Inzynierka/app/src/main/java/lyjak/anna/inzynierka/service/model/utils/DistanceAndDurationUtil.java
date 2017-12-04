@@ -15,6 +15,8 @@ import lyjak.anna.inzynierka.viewmodel.report.modelDTO.LocationForReportDTO;
 
 public class DistanceAndDurationUtil {
 
+    private DistanceAndDurationUtil() {}
+
     public static float getDistanceInKm(RealmLocation first, RealmLocation second) {
         int result = 0;
         float[] results = new float[1];

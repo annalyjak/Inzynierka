@@ -49,7 +49,7 @@
 
     <string name="fragment_add_route_point_textview1">Dodaj punkt do trasy!</string>
 
-    <string name="dialog_map_marker_click_choose_option">Co chcesz zrobić z tym punktem?</string>
+    <string name="dialog_map_marker_click_choose_option">Co chcesz zrobić z tą trasą?</string>
     <string name="dialog_map_marker_click_add_to_route">Dodaj do aktualnej trasy</string>
     <string name="dialog_map_marker_click_create_new_route">Utwórz nową trasę z tym punktem</string>
     <string name="dialog_map_marker_click_delete_marker">Usuń znacznik</string>

@@ -23,11 +23,6 @@
                 android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_edit_location_black_24dp"
                 android:title="@string/menu_option_planned_routes" />
-        </menu>
-    </item>
-
-    <item android:title="@string/menu_option_historical">
-        <menu>
             <item
                 android:id="@+id/nav_history"
                 android:icon="@drawable/ic_view_list_black_24dp"

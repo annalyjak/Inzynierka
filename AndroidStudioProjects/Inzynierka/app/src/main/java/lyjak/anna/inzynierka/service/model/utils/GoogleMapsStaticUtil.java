@@ -16,6 +16,8 @@ import java.net.URL;
 
 public class GoogleMapsStaticUtil {
 
+    private GoogleMapsStaticUtil() {}
+
     public static Bitmap getGoogleMapStaticPicture(double lat, double longi){
         String stringUrl = "http://maps.google.com/maps/api/staticmap?center=" + lat + ","
                 + longi + "&zoom=15&size=400x200&maptype=roadmap&sensor=false" +

@@ -23,6 +23,8 @@ public class CreateModelDataUtil {
 
     private static final String TAG = CreateModelDataUtil.class.getSimpleName();
 
+    private CreateModelDataUtil() {}
+
     public static RealmLocation createRelamLocationFromMarker(Marker marker) {
         Log.i(TAG, "Start to create new RealmLocation");
         RealmLocation result = new RealmLocation();
