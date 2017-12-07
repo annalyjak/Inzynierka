@@ -90,6 +90,8 @@
 
     <string name="report_head">POLECENIE WYJAZDU SŁUŻBOWEGO NR</string>
     <string name="report_transport_type">Środek trasportu:      </string>
+    <string name="report_combustion">Spalanie:      </string>
+    <string name="report_combustion_cost">Koszt spalanego paliwa:       </string>
     <string name="report_name">Imię i nazwisko pracownika:      </string>
     <string name="report_occupation">Stanowisko służbowe:       </string>
     <string name="report_purpose">Cel podróży:      </string>

@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.List;
 
 import lyjak.anna.inzynierka.R;
@@ -87,7 +88,7 @@ public class PlannedRoutePdfTable {
         paragraph.add(new Paragraph(getString(R.string.report_planned_route_points) + " "
                 + route.getPoints().size(), normalFont));
         paragraph.add(new Paragraph(getString(R.string.report_planned_route_date) + " "
-                + route.getDate().toString(), normalFont));
+                + DateFormat.getDateTimeInstance().format(route.getDate()), normalFont));
         paragraph.add(new Paragraph(getString(R.string.report_planned_route_type) + " "
                 + transport.getName() + " (" + transport.getShortName() + ")", normalFont));
         paragraph.add(new Paragraph(getString(R.string.report_planned_route), normalFont));
@@ -189,7 +190,7 @@ public class PlannedRoutePdfTable {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100 , stream);
         try {
             Image image = Image.getInstance(stream.toByteArray());
-            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight() - 200);
+            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight() - 205);
             image.setAlignment(Image.ALIGN_CENTER);
             return image;
         } catch (IOException | BadElementException e) {

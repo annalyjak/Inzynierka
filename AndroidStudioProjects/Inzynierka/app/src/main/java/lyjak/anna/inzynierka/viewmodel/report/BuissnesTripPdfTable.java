@@ -67,6 +67,25 @@ public class BuissnesTripPdfTable {
         return table;
     }
 
+    PdfPTable createCombustionInfo(Combustion combustion) {
+        PdfPTable table = new PdfPTable(2);
+        table.setTotalWidth(510);
+        table.setLockedWidth(true);
+
+        PdfPCell cell = new PdfPCell(new Phrase(getString(R.string.report_combustion), normalFont));
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase(combustion.getCombustionAmount(), normalFont));
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase(getString(R.string.report_combustion_cost), normalFont));
+        cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+        table.addCell(cell);
+        cell = new PdfPCell(new Phrase(combustion.calculateCombustionAmount(Combustion.ACTUAL_ROUTE),
+                normalFont));
+        table.addCell(cell);
+        return table;
+    }
+
     public PdfPTable createPersonalDataTable() {
         // a table with three columns
         PdfPTable table = new PdfPTable(2);

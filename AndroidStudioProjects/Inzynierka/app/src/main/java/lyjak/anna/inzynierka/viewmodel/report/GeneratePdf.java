@@ -30,6 +30,8 @@ public class GeneratePdf {
 
     private static final String TAG = GeneratePdf.class.getSimpleName();
     private AdditionalFields additionalFields;
+    private Combustion combustion;
+    private TimeTripInfo timeTripInfo;
 
     private Bitmap bitmap;
 
@@ -82,7 +84,17 @@ public class GeneratePdf {
         this.bitmap = bitmap;
     }
 
-    File generateBuissnesTripReport(TypeOfTransport type, PlannedRouteForReportDTO route,
+    public void setCombustion(Combustion combustion) {
+        this.combustion = combustion;
+    }
+
+    public void setTimeTripInfo(TimeTripInfo timeTripInfo) {
+        this.timeTripInfo = timeTripInfo;
+    }
+
+    File generateBuissnesTripReport(TypeOfTransport type,
+                                    PlannedRouteForReportDTO route,
+                                    ActualRouteForReportDTO actualRoute,
                                     String fileName) {
         try {
             BuissnesTripPdfTable buissnesTripReport = new BuissnesTripPdfTable(context);
@@ -92,6 +104,9 @@ public class GeneratePdf {
             init(fileName);
             document.add(buissnesTripReport.getBasicTitleHeader());
             document.add(buissnesTripReport.createTypeOfTransport(type.getShortName()));
+            if (combustion != null) {
+                document.add(buissnesTripReport.createCombustionInfo(combustion));
+            }
             if (additionalFields.isPersonalDataAboutEmployee()) {
                 document.add(buissnesTripReport.createPersonalDataTable());
             } else {
@@ -127,13 +142,13 @@ public class GeneratePdf {
             document.add(getEmptyParagraph());
             document.add(plannedReport.createPlannedInfoHeader());
             document.add(getEmptyParagraph());
-            document.add(plannedReport.createPlannedInfo(route, new Car()));
+            document.add(plannedReport.createPlannedInfo(route, type));
             document.add(getEmptyParagraph());
             document.add(plannedReport.createPlannedTable(new PlannedRouteReportInfo(route)));
             document.newPage(); //TRASA ZREALIZOWANA
             document.add(acctualReport.createAcctuallInfoHeader());
             document.add(getEmptyParagraph());
-            document.add(acctualReport.createAcctuallInfo(ActualRouteForReportDTO.getInstance(new Route())));
+            document.add(acctualReport.createAcctuallInfo(actualRoute));
 //            document.add(createMapImage());
 
             return save();

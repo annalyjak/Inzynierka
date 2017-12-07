@@ -12,6 +12,7 @@ import android.util.Log;
 
 import java.io.File;
 
+import lyjak.anna.inzynierka.model.modelDTO.ActualRouteForReportDTO;
 import lyjak.anna.inzynierka.model.reports.TypeOfTransport;
 import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.model.realmObjects.Route;
@@ -27,55 +28,55 @@ public class GenerateStandardReport {
 
     private static final String TAG = GenerateStandardReport.class.getSimpleName();
 
-    private PlannedRoute mPlannedRoute;
-    private Route mActualRoutes;
-    private TypeOfTransport mTypeOfTransport;
-    private Combustion mCombustion;
-    private TimeTripInfo mTimeTripInfo;
-    private AdditionalFields mAdditionalFields;
+    private PlannedRoute plannedRoute;
+    private Route actualRoute;
+    private TypeOfTransport typeOfTransport;
+    private Combustion combustion;
+    private TimeTripInfo timeTripInfo;
+    private AdditionalFields additionalFields;
 
     public GenerateStandardReport() {}
 
     public void setTypeOfTransport(TypeOfTransport typeOfTransport) {
-        this.mTypeOfTransport = typeOfTransport;
+        this.typeOfTransport = typeOfTransport;
     }
 
     public TypeOfTransport getTypeOfTransport() {
-        return mTypeOfTransport;
+        return typeOfTransport;
     }
 
     public void setPlannedRoute(PlannedRoute plannedRoute) {
-        this.mPlannedRoute = plannedRoute;
+        this.plannedRoute = plannedRoute;
     }
 
     public void setActualRoute(Route actualRoutes) {
-        this.mActualRoutes = actualRoutes;
+        this.actualRoute = actualRoutes;
     }
 
     public void addActualRoute(Route route) {
-        if (mActualRoutes == null) {
-            mActualRoutes = route;
+        if (actualRoute == null) {
+            actualRoute = route;
         }
     }
 
     public void setCombustion(Combustion combustion) {
-        this.mCombustion = combustion;
+        this.combustion = combustion;
     }
 
     public void setTimeTripInfo(TimeTripInfo timeTripInfo) {
-        this.mTimeTripInfo = timeTripInfo;
+        this.timeTripInfo = timeTripInfo;
     }
 
     public void setAdditionalFields(AdditionalFields mAdditionalFields) {
-        this.mAdditionalFields = mAdditionalFields;
+        this.additionalFields = mAdditionalFields;
     }
 
     public boolean plannedRouteSelected() {
-        return mPlannedRoute == null;
+        return plannedRoute == null;
     }
 
     public Route getActualRoute() {
-        return mActualRoutes;
+        return actualRoute;
     }
 
     public GenerateStandardReport getGenerateReportObject() {
@@ -85,9 +86,22 @@ public class GenerateStandardReport {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPdf(Activity activity, Context context, Bitmap bitmap) {
         String targetPdf = "/LogMilesRaport" + System.currentTimeMillis() + ".pdf";
-        GeneratePdf pdf = new GeneratePdf(activity, mAdditionalFields);
+        GeneratePdf pdf = new GeneratePdf(activity, additionalFields);
         pdf.setBitmap(bitmap);
-        PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(mPlannedRoute);
+        if (timeTripInfo != null) {
+            pdf.setTimeTripInfo(timeTripInfo);
+        }
+        if (combustion != null) {
+            Log.i(TAG, "combustion != null");
+            pdf.setCombustion(combustion);
+        } else {
+            Log.i(TAG, "combustion == null");
+        }
+        PlannedRouteForReportDTO prfr = PlannedRouteForReportDTO.getInstance(plannedRoute);
+        Log.i(TAG, prfr.toString());
+
+        ActualRouteForReportDTO arfr = ActualRouteForReportDTO.getInstance(actualRoute);
+        Log.i(TAG, arfr.toString());
         ProgressDialog progressDialog = ProgressDialog.show(activity,
                 "Please wait ...",  "Task in progress ...", true);
         progressDialog.setCancelable(false);
@@ -98,6 +112,7 @@ public class GenerateStandardReport {
                 File savedFile = pdf.generateBuissnesTripReport(
                         getTypeOfTransport(),
                         prfr,
+                        arfr,
                         targetPdf);
                 sendFile(activity, savedFile);
             } catch (Exception e) {
@@ -125,6 +140,6 @@ public class GenerateStandardReport {
     }
 
     public PlannedRoute getPlannedRoute() {
-        return mPlannedRoute;
+        return plannedRoute;
     }
 }

@@ -55,7 +55,7 @@ public class ActualRouteAdapter extends RecyclerView.Adapter<ActualRouteAdapter.
             holder.binding.setRoute(route);
             holder.binding.textViewRouteId.setText((resources.getString(R.string.cardview_id) + " " + position));
             holder.binding.textViewActualDistance.setText((resources.getString(R.string.cardview_distance) + " " +
-                    DistanceAndDurationUtil.calculateDistance(route.getLocations())));
+                    DistanceAndDurationUtil.calculateDistanceWithTextResult(route.getLocations())));
             holder.binding.executePendingBindings();
         }
     }

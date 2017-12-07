@@ -79,6 +79,6 @@ public class Combustion {
             mAllRouteCost = 0.0;
         }
 
-        return mAllRouteCost.toString() + " " + mFuelCostCurrency;
+        return String.format("%.2f", mAllRouteCost) + " " + mFuelCostCurrency;
     }
 }

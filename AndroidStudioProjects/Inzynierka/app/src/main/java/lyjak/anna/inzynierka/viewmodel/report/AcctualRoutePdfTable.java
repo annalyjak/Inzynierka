@@ -13,6 +13,8 @@ import com.itextpdf.text.pdf.BaseFont;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.model.utils.DistanceAndDurationUtil;
@@ -72,11 +74,12 @@ public class AcctualRoutePdfTable {
         Paragraph paragraph = new Paragraph();
         if (route.getStartDate() != null) {
             paragraph = new Paragraph(getString(R.string.report_acctual_route_start)
-                    + " " + route.getStartDate(), normalFont);
+                    + " " + SimpleDateFormat.getDateTimeInstance().format(route.getStartDate()),
+                    normalFont);
         }
         if (route.getEndDate() != null) {
             paragraph.add(new Paragraph(getString(R.string.report_acctual_route_end) + " "
-                    + route.getEndDate(), normalFont));
+                    + SimpleDateFormat.getDateTimeInstance().format(route.getEndDate()), normalFont));
         }
         if (route.getLocations() != null) {
             paragraph.add(new Paragraph(getString(R.string.report_acctual_route_distance) + " "
@@ -99,7 +102,7 @@ public class AcctualRoutePdfTable {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100 , stream);
         try {
             Image image = Image.getInstance(stream.toByteArray());
-            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight() - 200);
+            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight() - 210);
             image.setAlignment(Image.ALIGN_CENTER);
             return image;
         } catch (IOException | BadElementException e) {

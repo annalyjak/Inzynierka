@@ -41,7 +41,7 @@ public class CombustionFragment extends Fragment {
         binding.spinnerCurrency.setAdapter(spinnerAdapter);
         binding.spinnerCurrency.setSelection(PLN_CURRENCY);
         binding.buttonNext.setOnClickListener(v1 -> {
-            if (binding.switchCombustionAutomatic.isSelected()) {
+            if (binding.switchCombustionAutomatic.isChecked()) {
                 Combustion combustion = new Combustion();
                 combustion.setTypeOfTransportConverter(mGenerateStandardReport.getTypeOfTransport());
                 combustion.setBurnedFuel(Integer.parseInt(

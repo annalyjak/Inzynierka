@@ -41,6 +41,10 @@ public class DistanceAndDurationUtil {
         return results[0]/1000;
     }
 
+    public static String calculateDistanceWithTextResult(RealmList<RealmLocation> locations) {
+        return (String.format("%.2f", (calculateDistance(locations)/1000.0))) + " km";
+    }
+
     public static int calculateDistance(RealmList<RealmLocation> locations) {
         int result = 0;
         if (locations == null) {
