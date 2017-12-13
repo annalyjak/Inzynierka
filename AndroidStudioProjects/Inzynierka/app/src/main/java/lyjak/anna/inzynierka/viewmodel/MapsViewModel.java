@@ -47,7 +47,7 @@ public class MapsViewModel extends MainViewModel {
     public static GeneratePlannedRouteReport reportPlannedRoute;
     private Boolean generate;
 
-    private PlannedRoute savePlannedRoute;
+    public static PlannedRoute savePlannedRoute;
     private Route saveRoute;
 
     // The geographical location where the device is currently located. That is, the last-known
@@ -77,9 +77,9 @@ public class MapsViewModel extends MainViewModel {
 
     public void addPointToActualRoute(Marker marker) {
         if (savePlannedRoute != null) {
-            routeService.addPointToRoute(marker, savePlannedRoute);
+            routeRepository.addPointToRoute(marker, savePlannedRoute);
         } else {
-            routeService.addPointToActualRoute(marker);
+            routeRepository.addPointToActualRoute(marker);
         }
     }
 
@@ -95,9 +95,9 @@ public class MapsViewModel extends MainViewModel {
         viewDataBinding.buttonOK.setOnClickListener(v -> {
             dialog.dismiss();
             if (viewDataBinding.editTextTitleOfRoute.getText() == null) {
-                routeService.createNewPlannedRoute("", marker);
+                routeRepository.createNewPlannedRoute("", marker);
             } else {
-                routeService.createNewPlannedRoute(
+                routeRepository.createNewPlannedRoute(
                         viewDataBinding.editTextTitleOfRoute.getText().toString(), marker);
             }
         });
@@ -120,8 +120,8 @@ public class MapsViewModel extends MainViewModel {
 
     public void createLine() {
         if(savePlannedRoute.isValid()) {
-            routeService.calculateLine(savePlannedRoute);
-            savePlannedRoute = routeService.findPlannedRoute(
+            routeRepository.calculateLine(savePlannedRoute);
+            savePlannedRoute = routeRepository.findPlannedRoute(
                     savePlannedRoute.getTitle(),
                     savePlannedRoute.getDistance(),
                     savePlannedRoute.getDuration());
@@ -129,11 +129,11 @@ public class MapsViewModel extends MainViewModel {
     }
 
     public void findPlannedRoute(String title, int distance, int duration) {
-        savePlannedRoute = routeService.findPlannedRoute(title, distance, duration);
+        savePlannedRoute = routeRepository.findPlannedRoute(title, distance, duration);
     }
 
     public void findRoute(Date date, Date startDate, Date endDate) {
-        saveRoute = routeService.findRoute(date, startDate, endDate);
+        saveRoute = routeRepository.findRoute(date, startDate, endDate);
     }
 
     public boolean isPlannedRouteNull() {

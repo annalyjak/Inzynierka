@@ -43,6 +43,8 @@
     <string name="map_setting_traffic">Pokazać aktualne warunki drogowe?</string>
     <string name="map_setting_context_traffic_on">Tak</string>
     <string name="map_setting_context_traffic_off">Nie</string>
+    <string name="map_setting_add_type_of_transport">Dodaj środek transportu</string>
+    <string name="map_setting_add">Dodaj</string>
 
     <string name="fragment_location_listener_start">Rozpocznij nagrywanie</string>
     <string name="fragment_location_listener_stop">Zakończ nagrywanie</string>
@@ -76,6 +78,9 @@
     <string name="cardview_distance">Dystans:</string>
     <string name="cardview_duartion">Czas trwania:</string>
     <string name="cardview_points">Liczba punktów:</string>
+    <string name="cardview_endDate">Data zakończenia: %1$ta, %1$te %1$tB %1$tY</string>
+    <string name="cardview_startDate">Data rozpoczęcia: %1$ta, %1$te %1$tB %1$tY</string>
+
 
     <string name="fragment_transport_selection">Wybierz rodzaj transportu:</string>
     <string name="fragment_transport_selection_car">Samochód</string>
@@ -95,10 +100,12 @@
 
 
     <string name="report_head">POLECENIE WYJAZDU SŁUŻBOWEGO NR</string>
-    <string name="report_transport_type">Środek trasportu:      </string>
+    <string name="report_transport_type">Środek transportu:      </string>
     <string name="report_name">Imię i nazwisko pracownika:      </string>
     <string name="report_occupation">Stanowisko służbowe:       </string>
     <string name="report_purpose">Cel podróży:      </string>
+    <string name="report_combustion">Spalanie:</string>
+    <string name="report_combustion_cost">Koszt spalania:</string>
     <string name="report_feeding">Wyżywienie</string>
     <string name="report_feedingA1">a) brak bezpłatnego wyżywienia - czas spędzony w podróży służbowej</string>
     <string name="report_feedingB1">b) zapewnione częściowe bezpłatne wyżywienie</string>
@@ -111,7 +118,7 @@
     <string name="report_feeding32">Bezpłatne obiady</string>
     <string name="report_feeding33">Bezpłatne kolacje</string>
     <string name="report_accomodation1">Koszty noclegu</string>
-    <string name="report_accomodation2">Wdług rachunku bankowego</string>
+    <string name="report_accomodation2">Według rachunku bankowego</string>
     <string name="report_accomodation3">Ryczałt za nocleg:</string>
     <string name="report_accomodation4">Liczba noclegów:</string>
     <string name="report_accomodation5">Limit na nocleg:</string>
@@ -121,7 +128,7 @@
     <string name="report_transport_costs4">z dworca i do dworca autobusowego</string>
     <string name="report_transport_costs5">portu lotniczego</string>
     <string name="report_transport_costs6">portu morskiego</string>
-    <string name="report_transport_costs7">Koszty przejazdu środkami komunikacji miejsciej</string>
+    <string name="report_transport_costs7">Koszty przejazdu środkami komunikacji miejskiej</string>
     <string name="report_transport_costs8">Wydatki na autostradę</string>
     <string name="report_transport_costs9">Pozostałe koszty</string>
     <string name="report_hospitalization1">Pracownik przebywał w szpitalu lub innym zakładzie leczniczym</string>

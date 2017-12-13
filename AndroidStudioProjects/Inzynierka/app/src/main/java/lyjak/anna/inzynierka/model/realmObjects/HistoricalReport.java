@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Anna Łyjak on 01.10.2017.
  */
 
-public class HistoricalReports extends RealmObject {
+public class HistoricalReport extends RealmObject {
 
     private PlannedRoute plannedRoute;
     private Route actualRoute;

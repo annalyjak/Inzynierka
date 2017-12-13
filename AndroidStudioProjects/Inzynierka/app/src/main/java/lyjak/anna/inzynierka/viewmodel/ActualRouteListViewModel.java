@@ -22,7 +22,7 @@ public class ActualRouteListViewModel extends MainViewModel {
     }
 
     public void getRoutes() {
-        dataset = routeService.getAllActualRoutes();
+        dataset = routeRepository.getAllActualRoutes();
     }
 
     public Route getRoute(int position) {
@@ -36,12 +36,12 @@ public class ActualRouteListViewModel extends MainViewModel {
     public void removeRoute(int position) {
         Route routeToRemove = getRoute(position);
         Log.i(TAG, "Usuwam trasę o id: " + position);
-        routeService.removeRouteFromDatabase(routeToRemove);
+        routeRepository.removeRouteFromDatabase(routeToRemove);
     }
 
     public void removeRoute(Route route) {
         Log.i(TAG, "Usuwam trasę: " + route.toString());
-        routeService.removeRouteFromDatabase(route);
+        routeRepository.removeRouteFromDatabase(route);
     }
 
 }

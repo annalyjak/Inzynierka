@@ -16,7 +16,7 @@ import io.realm.RealmList;
 import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
 import lyjak.anna.inzynierka.model.realmObjects.RealmLocation;
-import lyjak.anna.inzynierka.model.repository.RouteService;
+import lyjak.anna.inzynierka.model.repository.RouteRepository;
 import lyjak.anna.inzynierka.viewmodel.others.RouteBeetweenTwoPointsDTO;
 
 public class DirectionFinder implements FindDirectionListener {
@@ -78,7 +78,7 @@ public class DirectionFinder implements FindDirectionListener {
                         pointOfRoute.getPoint().getLongitude() == route.getOriginStartPlace()
                                 .longitude) {
                     Log.i(TAG, "Ustawiam wielkości distance and duration");
-                    RouteService routeRepository = new RouteService(context);
+                    RouteRepository routeRepository = new RouteRepository(context);
                     routeRepository.changePoint(pointOfRoute,
                             route.getDistance(),
                             route.getDuration());
@@ -111,7 +111,7 @@ public class DirectionFinder implements FindDirectionListener {
     @Override
     public void onStoreFindDirection() {
         Log.i(TAG, "onStoreFindDirection");
-        RouteService operations = new RouteService(context);
+        RouteRepository operations = new RouteRepository(context);
         operations.storePlannedRouteInDatabase(route, this);
         Log.i(TAG, "onStoreFindDirection end");
     }

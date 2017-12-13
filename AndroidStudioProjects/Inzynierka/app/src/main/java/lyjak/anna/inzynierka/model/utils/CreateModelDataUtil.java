@@ -8,9 +8,9 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
-import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
+import lyjak.anna.inzynierka.model.realmObjects.ActualPlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.HistoricalReport;
 import lyjak.anna.inzynierka.model.realmObjects.Route;
-import lyjak.anna.inzynierka.model.realmObjects.TempPlannedRoute;
 import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
 import lyjak.anna.inzynierka.model.realmObjects.RealmLocation;
@@ -67,13 +67,13 @@ public class CreateModelDataUtil {
         return plannedRoute;
     }
 
-    public static TempPlannedRoute createTempPlannedRoute(PlannedRoute plannedRoute) {
-        Log.i(TAG, "Start to create new TempPlannedRoute");
-        TempPlannedRoute result = new TempPlannedRoute();
+    public static ActualPlannedRoute createActualPlannedRoute(PlannedRoute plannedRoute) {
+        Log.i(TAG, "Start to create new ActualPlannedRoute");
+        ActualPlannedRoute result = new ActualPlannedRoute();
         if (plannedRoute != null) {
             result.setCurrentlyPlannedRoute(plannedRoute);
         }
-        Log.i(TAG, "New TempPlannedRoute created");
+        Log.i(TAG, "New ActualPlannedRoute created");
         return result;
     }
 
@@ -85,12 +85,12 @@ public class CreateModelDataUtil {
         return result;
     }
 
-    public static HistoricalReports createHistoricalReport(PlannedRoute plannedRoute,
-                                                           Route route, String path) {
-        HistoricalReports historicalReports = new HistoricalReports();
-        historicalReports.setPlannedRoute(plannedRoute);
-        historicalReports.setActualRoute(route);
-        historicalReports.setFilePath(path);
-        return historicalReports;
+    public static HistoricalReport createHistoricalReport(PlannedRoute plannedRoute,
+                                                          Route route, String path) {
+        HistoricalReport historicalReport = new HistoricalReport();
+        historicalReport.setPlannedRoute(plannedRoute);
+        historicalReport.setActualRoute(route);
+        historicalReport.setFilePath(path);
+        return historicalReport;
     }
 }

@@ -20,7 +20,7 @@ public class PlannedRoutesCardListViewModel extends MainViewModel {
     }
 
     public List<PlannedRoute> getPlannedRoutesFromDatabase() {
-        dataset = new ArrayList<>(routeService.getAllPlannedRoutes());
+        dataset = new ArrayList<>(routeRepository.getAllPlannedRoutes());
         return dataset;
     }
 
@@ -38,10 +38,10 @@ public class PlannedRoutesCardListViewModel extends MainViewModel {
 
     public void removePlannedRoute(int position) {
         PlannedRoute routeToRemove = getPlannedRoute(position);
-        routeService.removePlannedRouteFromDatabase(routeToRemove);
+        routeRepository.removePlannedRouteFromDatabase(routeToRemove);
     }
 
     public void removePlannedRoute(PlannedRoute routeToRemove) {
-        routeService.removePlannedRouteFromDatabase(routeToRemove);
+        routeRepository.removePlannedRouteFromDatabase(routeToRemove);
     }
 }

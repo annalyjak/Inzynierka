@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
-        setDefaultView(); //sets main view
+        if (mFragment == null) {
+            setDefaultView(); //sets main view
+        }
     }
 
     private void setDefaultView() {
@@ -143,6 +145,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                Log.i("MainActivity", "popping backstack");
+                fragmentManager.popBackStack();
+            } else {
+                Log.i("MainActivity", "nothing on backstack, calling super");
+                notyfyDataSetChange();
+                super.onBackPressed();
+            }
             super.onBackPressed();
         }
     }
@@ -319,7 +329,8 @@ public class MainActivity extends AppCompatActivity
             fragmentManager
                     .beginTransaction()
                     .detach(mFragment)
-                    .replace(R.id.frameLayoutMain, fragment).commit();
+                    .replace(R.id.frameLayoutMain, fragment)
+                    .commit();
             mFragment = fragment;
         } else {
             mFragment = fragment;
@@ -330,4 +341,5 @@ public class MainActivity extends AppCompatActivity
     private void clearBundle() {
 
     }
+
 }

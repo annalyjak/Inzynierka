@@ -28,13 +28,13 @@ public class PointsCardListViewModel extends MainViewModel {
     public void onCardMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
-                routeService.swap(dataset, i, i + 1);
-                routeService.calculateLine(route);
+                routeRepository.swap(dataset, i, i + 1);
+                routeRepository.calculateLine(route);
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
-                routeService.swap(dataset, i, i - 1);
-                routeService.calculateLine(route);
+                routeRepository.swap(dataset, i, i - 1);
+                routeRepository.calculateLine(route);
             }
         }
     }

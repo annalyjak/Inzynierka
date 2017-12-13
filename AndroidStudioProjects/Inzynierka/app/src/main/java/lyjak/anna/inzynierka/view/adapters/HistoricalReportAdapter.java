@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.CardHistoricalReportBinding;
-import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
+import lyjak.anna.inzynierka.model.realmObjects.HistoricalReport;
 import lyjak.anna.inzynierka.viewmodel.HistoricalReportCardListViewModel;
 
 /**
@@ -35,7 +35,7 @@ public class HistoricalReportAdapter extends RecyclerView.Adapter<HistoricalRepo
 
     @Override
     public void onBindViewHolder(final HistoricalReportAdapter.ViewHolder holder, int position) {
-        HistoricalReports report = viewModel.getHistoricalReports(position);
+        HistoricalReport report = viewModel.getHistoricalReports(position);
         holder.binding.setReport(report);
     }
 

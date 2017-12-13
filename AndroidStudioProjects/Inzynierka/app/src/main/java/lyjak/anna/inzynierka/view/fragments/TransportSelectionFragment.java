@@ -26,6 +26,7 @@ public class TransportSelectionFragment extends Fragment {
     private PlannedRoute mPlannedRoute;
     private Route mRoute;
     private TypeOfTransport mTypeOfTransport;
+    private Boolean setTypeOfTransportInRoute = false;
 
     public PlannedRoute getPlannedRoute() {
         return mPlannedRoute;

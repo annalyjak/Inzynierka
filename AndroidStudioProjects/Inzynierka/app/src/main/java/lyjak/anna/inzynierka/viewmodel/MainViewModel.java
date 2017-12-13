@@ -4,8 +4,8 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import lyjak.anna.inzynierka.model.repository.IRouteRepository;
 import lyjak.anna.inzynierka.model.repository.RouteRepository;
-import lyjak.anna.inzynierka.model.repository.RouteService;
 
 /**
  * Created by Anna on 19.11.2017.
@@ -14,9 +14,9 @@ import lyjak.anna.inzynierka.model.repository.RouteService;
 public class MainViewModel {
 
     @Singleton
-    RouteRepository routeService;
+    IRouteRepository routeRepository;
 
     public MainViewModel(Context context) {
-        routeService = new RouteService(context);
+        routeRepository = new RouteRepository(context);
     }
 }

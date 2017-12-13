@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
+import lyjak.anna.inzynierka.model.realmObjects.HistoricalReport;
 
 /**
  * Created by Anna on 02.12.2017.
@@ -12,22 +12,22 @@ import lyjak.anna.inzynierka.model.realmObjects.HistoricalReports;
 
 public class HistoricalReportCardListViewModel extends MainViewModel {
 
-    private List<HistoricalReports> reports;
+    private List<HistoricalReport> reports;
 
     public HistoricalReportCardListViewModel(Context context) {
         super(context);
     }
 
-    public List<HistoricalReports> getReports() {
+    public List<HistoricalReport> getReports() {
         reports = getReportsFromDatabase();
         return reports;
     }
 
-    public List<HistoricalReports> getReportsFromDatabase() {
-        return routeService.getAllHistoricalReports();
+    public List<HistoricalReport> getReportsFromDatabase() {
+        return routeRepository.getAllHistoricalReports();
     }
 
-    public HistoricalReports getHistoricalReports(int position) {
+    public HistoricalReport getHistoricalReports(int position) {
         return reports.get(position);
     }
 

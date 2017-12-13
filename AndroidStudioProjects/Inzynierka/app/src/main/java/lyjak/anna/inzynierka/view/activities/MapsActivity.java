@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.view.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
@@ -46,9 +47,11 @@ import java.util.List;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.DialogMapMarkerClickBinding;
+import lyjak.anna.inzynierka.databinding.MapContextDialogBinding;
 import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
 import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
 import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
 import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -457,27 +460,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void setLongClickContextMenu() {
         map.setOnMapLongClickListener(latLng -> {
             final Dialog contextMenuDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
-            contextMenuDialog.setContentView(R.layout.map_context_dialog);
-            contextMenuDialog.setTitle("@string/map_setting_traffic");
+            LayoutInflater layoutInflater = LayoutInflater.from(MapsActivity.this);
+            MapContextDialogBinding viewDataBinding = DataBindingUtil
+                    .inflate(layoutInflater,
+                            R.layout.map_context_dialog,
+                            null, false);
 
-            RadioButton onTrafficButton = (RadioButton) contextMenuDialog.findViewById(R.id.action_traffic_on);
-            onTrafficButton.setOnClickListener(v -> {
+            contextMenuDialog.setTitle("@string/map_setting_traffic");
+            viewDataBinding.actionTrafficOn.setOnClickListener(v -> {
                 contextMenuDialog.dismiss();
                 OnTrafficRadioButtonClick(v);
             });
-            RadioButton offTrafficButton = (RadioButton) contextMenuDialog.findViewById(R.id.action_traffic_off);
-            offTrafficButton.setOnClickListener(v -> {
+            viewDataBinding.actionTrafficOff.setOnClickListener(v -> {
                 contextMenuDialog.dismiss();
                 OnTrafficRadioButtonClick(v);
             });
 
             if(map.isTrafficEnabled()) {
-                onTrafficButton.setChecked(true);
-                offTrafficButton.setChecked(false);
+                viewDataBinding.actionTrafficOn.setChecked(true);
+                viewDataBinding.actionTrafficOff.setChecked(false);
             } else {
-                onTrafficButton.setChecked(false);
-                offTrafficButton.setChecked(true);
+                viewDataBinding.actionTrafficOn.setChecked(false);
+                viewDataBinding.actionTrafficOff.setChecked(true);
             }
+
+            contextMenuDialog.setContentView(viewDataBinding.getRoot());
             contextMenuDialog.show();
         });
     }
