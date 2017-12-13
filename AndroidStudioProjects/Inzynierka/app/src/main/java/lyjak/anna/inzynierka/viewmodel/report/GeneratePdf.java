@@ -41,7 +41,6 @@ public class GeneratePdf {
     private File directory;
     private File file;
     private PdfWriter writer;
-//    private int pageNumber;
     private Context context;
 
     GeneratePdf(Context context) {
@@ -134,7 +133,6 @@ public class GeneratePdf {
             }
             document.add(buissnesTripReport.createEndingSummary());
             document.add(getEmptyParagraph());
-//            document.add(getEmptyParagraph());
             document.add(buissnesTripReport.createFinalSignaturesSpace());
             document.add(buissnesTripReport.createFinalSignaturesExplanation());
             document.newPage(); //TRASA ZAPLANOWANA
@@ -149,7 +147,6 @@ public class GeneratePdf {
             document.add(acctualReport.createAcctuallInfoHeader());
             document.add(getEmptyParagraph());
             document.add(acctualReport.createAcctuallInfo(actualRoute));
-//            document.add(createMapImage());
 
             return save();
         } catch (IOException | DocumentException e) {

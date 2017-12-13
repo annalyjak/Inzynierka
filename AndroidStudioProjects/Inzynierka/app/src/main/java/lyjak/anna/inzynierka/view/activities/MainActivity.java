@@ -39,9 +39,6 @@ import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
 import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO dodać testy
-//TODO usunąć komentarze z klas
-//TODO dodać jakiś komunikat jeśli trasy zrealizowane i planowane - lista jest pusta
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {
@@ -71,8 +68,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
             startActivity(intent);
-//                Snackbar.make(view, "Dodaj nowy punkt do trasy", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,7 +101,6 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-//            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -115,7 +109,6 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-//            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -336,10 +329,6 @@ public class MainActivity extends AppCompatActivity
             mFragment = fragment;
             fragmentManager.beginTransaction().attach(mFragment).commitNow();
         }
-    }
-
-    private void clearBundle() {
-
     }
 
 }

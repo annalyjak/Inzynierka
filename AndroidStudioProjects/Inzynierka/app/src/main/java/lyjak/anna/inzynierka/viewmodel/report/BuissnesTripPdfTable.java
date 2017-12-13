@@ -87,22 +87,13 @@ public class BuissnesTripPdfTable {
     }
 
     public PdfPTable createPersonalDataTable() {
-        // a table with three columns
         PdfPTable table = new PdfPTable(2);
         table.setTotalWidth(510);
         table.setLockedWidth(true);
-        // the cell object
         PdfPCell cell;
-        // we add a cell with colspan 3
-//        cell = new PdfPCell(new Phrase("Cell with colspan 3"));
-//        cell.setColspan(3);
-//        table.addCell(cell);
-        // now we add a cell with rowspan 2
         cell = new PdfPCell(new Phrase(getString(R.string.report_name), normalFont));
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
-//        cell.setRowspan(2);
         table.addCell(cell);
-        // we add the four remaining cells with addCell()
         table.addCell("");
         cell = new PdfPCell(new Phrase(getString(R.string.report_occupation), normalFont));
         cell.setBackgroundColor(BaseColor.LIGHT_GRAY);

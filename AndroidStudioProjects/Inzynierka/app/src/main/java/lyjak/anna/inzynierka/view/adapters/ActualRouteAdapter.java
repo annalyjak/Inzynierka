@@ -21,7 +21,6 @@ import lyjak.anna.inzynierka.viewmodel.ActualRouteListViewModel;
 public class ActualRouteAdapter extends RecyclerView.Adapter<ActualRouteAdapter.ViewHolder> {
 
     private static final String TAG = ActualRouteAdapter.class.getSimpleName();
-//    private static final String DATE_FORMAT = "%1$ta, %1$te %1$tB %1$tY"; // Pon, 12 października 2017
 
     private Activity activity;
     private static ActualRouteListViewModel viewModel;

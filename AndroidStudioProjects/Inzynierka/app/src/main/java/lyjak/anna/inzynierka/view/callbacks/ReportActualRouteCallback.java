@@ -45,9 +45,6 @@ public class ReportActualRouteCallback implements ActualRouteCallback {
             MapsViewModel.report = generateStandardReport;
             Bundle bundle = new Bundle();
             bundle.putString("STANDARDREPORT", "@STANDARD_REPORT@");
-//            bundle.putLong("endDate", route.getEndDate().getTime());
-//            bundle.putLong("startDate", route.getStartDate().getTime());
-//            bundle.putLong("date", route.getDate().getTime());
             bundle.putBoolean("REPORT", true);
             openMapIntent.putExtras(bundle);
             activity.startActivity(openMapIntent);

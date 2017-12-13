@@ -490,8 +490,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void OnTrafficRadioButtonClick(View view) {
-        // Is the button now checked?
-//        boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()) {
             case R.id.action_traffic_on:
                if(!map.isTrafficEnabled()) {
@@ -592,15 +590,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void onMarkerClickAndMarkerInfoListener(final Marker marker) {
-        //show title of the mark
         if(marker.isInfoWindowShown()) {
             marker.hideInfoWindow();
         } else {
             marker.showInfoWindow();
         }
 
-        // displays dialog menu
-//        final Marker tempMarker = marker;
         final Dialog markerDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
         LayoutInflater layoutInflater = LayoutInflater.from(MapsActivity.this);
         DialogMapMarkerClickBinding viewDataBinding = DataBindingUtil

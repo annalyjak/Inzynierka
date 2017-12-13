@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.databinding.FragmentPlannedRoutesBinding;
@@ -65,6 +66,10 @@ public class PlannedRoutesFragment extends Fragment {
     public void getPlannedRoutesFromDatabase() {
         viewModel.getPlannedRoutesFromDatabase();
         adapter.notifyDataSetChanged();
+        if (viewModel.getDatasetSize() == 0) {
+            Toast.makeText(getContext(),
+                    "Nie posiadasz żadnych zaplanowanych tras.", Toast.LENGTH_SHORT);
+        }
     }
 
 
