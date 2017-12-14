@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setDefaultView() {
-        mFragment = new LocationListenerFragment();
+        mFragment = LocationListenerFragment.newInstance();
         fragmentManager.beginTransaction()
                 .replace(R.id.frameLayoutMain, mFragment).commit();
     }
@@ -275,14 +275,19 @@ public class MainActivity extends AppCompatActivity
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.drawable.ic_satellite_black_24dp)
                 .setContentTitle(getString(R.string.notification_titile))
-                .setContentText(getString(R.string.notification_text));
+                .setContentText(getString(R.string.notification_text))
+        .setAutoCancel(true);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+        MainActivityViewModel.notyficationOn = true;
     }
 
     private void cancelNotification() {
+        MainActivityViewModel.notyficationOn = false;
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(NOTIFICATION_ID);

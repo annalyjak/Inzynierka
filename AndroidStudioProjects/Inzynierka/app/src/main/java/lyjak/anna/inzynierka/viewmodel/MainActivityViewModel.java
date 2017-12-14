@@ -14,6 +14,7 @@ public class MainActivityViewModel extends MainViewModel {
     public static final int PERMISSIONS_REQUEST_INTERNET = 3;
     public static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 4;
     public static String language = "pl"; // default app language, can change if user change settings
+    public static boolean notyficationOn = false;
 
     public MainActivityViewModel(Context context) {
         super(context);
