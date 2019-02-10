@@ -10,20 +10,20 @@ import android.view.ViewGroup;
 import lyjak.anna.inzynierka.R;
 import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.databinding.FragmentTimeOfTravelBinding;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 import lyjak.anna.inzynierka.viewmodel.report.TimeTripInfo;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
 
 public class TimeOfTravelFragment extends Fragment {
 
-    private GenerateReport mGenerateReport;
+    private GenerateStandardReport mGenerateStandardReport;
 
     public TimeOfTravelFragment() {
         // Required empty public constructor
     }
 
-    public static TimeOfTravelFragment newInstance(GenerateReport report) {
+    public static TimeOfTravelFragment newInstance(GenerateStandardReport report) {
         TimeOfTravelFragment fragment = new TimeOfTravelFragment();
-        fragment.mGenerateReport = report;
+        fragment.mGenerateStandardReport = report;
         return fragment;
     }
 
@@ -48,10 +48,10 @@ public class TimeOfTravelFragment extends Fragment {
             } else {
                 timeInfo.setTripNumberOfDays(0);
             }
-            mGenerateReport.setTimeTripInfo(timeInfo);
+            mGenerateStandardReport.setTimeTripInfo(timeInfo);
 
             AdditionalNotesFragment nextFragment = AdditionalNotesFragment
-                    .newInstance(mGenerateReport);
+                    .newInstance(mGenerateStandardReport);
             ((MainActivity)getActivity()).attachNewFragment(nextFragment);
         });
         return binding.getRoot();

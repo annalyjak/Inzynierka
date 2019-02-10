@@ -38,11 +38,11 @@
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:theme="@style/ButtonStyle"
-            app:layout_constraintRight_toLeftOf="@+id/buttonNo"
+            app:layout_constraintRight_toLeftOf="@+id/buttonOK"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/buttonNo"
+            android:id="@+id/buttonOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"

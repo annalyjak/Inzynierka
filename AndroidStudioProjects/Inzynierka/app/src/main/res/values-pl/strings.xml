@@ -17,13 +17,16 @@
     <string name="menu_option_open_routes_list">Otwórz listę dotychczasowych tras</string>
     <string name="menu_option_save_route">Nagrywaj trasę</string>
     <string name="menu_option_generate_report">Generuj raport</string>
-
-    <string name="menu_option_gallery">Galeria</string>
-    <string name="menu_option_communicate">Komunikacja</string>
+    <string name="menu_option_historical">Dotychczasowe raporty</string>
+    <string name="menu_option_basic">Podróż</string>
+    <string name="menu_option_routes">Trasy</string>
     <string name="menu_option_share">Udostępnij</string>
     <string name="menu_option_send">Wyślij</string>
     <string name="menu_option_tools">Narzędzia</string>
     <string name="menu_option_slideshow">Pokaz slajdów</string>
+    <string name="menu_option_play_location">Nagrywaj trasę</string>
+    <string name="menu_option_planned_routes">Planowane trasy</string>
+    <string name="menu_option_actual_routes">Zrealizowane trasy</string>
 
 
     <string name="default_info_title">Domyślna lokalizacja</string>
@@ -40,13 +43,15 @@
     <string name="map_setting_traffic">Pokazać aktualne warunki drogowe?</string>
     <string name="map_setting_context_traffic_on">Tak</string>
     <string name="map_setting_context_traffic_off">Nie</string>
+    <string name="map_setting_add_type_of_transport">Dodaj środek transportu</string>
+    <string name="map_setting_add">Dodaj</string>
 
     <string name="fragment_location_listener_start">Rozpocznij nagrywanie</string>
     <string name="fragment_location_listener_stop">Zakończ nagrywanie</string>
 
     <string name="fragment_add_route_point_textview1">Dodaj punkt do trasy!</string>
 
-    <string name="dialog_map_marker_click_choose_option">Co chcesz zrobić z tym punktem?</string>
+    <string name="dialog_map_marker_click_choose_option">Co chcesz zrobić z tą trasą?</string>
     <string name="dialog_map_marker_click_add_to_route">Dodaj do aktualnej trasy</string>
     <string name="dialog_map_marker_click_create_new_route">Utwórz nową trasę z tym punktem</string>
     <string name="dialog_map_marker_click_delete_marker">Usuń znacznik</string>
@@ -58,7 +63,9 @@
 
     <string name="dialog_adding_route_confirm_question">Czy na pewno dodać ten punkt do porównania?</string>
 
-    <string name="dialog_planned_route_card_click_generate_report">Wygeneruj raport</string>
+    <string name="dialog_planned_route_card_click_generate_report">Wygeneruj raport z podróży służbowej</string>
+    <string name="dialog_planned_route_card_click_generate_acctual_report">Wygeneruj raport trasy zrealizowanej</string>
+    <string name="dialog_planned_route_card_click_generate_planned_report">Wygeneruj raport trasy zaplanowanej</string>
     <string name="dialog_planned_route_card_click_show_route_on_map">Pokaż trasę na mapie</string>
     <string name="dialog_planned_route_card_click_show_all_points">Pokaż wszystkie punkty</string>
     <string name="dialog_planned_route_card_click_delete_route">Usuń trasę</string>
@@ -71,8 +78,17 @@
     <string name="cardview_distance">Dystans:</string>
     <string name="cardview_duartion">Czas trwania:</string>
     <string name="cardview_points">Liczba punktów:</string>
+    <string name="cardview_endDate">Data zakończenia: %1$ta, %1$te %1$tB %1$tY</string>
+    <string name="cardview_startDate">Data rozpoczęcia: %1$ta, %1$te %1$tB %1$tY</string>
+
 
     <string name="fragment_transport_selection">Wybierz rodzaj transportu:</string>
+    <string name="fragment_transport_selection_car">Samochód</string>
+    <string name="fragment_transport_selection_bus">Bus</string>
+    <string name="fragment_transport_selection_tir">Tir</string>
+    <string name="fragment_transport_selection_plane">Samolot</string>
+    <string name="fragment_transport_selection_ship">Statek</string>
+    <string name="fragment_transport_selection_railway">Pociąg</string>
 
     <string name="frag_time_of_travel_time">Czas trwania podróży</string>
     <string name="frag_time_of_travel_number_hour">Liczba godzin postojowych:</string>
@@ -84,10 +100,12 @@
 
 
     <string name="report_head">POLECENIE WYJAZDU SŁUŻBOWEGO NR</string>
-    <string name="report_transport_type">Środek trasportu:      </string>
+    <string name="report_transport_type">Środek transportu:      </string>
     <string name="report_name">Imię i nazwisko pracownika:      </string>
     <string name="report_occupation">Stanowisko służbowe:       </string>
     <string name="report_purpose">Cel podróży:      </string>
+    <string name="report_combustion">Spalanie:</string>
+    <string name="report_combustion_cost">Koszt spalania:</string>
     <string name="report_feeding">Wyżywienie</string>
     <string name="report_feedingA1">a) brak bezpłatnego wyżywienia - czas spędzony w podróży służbowej</string>
     <string name="report_feedingB1">b) zapewnione częściowe bezpłatne wyżywienie</string>
@@ -100,7 +118,7 @@
     <string name="report_feeding32">Bezpłatne obiady</string>
     <string name="report_feeding33">Bezpłatne kolacje</string>
     <string name="report_accomodation1">Koszty noclegu</string>
-    <string name="report_accomodation2">Wdług rachunku bankowego</string>
+    <string name="report_accomodation2">Według rachunku bankowego</string>
     <string name="report_accomodation3">Ryczałt za nocleg:</string>
     <string name="report_accomodation4">Liczba noclegów:</string>
     <string name="report_accomodation5">Limit na nocleg:</string>
@@ -110,7 +128,7 @@
     <string name="report_transport_costs4">z dworca i do dworca autobusowego</string>
     <string name="report_transport_costs5">portu lotniczego</string>
     <string name="report_transport_costs6">portu morskiego</string>
-    <string name="report_transport_costs7">Koszty przejazdu środkami komunikacji miejsciej</string>
+    <string name="report_transport_costs7">Koszty przejazdu środkami komunikacji miejskiej</string>
     <string name="report_transport_costs8">Wydatki na autostradę</string>
     <string name="report_transport_costs9">Pozostałe koszty</string>
     <string name="report_hospitalization1">Pracownik przebywał w szpitalu lub innym zakładzie leczniczym</string>
@@ -118,7 +136,7 @@
     <string name="report_anotherCosts">Inne udokumentowane wydatki</string>
     <string name="report_sum">Ogółem</string>
     <string name="report_sum2">Słownie</string>
-    <string name="report_planned_title">Raport z podróży służbowej</string>
+    <string name="report_planned_title">Raport planowanej trasy</string>
     <string name="report_planned_title2">Trasa zaplanowana</string>
     <string name="report_planned_route_title">Tytuł:</string>
     <string name="report_planned_route_points">Liczba punktów:</string>
@@ -144,5 +162,7 @@
     <string name="notification_titile">LogMiles</string>
     <string name="notification_text">Monitoruję Twoje aktualne położenie!</string>
     <string name="menu">Menu</string>
+    <string name="menu_option_option">Ustawienia</string>
+
 
 </resources>

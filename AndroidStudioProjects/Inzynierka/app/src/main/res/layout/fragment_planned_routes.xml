@@ -1,4 +1,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="route"
+            type="lyjak.anna.inzynierka.model.realmObjects.PlannedRoute"/>
+    </data>
 <LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,3 +18,9 @@
 
 </LinearLayout>
 </layout>
+
+
+
+
+
+

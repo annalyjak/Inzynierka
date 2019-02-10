@@ -32,6 +32,14 @@
                 android:theme="@style/ButtonStyle" />
 
             <Button
+                android:id="@+id/buttonGenerateAcctualRouteReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_planned_route_card_click_generate_acctual_report"
+                android:textColor="@color/colorPrimaryDark"
+                android:theme="@style/ButtonStyle" />
+
+            <Button
                 android:id="@+id/buttonShowRouteOnMap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:text="Next"
+                    android:text="@string/next"
                     android:textColor="@color/colorPrimaryDark"
                     android:theme="@style/ButtonStyle" />
 

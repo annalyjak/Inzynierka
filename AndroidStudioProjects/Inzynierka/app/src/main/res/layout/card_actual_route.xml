@@ -4,7 +4,7 @@
     <data>
         <variable
             name="route"
-            type="lyjak.anna.inzynierka.service.model.realm.Route"/>
+            type="lyjak.anna.inzynierka.model.realmObjects.Route"/>
         <variable
             name="callback"
             type="lyjak.anna.inzynierka.view.callbacks.ActualRouteCallback"/>

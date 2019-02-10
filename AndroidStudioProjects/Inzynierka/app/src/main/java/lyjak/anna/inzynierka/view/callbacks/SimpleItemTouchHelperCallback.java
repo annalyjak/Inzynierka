@@ -5,8 +5,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import lyjak.anna.inzynierka.view.listeners.ItemTouchHelperViewHolder;
-import lyjak.anna.inzynierka.view.listeners.OnCardViewTouchListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.ItemTouchHelperViewHolder;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnCardViewTouchListener;
 
 /**
  * Created by Anna on 20.10.2017.

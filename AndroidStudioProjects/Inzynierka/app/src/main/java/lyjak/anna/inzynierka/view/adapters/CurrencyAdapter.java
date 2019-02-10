@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.service.model.Currency;
+import lyjak.anna.inzynierka.model.reports.Currency;
 
 /**
  * Created by Anna on 22.10.2017.

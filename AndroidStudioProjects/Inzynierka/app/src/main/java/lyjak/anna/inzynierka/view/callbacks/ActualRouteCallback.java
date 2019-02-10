@@ -1,6 +1,6 @@
 package lyjak.anna.inzynierka.view.callbacks;
 
-import lyjak.anna.inzynierka.service.model.realm.Route;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
 
 /**
  * Created by Anna on 18.11.2017.

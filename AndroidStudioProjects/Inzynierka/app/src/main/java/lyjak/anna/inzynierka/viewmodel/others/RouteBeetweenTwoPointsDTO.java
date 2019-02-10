@@ -17,6 +17,9 @@ public class RouteBeetweenTwoPointsDTO {
     private String startPlaceName;
     private String endPlaceName;
 
+    private LatLng originStartPlace;
+    private LatLng originEndPlace;
+
     private int distance;
     private int duration;
 
@@ -76,6 +79,22 @@ public class RouteBeetweenTwoPointsDTO {
 
     public void setEndPlaceName(String endPlaceName) {
         this.endPlaceName = endPlaceName;
+    }
+
+    public LatLng getOriginStartPlace() {
+        return originStartPlace;
+    }
+
+    public void setOriginStartPlace(LatLng originStartPlace) {
+        this.originStartPlace = originStartPlace;
+    }
+
+    public LatLng getOriginEndPlace() {
+        return originEndPlace;
+    }
+
+    public void setOriginEndPlace(LatLng originEndPlace) {
+        this.originEndPlace = originEndPlace;
     }
 
     public List<LatLng> getRoutePoints() {

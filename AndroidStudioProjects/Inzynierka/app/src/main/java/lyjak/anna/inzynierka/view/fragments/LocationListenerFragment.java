@@ -1,6 +1,7 @@
 package lyjak.anna.inzynierka.view.fragments;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.view.listeners.OnLocationServiceListener;
+import lyjak.anna.inzynierka.databinding.FragmentLocationBinding;
+import lyjak.anna.inzynierka.databinding.FragmentLocationListenerBinding;
+import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,10 +25,7 @@ import lyjak.anna.inzynierka.view.listeners.OnLocationServiceListener;
 public class LocationListenerFragment extends Fragment {
 
     private static final String ARG_SERVICE_STATUS = "paramService";
-    public static final String SERVICE_LOCATION_STATUS_STARTED = "STARTED";
-    public static final String SERVICE_LOCATION_STATUS_STOPED = "STOPED";
-    //TODO zmienić przyciski we fragmencie z nagrywaniem aktualnej trasy
-    private String mParamServiceStatus = "STOPED";
+    private FragmentLocationListenerBinding binding;
 
     private OnLocationServiceListener mListener;
 
@@ -36,36 +37,31 @@ public class LocationListenerFragment extends Fragment {
     /**
      * Factory method to create a new instance of this fragment using the provided parameters.
      *
-     * @param mParamServiceStatus Info about LocationService status (STARTED/STOPED)
      * @return A new instance of fragment LocationListenerFragment.
      */
-    public static LocationListenerFragment newInstance(String mParamServiceStatus) {
+    public static LocationListenerFragment newInstance() {
         LocationListenerFragment fragment = new LocationListenerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_SERVICE_STATUS, mParamServiceStatus);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParamServiceStatus = getArguments().getString(ARG_SERVICE_STATUS);
-        }
     }
 
-    /**
-     * Inflate the layout for this fragment
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_location_listener, container, false);
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_location_listener, container, false);
+        if (MainActivityViewModel.notyficationOn) {
+            binding.buttonLocationListenerStart.setEnabled(false);
+            binding.buttonLocationListenerStop.setEnabled(true);
+        } else {
+            binding.buttonLocationListenerStart.setEnabled(true);
+            binding.buttonLocationListenerStop.setEnabled(false);
+        }
+        return binding.getRoot();
     }
 
     @Override

@@ -1,57 +1,44 @@
 package lyjak.anna.inzynierka.view.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.widget.RadioButton;
+import android.view.View;
 
 import lyjak.anna.inzynierka.R;
+import lyjak.anna.inzynierka.databinding.DialogLanguageSettingsBinding;
+import lyjak.anna.inzynierka.model.service.LocationService;
 import lyjak.anna.inzynierka.view.fragments.ActualRoutesFragment;
+import lyjak.anna.inzynierka.view.fragments.HistoricalReportFragment;
 import lyjak.anna.inzynierka.view.fragments.LocationListenerFragment;
 import lyjak.anna.inzynierka.view.fragments.PlannedRoutesFragment;
-import lyjak.anna.inzynierka.view.listeners.NotifyDataSetChangedListener;
-import lyjak.anna.inzynierka.view.listeners.OnLocationServiceListener;
-import lyjak.anna.inzynierka.service.LocationService;
-import lyjak.anna.inzynierka.viewmodel.others.MyContextWrapper;
+import lyjak.anna.inzynierka.viewmodel.MainActivityViewModel;
+import lyjak.anna.inzynierka.viewmodel.listeners.NotifyDataSetChangedListener;
+import lyjak.anna.inzynierka.viewmodel.listeners.OnLocationServiceListener;
+import lyjak.anna.inzynierka.viewmodel.others.ChangeLanguageContextWrapper;
 
-//TODO MVVM
-//TODO ekran główny
-//TODO podpiąc dobre akcje pod menu
-//TODO zmienić ikonki w menu
-//TODO dodać ładne przyciski do nagrywania położenia
-//TODO dodać ładne przyciski do transportu
-//TODO zmienić kolor wyświetlania trasy zaplanowanej na inny niż rzeczywistej
-//TODO dodać "historię" poprzez wyszukanie plików, które są w Dokumentach i zaczynają się na LogMiles
-//TODO dodać testy
-//TODO dodać kręciołka do gernerowania raportu (dodany w AdditionalNotesFragment)
-//TODO dodać wykonywanie raportu w innym wątku
-//TODO dodać wyświetlanie km i godzin (przeliczanie z jsona)
-//TODO zmienić model bazy na zapisywanie wartości pośrednich przy PointOfRoute
-//TODO zmienić tworzenie raportu na "automatyczne"
-//TODO dodać dodatkowe opcje do menu: generuj raport trasy zaplanowanej i rzeczywistej
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         OnLocationServiceListener, NotifyDataSetChangedListener {
@@ -59,12 +46,10 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int NOTIFICATION_ID = 1;
 
-    public static String language = "en"; // default app language, can change if user change settings
     private static Fragment mFragment = null; // fragment actuall atached on FrameLayout in MainActivity
     private static FragmentManager fragmentManager;
 
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private boolean mLocationPermissionGranted;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +58,17 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        viewModel = new MainActivityViewModel(this);
+
         //Check if all permisions are granded and please to grand them
         checkPermissions();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setVisibility(FloatingActionButton.GONE);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Dodaj nowy punkt do trasy", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        fab.setVisibility(FloatingActionButton.VISIBLE);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(intent);
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -96,7 +80,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
+        if (mFragment == null) {
+            setDefaultView(); //sets main view
+        }
+    }
 
+    private void setDefaultView() {
+        mFragment = LocationListenerFragment.newInstance();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frameLayoutMain, mFragment).commit();
     }
 
     /**
@@ -109,20 +101,18 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.INTERNET)
@@ -130,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.INTERNET},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_INTERNET);
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -138,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    viewModel.PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
         }
     }
 
@@ -148,78 +138,21 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                Log.i("MainActivity", "popping backstack");
+                fragmentManager.popBackStack();
+            } else {
+                Log.i("MainActivity", "nothing on backstack, calling super");
+                notyfyDataSetChange();
+                super.onBackPressed();
+            }
             super.onBackPressed();
         }
     }
 
-    /**
-     *  Inflate the menu; this adds items to the action bar if it is present.
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            final Dialog languageDialog = new Dialog(MainActivity.this, R.style.SettingsDialogStyle);
-            languageDialog.setContentView(R.layout.dialog_language_settings);
-            final Resources resources = getResources();
-            final Configuration configuration = resources.getConfiguration();
-
-            languageDialog.setTitle(R.string.choose_language);
-            RadioButton plLanguageButton = (RadioButton) languageDialog.findViewById(R.id.pl_language_button);
-            plLanguageButton.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("NewApi")
-                @Override
-                public void onClick(View v) {
-                    languageDialog.dismiss();
-                    if(!language.equals("pl")) {
-                        setLanguage("pl");
-                        refresh();
-                    }
-                }
-
-            });
-            RadioButton enLanguageButton = (RadioButton) languageDialog.findViewById(R.id.eng_language_button);
-            enLanguageButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v)
-                {
-                    languageDialog.dismiss();
-                    if(!language.equals("en")) {
-                        setLanguage("en");
-                        refresh();
-                    }
-                }
-            });
-            if(language.equals("pl")) {
-                plLanguageButton.setChecked(true);
-                enLanguageButton.setChecked(false);
-            } else {
-                plLanguageButton.setChecked(false);
-                enLanguageButton.setChecked(true);
-            }
-
-            languageDialog.show();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setLanguage(String lang) {
-        language = lang;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
@@ -243,10 +176,13 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.frameLayoutMain, mFragment).commit();
 
-//            mFragment = new LocationFragment();
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.frameLayoutMain, mFragment).commit();
-//            LocationContent.ITEMS = getDataFromDatabase();
+        } else if (id == R.id.nav_history) {
+            if (mFragment != null) {
+                fragmentManager.beginTransaction().detach(mFragment).commit();
+            }
+            mFragment = HistoricalReportFragment.newInstance();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frameLayoutMain, mFragment).commit();
 
         } else if (id == R.id.nav_manage) {
             if (mFragment != null) {
@@ -256,14 +192,37 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.frameLayoutMain, mFragment).commit();
 
-        } else if (id == R.id.nav_share) {
-            if (mFragment != null) {
-                fragmentManager.beginTransaction().detach(mFragment).commit();
+        } else if (id == R.id.nav_settings) {
+            final Dialog languageDialog = new Dialog(MainActivity.this, R.style.SettingsDialogStyle);
+            LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+            DialogLanguageSettingsBinding viewDataBinding = DataBindingUtil
+                    .inflate(layoutInflater,
+                            R.layout.dialog_language_settings,
+                            null, false);
+            languageDialog.setTitle(R.string.choose_language);
+            viewDataBinding.plLanguageButton.setOnClickListener(v -> {
+                languageDialog.dismiss();
+                if(!viewModel.isLanguagePolish()) {
+                    viewModel.setPolishLanguage();
+                    refresh();
+                }
+            });
+            viewDataBinding.engLanguageButton.setOnClickListener(v -> {
+                languageDialog.dismiss();
+                if(!viewModel.isLanguageEng()) {
+                    viewModel.setEnglishLanguage();
+                    refresh();
+                }
+            });
+            if(viewModel.isLanguagePolish()) {
+                viewDataBinding.plLanguageButton.setChecked(true);
+                viewDataBinding.engLanguageButton.setChecked(false);
+            } else {
+                viewDataBinding.plLanguageButton.setChecked(false);
+                viewDataBinding.engLanguageButton.setChecked(true);
             }
-        } else if (id == R.id.nav_send) {
-            if (mFragment != null) {
-                fragmentManager.beginTransaction().detach(mFragment).commit();
-            }
+            languageDialog.setContentView(viewDataBinding.getRoot());
+            languageDialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -281,7 +240,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(MyContextWrapper.wrap(newBase, language));
+        super.attachBaseContext(ChangeLanguageContextWrapper.wrap(newBase, MainActivityViewModel.getLanguage()));
     }
 
     /**
@@ -314,16 +273,21 @@ public class MainActivity extends AppCompatActivity
 
     private void createNotification() {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setSmallIcon(R.drawable.pln) // TODO ZMIEN ikonkę
+        mBuilder.setSmallIcon(R.drawable.ic_satellite_black_24dp)
                 .setContentTitle(getString(R.string.notification_titile))
-                .setContentText(getString(R.string.notification_text));
+                .setContentText(getString(R.string.notification_text))
+        .setAutoCancel(true);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
+        MainActivityViewModel.notyficationOn = true;
     }
 
     private void cancelNotification() {
+        MainActivityViewModel.notyficationOn = false;
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(NOTIFICATION_ID);
@@ -342,6 +306,8 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().detach(mFragment)
                     .attach(mFragment)
                     .commit();
+        } else {
+            setDefaultView();
         }
     }
 
@@ -361,7 +327,8 @@ public class MainActivity extends AppCompatActivity
             fragmentManager
                     .beginTransaction()
                     .detach(mFragment)
-                    .replace(R.id.frameLayoutMain, fragment).commit();
+                    .replace(R.id.frameLayoutMain, fragment)
+                    .commit();
             mFragment = fragment;
         } else {
             mFragment = fragment;
@@ -369,7 +336,4 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void clearBundle() {
-
-    }
 }

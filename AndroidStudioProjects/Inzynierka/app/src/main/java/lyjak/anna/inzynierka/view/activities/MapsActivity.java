@@ -1,11 +1,11 @@
 package lyjak.anna.inzynierka.view.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.os.Build;
+import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -14,8 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -39,125 +39,110 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.realm.RealmList;
 import lyjak.anna.inzynierka.R;
-import lyjak.anna.inzynierka.service.model.realm.PlannedRoute;
-import lyjak.anna.inzynierka.service.model.realm.PointOfRoute;
-import lyjak.anna.inzynierka.service.model.realm.RealmLocation;
-import lyjak.anna.inzynierka.service.model.realm.Route;
-import lyjak.anna.inzynierka.service.respository.OnMarkersOperations;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.databinding.DialogMapMarkerClickBinding;
+import lyjak.anna.inzynierka.databinding.MapContextDialogBinding;
+import lyjak.anna.inzynierka.model.realmObjects.PlannedRoute;
+import lyjak.anna.inzynierka.model.realmObjects.PointOfRoute;
+import lyjak.anna.inzynierka.model.realmObjects.Route;
+import lyjak.anna.inzynierka.view.fragments.TransportSelectionFragment;
+import lyjak.anna.inzynierka.viewmodel.MapsViewModel;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
-    public static GenerateReport report;
-    private Boolean generate;
-
-    private GoogleMap mMap;
-    private CameraPosition mCameraPosition;
-
-    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
-    private GoogleApiClient mGoogleApiClient;
-
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
-
-    // List of temp markers of user's founded localization
-    private final List<Marker> mListOfMarkers = new ArrayList<>();
 
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final String BUNDLE_LIST_LAT = "LatList";
     private static final String BUNDLE_LIST_LONG = "LongList";
-
-    private boolean mLocationPermissionGranted;
-
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
-    private Location mLastKnownLocation;
-    private Place mSearchPlaceSelected;
-
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private OnMarkersOperations onMarkersOperations;
-    private PlannedRoute savePlannedRoute;
-    private Route saveRoute;
+    private boolean locationPermissionGranted;
+
+    private GoogleMap map;
+    private CameraPosition cameraPosition;
+
+    // The entry point to Google Play services, used by the Places API and Fused Location Provider.
+    private GoogleApiClient googleApiClient;
+
+    private MapsViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onMarkersOperations = new OnMarkersOperations(this);
+        viewModel = new MapsViewModel(this);
 
         if (savedInstanceState != null) {
-            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-            if (savePlannedRoute == null) {
+            viewModel.setLastKnownLocation(savedInstanceState.getParcelable(KEY_LOCATION));
+            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+            Log.i(TAG, "savedInstanceState isnt null");
+            if (viewModel.isPlannedRouteNull()) {
                 String title = savedInstanceState.getString("title");
                 int distance = savedInstanceState.getInt("distance");
                 int duration = savedInstanceState.getInt("duration");
                 if (title != null) {
-                    savePlannedRoute = onMarkersOperations.findPlannedRoute(title, distance, duration);
+                    viewModel.findPlannedRoute(title, distance, duration);
                 }
             }
         } else {
             Bundle extras = getIntent().getExtras();
+            if(extras!= null && extras.getString("STANDARDREPORT")!=null) {
+                viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
+            }
+            if (extras != null && extras.getBoolean("REPORT")) {
+                viewModel.setGenerate(extras.getBoolean("REPORT")); //if report should be generated
+            }
             // if bundle had been put -> get infromations about route to display
-            if(extras != null && saveRoute == null) {
+            if(extras != null && extras.getBoolean("editPlannedRoute")) {
                 String title = extras.getString("title");
-                if(title != null) {
-                    if(title.equals("@ACTUALL_ROUTE@")) {
-                        Long dateLong = extras.getLong("date");
-                        Long startDateLong = extras.getLong("startDate");
-                        Long endDateLong = extras.getLong("endDate");
-                        Date date = null;
-                        Date startDate = null;
-                        Date endDate = null;
-                        if (dateLong != null) {
-                            date = new Date();
-                            date.setTime(dateLong);
-                        }
-                        if (startDateLong != null) {
-                            startDate = new Date();
-                            startDate.setTime(startDateLong);
-                        }
-                        if (endDateLong != null) {
-                            endDate = new Date();
-                            endDate.setTime(endDateLong);
-                        }
-                        saveRoute = onMarkersOperations.findRoute(date, startDate, endDate);
-                    } else {
-                        int distance = extras.getInt("distance");
-                        int duration = extras.getInt("duration");
-                        savePlannedRoute = onMarkersOperations.findPlannedRoute(title, distance, duration);
-                    }
+                int distance = extras.getInt("distance");
+                int duration = extras.getInt("duration");
+                viewModel.findPlannedRoute(title, distance, duration);
+            }
+            if(extras != null && extras.getBoolean("editActuallRoute")) {
+                Long dateLong = extras.getLong("date");
+                Long startDateLong = extras.getLong("startDate");
+                Long endDateLong = extras.getLong("endDate");
+                Date date = null;
+                Date startDate = null;
+                Date endDate = null;
+                if (dateLong != null) {
+                    date = new Date();
+                    date.setTime(dateLong);
                 }
-                generate = extras.getBoolean("REPORT"); //if report should be generated
+                if (startDateLong != null) {
+                    startDate = new Date();
+                    startDate.setTime(startDateLong);
+                }
+                if (endDateLong != null) {
+                    endDate = new Date();
+                    endDate.setTime(endDateLong);
+                }
+                viewModel.findRoute(date, startDate, endDate);
             }
         }
         setContentView(R.layout.activity_maps);
 
         // Build the Play services client for use by the Fused Location Provider and the Places API.
         // Use the addApi() method to request the Google Places API and the Fused Location Provider.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */,
                         this /* OnConnectionFailedListener */)
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
 
         initSearchPlacesFragment();
     }
@@ -167,18 +152,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (mMap != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
-            if(savePlannedRoute != null) {
+        if (map != null) {
+            outState.putParcelable(KEY_CAMERA_POSITION, map.getCameraPosition());
+            outState.putParcelable(KEY_LOCATION, viewModel.getLastKnownLocation());
+            if(!viewModel.isPlannedRouteNull()) {
+                PlannedRoute savePlannedRoute = viewModel.getSavePlannedRoute();
                 outState.putString("title", savePlannedRoute.getTitle());
                 outState.putInt("distance", savePlannedRoute.getDistance());
                 outState.putInt("duration", savePlannedRoute.getDuration());
             }
-            if(saveRoute != null) {
-                outState.putLong("date", saveRoute.getDate().getTime());
-                outState.putLong("startDate", saveRoute.getStartDate().getTime());
-                outState.putLong("endDate", saveRoute.getEndDate().getTime());
+            if(!viewModel.isActuallRouteNull()) {
+                Route savedRoute = viewModel.getSavedRoute();
+                outState.putLong("date", savedRoute.getDate().getTime());
+                outState.putLong("startDate", savedRoute.getStartDate().getTime());
+                outState.putLong("endDate", savedRoute.getEndDate().getTime());
             }
             super.onSaveInstanceState(outState);
         }
@@ -189,7 +176,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -217,13 +203,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        map = googleMap;
         setMapStyle();
         setLongClickContextMenu();
 
         // Use a custom info window adapter to handle multiple lines of text in the
         // info window contents.
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
             // Return null here, so that getInfoContents() is called next.
@@ -248,27 +234,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // Set listener to each marker on map
-        mMap.setOnMarkerClickListener(this);
-        mMap.setOnInfoWindowClickListener(this);
+        map.setOnMarkerClickListener(this);
+        map.setOnInfoWindowClickListener(this);
 
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
-        Log.i(TAG, "onMapReady, savePlannedRoute: " + savePlannedRoute == null? "null" : "nie null");
-        if (savePlannedRoute != null) {
-            drawPlannedRouteOnMap();
+        if(!viewModel.isPlannedRouteNull() && !viewModel.isActuallRouteNull()) {
+            drawRoutesOnMap();
+        } else {
+            if (!viewModel.isPlannedRouteNull()) {
+                drawPlannedRouteOnMap();
+            }
+            if (!viewModel.isActuallRouteNull()) {
+                drawRouteOnMap();
+            }
         }
-        if (saveRoute != null) {
-            drawRouteOnMap();
+    }
+
+    private void drawRoutesOnMap() {
+        Log.i(TAG, "drawRouteOnMap");
+        List<LatLng> firstLine = viewModel.createLatListFromLocations(viewModel.getSavedRouteLocations());
+        map.addPolyline(new PolylineOptions().color(Color.BLACK).addAll(firstLine));
+
+        List<PointOfRoute> points = viewModel.getSavedPlannedRoutePoints();
+        if (points!= null) {
+            for (PointOfRoute point : points) {
+                LatLng latLng = new LatLng(point.getPoint().getLatitude(),
+                        point.getPoint().getLongitude());
+                Marker tempMarker = map.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .title(point.getName()));
+                viewModel.addToMarkersList(tempMarker);
+            }
         }
+        List<LatLng> secondLine = viewModel.createLatListFromSavedLocations();
+        if(secondLine.size() != 0) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(secondLine.get(0), DEFAULT_ZOOM));
+        } else {
+            viewModel.createLine();
+        }
+        map.addPolyline(new PolylineOptions().color(Color.RED).addAll(secondLine));
+
+        calculateZoom(firstLine, secondLine);
     }
 
     private void drawRouteOnMap() {
         Log.i(TAG, "drawRouteOnMap");
-        List<LatLng> line = createLatListFromLocations(saveRoute.getLocations());
-        Polyline routePolyline = mMap.addPolyline(new PolylineOptions()
+        List<LatLng> line = viewModel.createLatListFromLocations(viewModel.getSavedRouteLocations());
+        map.addPolyline(new PolylineOptions()
+                .color(Color.BLACK)
                 .addAll(line)
         );
         calculateZoom(line);
@@ -276,39 +293,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void drawPlannedRouteOnMap() {
         Log.i(TAG, "drawPlannedRouteOnMap");
-        RealmList<PointOfRoute> points = savePlannedRoute.getPoints();
+        List<PointOfRoute> points = viewModel.getSavedPlannedRoutePoints();
         for (PointOfRoute point : points) {
             LatLng latLng = new LatLng(point.getPoint().getLatitude(),
                     point.getPoint().getLongitude());
-            Marker tempMarker = mMap.addMarker(new MarkerOptions()
+            Marker tempMarker = map.addMarker(new MarkerOptions()
                     .position(latLng)
                     .title(point.getName()));
-            addToMarkersList(tempMarker);
+            viewModel.addToMarkersList(tempMarker);
         }
-        List<LatLng> line = createLatListFromLocations(savePlannedRoute.getLine());
+        List<LatLng> line = viewModel.createLatListFromSavedLocations();
         if(line.size() != 0) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(line.get(0), DEFAULT_ZOOM));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(line.get(0), DEFAULT_ZOOM));
         } else {
-            onMarkersOperations.calculateLine(savePlannedRoute);
-            savePlannedRoute = onMarkersOperations.findPlannedRoute(
-                    savePlannedRoute.getTitle(),
-                    savePlannedRoute.getDistance(),
-                    savePlannedRoute.getDuration());
+            viewModel.createLine();
         }
 
-        Polyline actuallRoutePolyline = mMap.addPolyline( new PolylineOptions()
+        map.addPolyline( new PolylineOptions()
+                .color(Color.RED)
                 .addAll(line)
         );
 
         calculateZoom(null);
-    }
-
-    private List<LatLng> createLatListFromLocations(List<RealmLocation> line) {
-        List<LatLng> result = new ArrayList<>();
-        for (RealmLocation location : line) {
-            result.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        }
-        return result;
     }
 
     /**
@@ -318,13 +324,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
+        locationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
+                    locationPermissionGranted = true;
                 }
             }
         }
@@ -335,26 +341,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Updates the map's UI settings based on whether the user has granted location permission.
      */
     private void updateLocationUI() {
-        if (mMap == null) {
+        if (map == null) {
             return;
         }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+            locationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
-        if (mLocationPermissionGranted) {
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        if (locationPermissionGranted) {
+            map.setMyLocationEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
-            mMap.setMyLocationEnabled(false);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mLastKnownLocation = null;
+            map.setMyLocationEnabled(false);
+            map.getUiSettings().setMyLocationButtonEnabled(false);
+            viewModel.setLastKnownLocation(null);
         }
     }
 
@@ -370,7 +376,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+            locationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -380,22 +386,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
-        if (mLocationPermissionGranted) {
-            mLastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(mGoogleApiClient);
+        if (locationPermissionGranted) {
+            viewModel.setLastKnownLocation(LocationServices.FusedLocationApi
+                    .getLastLocation(googleApiClient));
         }
 
         // Set the map's camera position to the current location of the device.
-        if (mCameraPosition != null) {
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else if (mLastKnownLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(mLastKnownLocation.getLatitude(),
-                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+        if (cameraPosition != null) {
+            map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        } else if (viewModel.getLastKnownLocation() != null) {
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(viewModel.getLastKnownLocation().getLatitude(),
+                            viewModel.getLastKnownLocation().getLongitude()), DEFAULT_ZOOM));
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(MapsViewModel.DEFAULT_LOCATION,
+                    DEFAULT_ZOOM));
+            map.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -404,7 +411,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // This style you can find in raw/map_style_json.json
     private void setMapStyle() {
         try {
-            mMap.setMapStyle(
+            map.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_json));
 
         } catch (Resources.NotFoundException e) {
@@ -418,106 +425,85 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void calculateZoom(List<LatLng> line) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         if (line == null) {
-            includeMarkersToBuilder(builder);
+            viewModel.includeMarkersToBuilder(builder);
         } else {
-            includeLatLngToBuilder(builder, line);
+            viewModel.includeLatLngToBuilder(builder, line);
         }
         LatLngBounds bounds = builder.build();
         int width = getResources().getDisplayMetrics().widthPixels;
         int height = getResources().getDisplayMetrics().heightPixels;
         int padding = (int) (width * 0.15);
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-        mMap.animateCamera(cu);
-        if (generate != null) {
-            if (generate == true) {
-                screenShot();
-            }
+        map.animateCamera(cu);
+        if (viewModel.isGenerated()) {
+            screenShot();
         }
     }
 
-    private void includeMarkersToBuilder(LatLngBounds.Builder builder) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mListOfMarkers.stream().forEach(marker -> {
-                builder.include(marker.getPosition());
-            });
-        } else {
-            for (Marker marker : mListOfMarkers) {
-                builder.include(marker.getPosition());
-            }
+    private void calculateZoom(List<LatLng> firstLine, List<LatLng> secondLine) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+//        viewModel.includeMarkersToBuilder(builder);
+        viewModel.includeLatLngToBuilder(builder, firstLine);
+        viewModel.includeLatLngToBuilder(builder, secondLine);
+        LatLngBounds bounds = builder.build();
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.15);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+        map.animateCamera(cu);
+        if (viewModel.isGenerated()) {
+            screenShot();
         }
     }
 
-    private void includeLatLngToBuilder(LatLngBounds.Builder builder, List<LatLng> line) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            line.stream().forEach(li -> {
-                builder.include(li);
-            });
-        } else {
-            for (LatLng li : line) {
-                builder.include(li);
-            }
-        }
-    }
 
     private void setLongClickContextMenu() {
-        mMap.setOnMapLongClickListener(latLng -> {
+        map.setOnMapLongClickListener(latLng -> {
             final Dialog contextMenuDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
-            contextMenuDialog.setContentView(R.layout.map_context_dialog);
+            LayoutInflater layoutInflater = LayoutInflater.from(MapsActivity.this);
+            MapContextDialogBinding viewDataBinding = DataBindingUtil
+                    .inflate(layoutInflater,
+                            R.layout.map_context_dialog,
+                            null, false);
+
             contextMenuDialog.setTitle("@string/map_setting_traffic");
-
-            RadioButton onTrafficButton = (RadioButton) contextMenuDialog.findViewById(R.id.action_traffic_on);
-            onTrafficButton.setOnClickListener(v -> {
+            viewDataBinding.actionTrafficOn.setOnClickListener(v -> {
                 contextMenuDialog.dismiss();
                 OnTrafficRadioButtonClick(v);
             });
-            RadioButton offTrafficButton = (RadioButton) contextMenuDialog.findViewById(R.id.action_traffic_off);
-            offTrafficButton.setOnClickListener(v -> {
+            viewDataBinding.actionTrafficOff.setOnClickListener(v -> {
                 contextMenuDialog.dismiss();
                 OnTrafficRadioButtonClick(v);
             });
 
-            if(mMap.isTrafficEnabled()) {
-                onTrafficButton.setChecked(true);
-                offTrafficButton.setChecked(false);
+            if(map.isTrafficEnabled()) {
+                viewDataBinding.actionTrafficOn.setChecked(true);
+                viewDataBinding.actionTrafficOff.setChecked(false);
             } else {
-                onTrafficButton.setChecked(false);
-                offTrafficButton.setChecked(true);
+                viewDataBinding.actionTrafficOn.setChecked(false);
+                viewDataBinding.actionTrafficOff.setChecked(true);
             }
+
+            contextMenuDialog.setContentView(viewDataBinding.getRoot());
             contextMenuDialog.show();
         });
     }
 
     public void OnTrafficRadioButtonClick(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
         switch(view.getId()) {
             case R.id.action_traffic_on:
-               if(!mMap.isTrafficEnabled()) {
-                   setShowTraffic();
+               if(!map.isTrafficEnabled()) {
+                   map.setTrafficEnabled(true);
                    ((RadioButton) view).setChecked(true);
                }
                     break;
             case R.id.action_traffic_off:
-                if (mMap.isTrafficEnabled()){
-                    setTurnOffTraffic();
+                if (map.isTrafficEnabled()){
+                    map.setTrafficEnabled(false);
                     ((RadioButton) view).setChecked(true);
                 }
                     break;
         }
-    }
-
-    /**
-     * Set map in a mode showing trafic
-     */
-    private void setShowTraffic() {
-        mMap.setTrafficEnabled(true);
-    }
-
-    /**
-     * Turn off trafic mode
-     */
-    private void setTurnOffTraffic() {
-        mMap.setTrafficEnabled(false);
     }
 
     /**
@@ -529,12 +515,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 getFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener(){
-
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place Selected: " + place.getName());
-                mSearchPlaceSelected = place;
-                animateToSelectedPlace();
+                viewModel.setSearchPlaceSelected(place);
+                animateToSelectedPlace(place);
             }
 
             @Override
@@ -547,19 +532,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void animateToSelectedPlace() {
-        LatLng latLng = mSearchPlaceSelected.getLatLng();
-
-        Marker actuallMarker = mMap.addMarker(new MarkerOptions()
+    private void animateToSelectedPlace(Place place) {
+        LatLng latLng = place.getLatLng();
+        Marker actuallMarker = map.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title(mSearchPlaceSelected.getName().toString()));
-
-        addToMarkersList(actuallMarker);
+                .title(place.getName().toString()));
+        viewModel.addToMarkersList(actuallMarker);
         actuallMarker.showInfoWindow();
-    }
-
-    private void addToMarkersList(Marker marker) {
-        mListOfMarkers.add(marker);
+        CameraUpdate cu = CameraUpdateFactory.newLatLng(latLng);
+        map.animateCamera(cu);
     }
 
     /**
@@ -567,7 +548,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * onSaveInstanceState(). We restore some state in onCreate() while we can optionally restore
      * other state here, possibly usable after onStart() has completed.
      * The savedInstanceState Bundle is same as the one used in onCreate().
-     * @param savedInstanceState
+     * @param savedInstanceState - saved instance
      */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -580,13 +561,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void setMarkers(ArrayList<String> latitudes, ArrayList<String> longitudes) {
         if(latitudes != null && longitudes != null) {
-            List<Marker> oldMarkers = new ArrayList<>();
-
             for(int i = 0; i < latitudes.size() && i < longitudes.size(); i++) {
-                oldMarkers.add(mMap.addMarker(new MarkerOptions().position(
+                map.addMarker(new MarkerOptions().position(
                         new LatLng(
                                 Integer.parseInt(latitudes.get(i)),
-                                Integer.parseInt(longitudes.get(i))))));
+                                Integer.parseInt(longitudes.get(i)))));
             }
         }
     }
@@ -594,25 +573,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // invoked when the activity may be temporarily destroyed, save the instance state here
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putStringArrayList(BUNDLE_LIST_LAT, getLatitudes());
-        outState.putStringArrayList(BUNDLE_LIST_LONG, getLongitudes());
+        outState.putStringArrayList(BUNDLE_LIST_LAT, viewModel.getLatitudes());
+        outState.putStringArrayList(BUNDLE_LIST_LONG, viewModel.getLongitudes());
         super.onSaveInstanceState(outState, outPersistentState);
-    }
-
-    private ArrayList<String> getLatitudes() {
-        ArrayList<String> result = new ArrayList<>();
-        for (Marker mark: mListOfMarkers) {
-            result.add(String.valueOf(mark.getPosition().latitude));
-        }
-        return result;
-    }
-
-    private ArrayList<String> getLongitudes() {
-        ArrayList<String> result = new ArrayList<>();
-        for (Marker mark: mListOfMarkers) {
-            result.add(String.valueOf(mark.getPosition().longitude));
-        }
-        return  result;
     }
 
     @Override
@@ -627,69 +590,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void onMarkerClickAndMarkerInfoListener(final Marker marker) {
-        //show title of the mark
         if(marker.isInfoWindowShown()) {
             marker.hideInfoWindow();
         } else {
             marker.showInfoWindow();
         }
 
-        // displays dialog menu
-        final Marker tempMarker = marker;
         final Dialog markerDialog = new Dialog(MapsActivity.this, R.style.SettingsDialogStyle);
-        markerDialog.setContentView(R.layout.dialog_map_marker_click);
+        LayoutInflater layoutInflater = LayoutInflater.from(MapsActivity.this);
+        DialogMapMarkerClickBinding viewDataBinding = DataBindingUtil
+                .inflate(layoutInflater,
+                        R.layout.dialog_map_marker_click,
+                        null, false);
+
         markerDialog.setTitle(R.string.dialog_map_marker_click_choose_option);
 
-        Button addToActuallRouteButton = (Button) markerDialog.findViewById(R.id.buttonAddToRoute);
-        addToActuallRouteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                markerDialog.dismiss();
-                addPointToActualRoute(marker);
-            }
+        viewDataBinding.buttonAddToRoute.setOnClickListener(v -> {
+            markerDialog.dismiss();
+            addPointToActualRoute(marker);
         });
 
-        Button newRouteButton = (Button) markerDialog.findViewById(R.id.buttonCreateNewRoute);
-        newRouteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                markerDialog.dismiss();
-                onMarkersOperations.createNewPlannedRoute(marker);
-            }
+        viewDataBinding.buttonCreateNewRoute.setOnClickListener(v -> {
+            markerDialog.dismiss();
+            viewModel.createNewPlannedRoute(getActivity(), marker);
         });
 
-        Button deleteMarkerButton = (Button) markerDialog.findViewById(R.id.buttonDeleteMarker);
-        deleteMarkerButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                markerDialog.dismiss();
-                mListOfMarkers.remove(tempMarker);
-                tempMarker.remove();
-            }
-
+        viewDataBinding.buttonDeleteMarker.setOnClickListener(v -> {
+            markerDialog.dismiss();
+            viewModel.removeMarkerFromList(marker);
+            marker.remove();
         });
 
-        Button anulujButton = (Button) markerDialog.findViewById(R.id.buttonAnuluj);
-        anulujButton.setOnClickListener(new View.OnClickListener(){
+        viewDataBinding.buttonAnuluj.setOnClickListener(v -> markerDialog.dismiss());
 
-            @Override
-            public void onClick(View v)
-            {
-                markerDialog.dismiss();
-            }
-
-        });
-
+        markerDialog.setContentView(viewDataBinding.getRoot());
         markerDialog.show();
     }
 
     private void addPointToActualRoute(Marker marker) {
-        if (savePlannedRoute != null) {
-            onMarkersOperations.addPointToRoute(marker, savePlannedRoute);
-        } else {
-            onMarkersOperations.addPointToActualRoute(marker);
-        }
+        viewModel.addPointToActualRoute(marker);
         Toast.makeText(getApplicationContext(),
                 getApplicationContext().getString(R.string.map_new_point_created),
                 Toast.LENGTH_SHORT).show();
@@ -699,18 +638,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return this;
     }
 
-    public Bitmap bitmap;
-
     public void screenShot() {
-        mMap.setOnMapLoadedCallback(() -> {
+        map.setOnMapLoadedCallback(() -> {
             GoogleMap.SnapshotReadyCallback callback = snapshot -> {
-                if (report != null) {
-                    bitmap = snapshot;
-                    report.createPdf(getActivity(), getApplicationContext(), bitmap);
-                    report = null;
+                if (viewModel.isReportMode()) {
+                    Log.i(TAG, "Wykonuję report z podróży służbowej");
+                    viewModel.doReport(getActivity(), getApplicationContext(), snapshot);
+                }
+                if (viewModel.isActualRouteReportMode()) {
+                    Log.i(TAG, "Wykonuję report zrealizowanej trasy");
+                    viewModel.doActualRouteReport(getActivity(), snapshot);
+                }
+                if (viewModel.isPlannedRouteReportMode()) {
+                    Log.i(TAG, "Wykonuję report zrealizowanej trasy");
+                    viewModel.doPlannedRouteReport(getActivity(), snapshot);
                 }
             };
-            mMap.snapshot(callback);
+            map.snapshot(callback);
         });
     }
 

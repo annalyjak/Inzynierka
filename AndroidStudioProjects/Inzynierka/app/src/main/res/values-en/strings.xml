@@ -13,19 +13,31 @@
     <string name="next">Next</string>
     <string name="ok">Ok</string>
 
+
     <string name="menu_option_open_map">Open map</string>
-    <string name="menu_option_gallery">Gallery</string>
-    <string name="menu_option_communicate">Communicate</string>
+    <string name="menu_option_create_route">Create new route</string>
+    <string name="menu_option_open_route">Show actual route on the map</string>
+    <string name="menu_option_open_routes_list">Show list of actual routes</string>
+    <string name="menu_option_save_route">Play route</string>
+    <string name="menu_option_generate_report">Generate report</string>
+    <string name="menu_option_play_location">Play your corrent location</string>
+    <string name="menu_option_planned_routes">Planned routes</string>
+    <string name="menu_option_actual_routes">Actual routes</string>
+    <string name="menu_option_historical">Historical reports</string>
+    <string name="menu_option_routes">Routes</string>
     <string name="menu_option_share">Share</string>
     <string name="menu_option_send">Send</string>
-    <string name="menu_option_tools">Tools</string>
-    <string name="menu_option_slideshow">Slideshow</string>
+    <string name="menu_option_basic">Basic</string>
+    <string name="menu_option_tools">Settings</string>
+
 
 
     <string name="default_info_title">Default Location</string>
     <string name="default_info_snippet">No places found, because location permission is disabled.</string>
     <string name="option_get_place">Get place</string>
     <string name="pick_place">Choose a place</string>
+    <string name="map_setting_add_type_of_transport">Add type of transport</string>
+    <string name="map_setting_add">Add</string>
 
     <string name="choose_language">Choose language</string>
     <string name="pl_language">Polish</string>
@@ -53,10 +65,13 @@
 
     <string name="dialog_adding_route_confirm_question">Add this point to comaprison?</string>
 
-    <string name="dialog_planned_route_card_click_generate_report">Generate report</string>
+    <string name="dialog_planned_route_card_click_generate_report">Generate a business trip report</string>
+    <string name="dialog_planned_route_card_click_generate_acctual_report">Generate actual route report</string>
+    <string name="dialog_planned_route_card_click_generate_planned_report">Generate planned route report</string>
     <string name="dialog_planned_route_card_click_show_route_on_map">Show route on map</string>
     <string name="dialog_planned_route_card_click_show_all_points">Show all points</string>
     <string name="dialog_planned_route_card_click_delete_route">Delete route</string>
+
 
     <string name="cardview_id">Route</string>
     <string name="cardview_title">Title:</string>
@@ -66,7 +81,17 @@
     <string name="cardview_distance">Distance:</string>
     <string name="cardview_duartion">Duration:</string>
     <string name="cardview_points">Points:</string>
+    <string name="cardview_endDate">End date: %1$ta, %1$te %1$tB %1$tY</string>
+    <string name="cardview_startDate">Start date: %1$ta, %1$te %1$tB %1$tY</string>
+
+
     <string name="fragment_transport_selection">Select type of transport:</string>
+    <string name="fragment_transport_selection_car">Car</string>
+    <string name="fragment_transport_selection_bus">Bus</string>
+    <string name="fragment_transport_selection_tir">Tir</string>
+    <string name="fragment_transport_selection_plane">Plane</string>
+    <string name="fragment_transport_selection_ship">Ship</string>
+    <string name="fragment_transport_selection_railway">Railway</string>
 
     <string name="frag_time_of_travel_time">Time of travel</string>
     <string name="frag_time_of_travel_number_hour">Time of stops:</string>
@@ -76,67 +101,72 @@
     <string name="generate_report_chooser_application_send">Share report via</string>
 
 
-    <string name="report_head">POLECENIE WYJAZDU SŁUŻBOWEGO NR</string>
-    <string name="report_transport_type">Środek trasportu:      </string>
-    <string name="report_name">Imię i nazwisko pracownika:      </string>
-    <string name="report_occupation">Stanowisko służbowe:       </string>
-    <string name="report_purpose">Cel podróży:      </string>
-    <string name="report_feeding">Wyżywienie</string>
-    <string name="report_feedingA1">a) brak bezpłatnego wyżywienia - czas spędzony w podróży służbowej</string>
-    <string name="report_feedingB1">b) zapewnione częściowe bezpłatne wyżywienie</string>
-    <string name="report_feedingC1">c) zapewnione całodzienne bezpłatne wyżywienie</string>
-    <string name="report_feeding2">Pełna doba (oraz niepełna doba ponad 12 godzin)</string>
-    <string name="report_feeding3">Liczba dób:</string>
-    <string name="report_feeding4">Niepełna doba od 8 godzin do 12 godzin</string>
-    <string name="report_feeding5">Niepełna doba do 8 godzin</string>
-    <string name="report_feeding31">Bezpłatne śniadania</string>
-    <string name="report_feeding32">Bezpłatne obiady</string>
-    <string name="report_feeding33">Bezpłatne kolacje</string>
-    <string name="report_accomodation1">Koszty noclegu</string>
-    <string name="report_accomodation2">Wdług rachunku bankowego</string>
-    <string name="report_accomodation3">Ryczałt za nocleg:</string>
-    <string name="report_accomodation4">Liczba noclegów:</string>
-    <string name="report_accomodation5">Limit na nocleg:</string>
-    <string name="report_transport_costs1">Koszty dojazdu i przejazdu</string>
-    <string name="report_transport_costs2">Koszty dojazdów i przejazdów:</string>
-    <string name="report_transport_costs3">z dworca i do dworca kolejowgo</string>
-    <string name="report_transport_costs4">z dworca i do dworca autobusowego</string>
-    <string name="report_transport_costs5">portu lotniczego</string>
-    <string name="report_transport_costs6">portu morskiego</string>
-    <string name="report_transport_costs7">Koszty przejazdu środkami komunikacji miejsciej</string>
-    <string name="report_transport_costs8">Wydatki na autostradę</string>
-    <string name="report_transport_costs9">Pozostałe koszty</string>
-    <string name="report_hospitalization1">Pracownik przebywał w szpitalu lub innym zakładzie leczniczym</string>
-    <string name="report_hospitalization2">Liczba dób:</string>
-    <string name="report_anotherCosts">Inne udokumentowane wydatki</string>
-    <string name="report_sum">Ogółem</string>
-    <string name="report_sum2">Słownie</string>
-    <string name="report_planned_title">Raport z podróży służbowej</string>
-    <string name="report_planned_title2">Trasa zaplanowana</string>
-    <string name="report_planned_route_title">Tytuł:</string>
-    <string name="report_planned_route_points">Liczba punktów:</string>
-    <string name="report_planned_route_date">Data zaplanowania:</string>
-    <string name="report_planned_route_type">Rodzaj transportu:</string>
-    <string name="report_planned_route">Przebieg trasy:</string>
-    <string name="report_planned_table1">Nr punktu</string>
-    <string name="report_planned_table2">Nazwa</string>
-    <string name="report_planned_table3">Punkt początkowy</string>
-    <string name="report_planned_table4">Punkt końcowy</string>
-    <string name="report_planned_table5">Czas</string>
-    <string name="report_planned_table6">Odległość</string>
-    <string name="report_planned_table7">Potwierdzenie</string>
-    <string name="report_planned_table_sum">Razem:</string>
+    <string name="report_head">SERVICE JOURNEY COMMAND NUMBER </string>
+    <string name="report_transport_type">Mode of transportation:      </string>
+    <string name="report_name">Name and surname of the employee:      </string>
+    <string name="report_occupation">Service position:       </string>
+    <string name="report_purpose">Goal:      </string>
+    <string name="report_combustion">Combustion:</string>
+    <string name="report_combustion_cost">Combustion costs:</string>
+    <string name="report_feeding">Feeding</string>
+    <string name="report_feedingA1">a) no free meals - time spent on a business trip</string>
+    <string name="report_feedingB1">b) partial free catering provided</string>
+    <string name="report_feedingC1">c) free full board is provided</string>
+    <string name="report_feeding2">Full day (and an incomplete day of over 12 hours)</string>
+    <string name="report_feeding3">Number of days:</string>
+    <string name="report_feeding4">Less than 8 hours to 12 hours</string>
+    <string name="report_feeding5">Less than 8 hours</string>
+    <string name="report_feeding31">Free breakfast</string>
+    <string name="report_feeding32">Free lunches</string>
+    <string name="report_feeding33">Free dinners</string>
+    <string name="report_accomodation1">
+Accommodation costs</string>
+    <string name="report_accomodation2">By bank account</string>
+    <string name="report_accomodation3">Lump sum for the night:</string>
+    <string name="report_accomodation4">Number of nights:</string>
+    <string name="report_accomodation5">Limit for accommodation:</string>
+    <string name="report_transport_costs1">Travel and transit costs</string>
+    <string name="report_transport_costs2">Travel and transit costs:</string>
+    <string name="report_transport_costs3">from the train station and to the train station</string>
+    <string name="report_transport_costs4">from the station and to the bus station</string>
+    <string name="report_transport_costs5">airport</string>
+    <string name="report_transport_costs6">sea ​​port</string>
+    <string name="report_transport_costs7">The costs of traveling by means of public transport</string>
+    <string name="report_transport_costs8">Expenses for the highway</string>
+    <string name="report_transport_costs9">other costs</string>
+    <string name="report_hospitalization1">The employee was in a hospital or other medical facility</string>
+    <string name="report_hospitalization2">Number of days:</string>
+    <string name="report_anotherCosts">Other documented expenses</string>
+    <string name="report_sum">Altogether</string>
+    <string name="report_sum2">In words</string>
+    <string name="report_planned_title">Report of the planned route</string>
+    <string name="report_planned_title2">The route is planned</string>
+    <string name="report_planned_route_title">Title:</string>
+    <string name="report_planned_route_points">Number of points:</string>
+    <string name="report_planned_route_date">Date of planning:</string>
+    <string name="report_planned_route_type">Transport type:</string>
+    <string name="report_planned_route">The course of the route:</string>
+    <string name="report_planned_table1">Point number</string>
+    <string name="report_planned_table2">Name</string>
+    <string name="report_planned_table3">Starting point</string>
+    <string name="report_planned_table4">End point</string>
+    <string name="report_planned_table5">Time</string>
+    <string name="report_planned_table6">Distance</string>
+    <string name="report_planned_table7">Confirmation</string>
+    <string name="report_planned_table_sum">Together:</string>
 
-    <string name="report_acctual_route_title">Trasa zrealizowana</string>
-    <string name="report_acctual_route_start">Data rozpoczęcia:</string>
-    <string name="report_acctual_route_end">Data zakończenia:</string>
-    <string name="report_acctual_route_distance">Dystans: </string>
+    <string name="report_acctual_route_title">Actual completed route</string>
+    <string name="report_acctual_route_start">Start date:</string>
+    <string name="report_acctual_route_end">End date:</string>
+    <string name="report_acctual_route_distance">Distance: </string>
     <string name="report_acctual_route_distance2">km</string>
-    <string name="report_acctual_route_map">Trasa na mapie:</string>
-    <string name="report_acctual_legend">[czarny - trasa zrealizowana, czerwony - trasa zaplanowana]</string>
+    <string name="report_acctual_route_map">Route on the map:</string>
+    <string name="report_acctual_legend">[black - route completed, red - planned route]</string>
+
     <string name="notification_titile">LogMiles</string>
     <string name="notification_text">Monitors your current location!</string>
     <string name="menu">Menu</string>
+    <string name="menu_option_option">Settings</string>
 
 
 </resources>

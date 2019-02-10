@@ -12,22 +12,22 @@ import lyjak.anna.inzynierka.view.activities.MainActivity;
 import lyjak.anna.inzynierka.view.adapters.CurrencyAdapter;
 import lyjak.anna.inzynierka.databinding.FragmentCombustionBinding;
 import lyjak.anna.inzynierka.viewmodel.report.Combustion;
-import lyjak.anna.inzynierka.service.model.Currency;
-import lyjak.anna.inzynierka.viewmodel.report.GenerateReport;
+import lyjak.anna.inzynierka.model.reports.Currency;
+import lyjak.anna.inzynierka.viewmodel.report.GenerateStandardReport;
 
 public class CombustionFragment extends Fragment {
 
     private final static int PLN_CURRENCY = 17;
 
-    private GenerateReport mGenerateReport;
+    private GenerateStandardReport mGenerateStandardReport;
 
     public CombustionFragment() {
         // Required empty public constructor
     }
 
-    public static CombustionFragment newInstance(GenerateReport generateReport) {
+    public static CombustionFragment newInstance(GenerateStandardReport generateStandardReport) {
         CombustionFragment fragment = new CombustionFragment();
-        fragment.mGenerateReport = generateReport;
+        fragment.mGenerateStandardReport = generateStandardReport;
         return fragment;
     }
 
@@ -41,9 +41,9 @@ public class CombustionFragment extends Fragment {
         binding.spinnerCurrency.setAdapter(spinnerAdapter);
         binding.spinnerCurrency.setSelection(PLN_CURRENCY);
         binding.buttonNext.setOnClickListener(v1 -> {
-            if (binding.switchCombustionAutomatic.isSelected()) {
+            if (binding.switchCombustionAutomatic.isChecked()) {
                 Combustion combustion = new Combustion();
-                combustion.setTypeOfTransportConverter(mGenerateReport.getTypeOfTransport());
+                combustion.setTypeOfTransportConverter(mGenerateStandardReport.getTypeOfTransport());
                 combustion.setBurnedFuel(Integer.parseInt(
                         binding.editTextFuel.getText().toString()));
                 if (binding.editTextFuelCost.getText() != null) {
@@ -52,9 +52,9 @@ public class CombustionFragment extends Fragment {
                     Combustion.mFuelCostCurrency = (Currency)
                             binding.spinnerCurrency.getSelectedItem();
                 }
-                mGenerateReport.setCombustion(combustion);
+                mGenerateStandardReport.setCombustion(combustion);
             }
-            TimeOfTravelFragment next = TimeOfTravelFragment.newInstance(mGenerateReport);
+            TimeOfTravelFragment next = TimeOfTravelFragment.newInstance(mGenerateStandardReport);
             MainActivity.attachNewFragment(next);
         });
 
